@@ -1,12 +1,20 @@
 import { Routes, Route } from 'react-router-dom'
 import LandingPage from './pages/LandingPage/index'
-import './styles.scss'
+import ActivitiesPage from './pages/ActivitiesPage/index'
+import DiningPage from './pages/DiningPage/index'
+import LodgingPage from './pages/LodgingPage/index'
+import TransportationPage from './pages/TransportationPage/index'
+import './global/styles.scss'
 
 function App() {
   return (
     <>
       <Routes>
         <Route path='/' element={<LandingPage />} />
+        <Route path='/activities' element={<ActivitiesPage />} />
+        <Route path='/dining' element={<DiningPage />} />
+        <Route path='/lodging' element={<LodgingPage />} />
+        <Route path='/transportation' element={<TransportationPage />} />
       </Routes>
     </>
   )

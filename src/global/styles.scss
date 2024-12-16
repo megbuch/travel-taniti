@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap');
+
+:root {
+  --color-primary: rgb(189, 42, 23);
+  --color-primary-dark: rgb(156, 33, 17);
+  
+  --pad-sm: 8px;
+  --pad: 16px;
+  --pad-lg: 24px;
+  --pad-xl: 36px;
+
+  --body-lg: 18px;
+  --body: 14px;
+  --body-sm: 11px;
+
+  --navigation-height: 20px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  width: 100vw;
+  font-family: 'Inter', Arial, Helvetica, sans-serif, sans-serif;
+  color: black;
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Merriweather', Georgia, 'Times New Roman', Times, serif;
+  }
+  
+  p, a {
+    font-size: var(--body);
+  }
+  
+  a {
+    font-family: 'Merriweather', Georgia, 'Times New Roman', Times, serif;
+    font-weight: 700;
+    text-transform: lowercase;
+    text-decoration: none;
+    color: var(--color-primary);
+  
+    &:hover {
+      color: var(--color-primary-dark);
+    }
+  }
+  
+  .row {
+    display: flex;
+  }
+  
+  .col {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .page-container {
+    padding: var(--pad-xl);
+  }
+}

@@ -1,12 +1,25 @@
-.landing-page-component {
-  .featured-items-container {
-    justify-content: space-evenly;
-    flex-wrap: wrap;
-    
-    .featured-item {
-        img {
-          width: 250px;
-        }
+.landing-page {
+  .page-container {
+    gap: var(--pad-lg);
+
+    .featured-items-container {
+      justify-content: space-evenly;
+      flex-wrap: wrap;
+      gap: var(--pad-xl);
+      
+      .featured-item {
+        align-items: center;
+        gap: var(--pad);
+        
+          img {
+            width: 200px;
+          }
+  
+          a {
+            font-size: var(--body-lg);
+          }
+      }
     }
+
   }
 }
