@@ -3,6 +3,7 @@
 export { default as Carousel } from '../components/Carousel/index';
 export { default as Banner } from '../components/Banner/index';
 export { default as Navigation } from '../components/Navigation/index';
+export { default as CallToAction } from '../components/CallToAction/index';
 
 // Images
 export { default as sandbarImage } from '../assets/images/sandbar.jpg';

@@ -6,23 +6,25 @@ export default function Navigation() {
     <div className='navigation'>
       <p>Logo</p>
       <ul>
-        <li>
-          <Link to='/'>Home</Link>
+        <li className='link'>
+          <Link to='/' className='link'>Home</Link>
+        </li>
+        <li className='link'>
+          <Link to='/activities' className='link'>Activities</Link>
+        </li>
+        <li className='link'>
+          <Link to='/dining' className='link'>Dining</Link>
+        </li>
+        <li className='link'>
+          <Link to='/lodging' className='link'>Lodging</Link>
+        </li>
+        <li className='link'>
+          <Link to='/transportation' className='link'>Transportation</Link>
         </li>
         <li>
-          <Link to='/activities'>Activities</Link>
-        </li>
-        <li>
-          <Link to='/dining'>Dining</Link>
-        </li>
-        <li>
-          <Link to='/lodging'>Lodging</Link>
-        </li>
-        <li>
-          <Link to='/transportation'>Transportation</Link>
+          <button className='small-btn'>Contact Us</button>
         </li>
       </ul>
-      <button>Contact</button>
     </div>
   );
 };

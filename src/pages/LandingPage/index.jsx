@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import {
   Navigation,
   Carousel, 
+  CallToAction,
   sandbarImage, 
   villasImage, 
   rainforestImage,
@@ -45,7 +46,7 @@ export default function LandingPage() {
   ];
 
   return (
-    <div className='landing-page'>
+    <div className='landing-page col'>
       <Navigation />
       <Carousel carouselData={carouselData} header={'Explore Tahiti'} />
       <div className='page-container'>
@@ -71,6 +72,7 @@ export default function LandingPage() {
             <Link to='/transportation'>Transportation</Link>
           </div>
         </div>
+        <CallToAction />
       </div>
     </div>
   )

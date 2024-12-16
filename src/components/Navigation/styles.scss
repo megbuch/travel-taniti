@@ -10,8 +10,12 @@
     display: flex;
     flex-direction: row;
     gap: var(--pad-xl);
-  }
 
+    .link {
+      margin-top: 2px;
+    }
+  }
+  
   p {
     color: var(--color-primary);
   }
