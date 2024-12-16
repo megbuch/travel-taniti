@@ -3,17 +3,21 @@
 :root {
   --color-primary: rgb(189, 42, 23);
   --color-primary-dark: rgb(156, 33, 17);
+  --color-transparent-red: rgba(189, 42, 23, 0.4);
+  --color-transparent-dark: rgba(0, 0, 0, 0.4);
   
+  --pad-xs: 4px;
   --pad-sm: 8px;
   --pad: 16px;
   --pad-lg: 24px;
   --pad-xl: 36px;
 
+  --title: 80px;
   --body-lg: 18px;
   --body: 14px;
   --body-sm: 11px;
 
-  --navigation-height: 20px;
+  --navigation-height: 40px;
 }
 
 * {
@@ -24,6 +28,7 @@
 
 body {
   width: 100vw;
+  overflow-x: hidden;
   font-family: 'Inter', Arial, Helvetica, sans-serif, sans-serif;
   color: black;
 
@@ -46,6 +51,24 @@ body {
       color: var(--color-primary-dark);
     }
   }
+
+  ul {
+    list-style: none;
+  }
+
+  button {
+    font-family: 'Inter', Arial, Helvetica, sans-serif, sans-serif;
+    background-color: var(--color-primary);
+    color: white;
+    padding: var(--pad-xs) var(--pad);
+    border: none;
+    border-radius: 4px;
+
+    &:hover {
+      background-color: var(--color-primary-dark);
+      cursor: pointer;
+    }
+  }
   
   .row {
     display: flex;
@@ -56,7 +79,16 @@ body {
     flex-direction: column;
   }
 
+  .text-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pad);
+  }
+
   .page-container {
+    display: flex;
+    flex-direction: column;
     padding: var(--pad-xl);
+    gap: var(--pad-xl);
   }
 }

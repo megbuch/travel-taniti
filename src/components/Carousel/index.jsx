@@ -1,15 +1,20 @@
-import { useState, useEffect } from 'react';
-import './styles.scss';
+import { useState, useEffect } from 'react'
+import './styles.scss'
 
-export default function Carousel({ items, overlayText }) {
+// The Carousel is a reusable component that cycles through multiple images.
+// carouselData is an array of objects containing altText, description, image properties.
+// Example: [{ altText: string, description: string, image: path to image source }]
+// The header is optional.
+
+export default function Carousel({ carouselData, header }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   
-  const goToItem = (index) => {
+  const goToItem = index => {
     setCurrentIndex(index);
   };
   
   const goToNextItem = () => {
-    setCurrentIndex((currentIndex) => (currentIndex + 1) % items.length);
+    setCurrentIndex((currentIndex) => (currentIndex + 1) % carouselData.length);
   };
   
   useEffect(() => {
@@ -22,31 +27,16 @@ export default function Carousel({ items, overlayText }) {
   });
 
   return (
-    <div id='carousel'>
-      {overlayText &&
-        <div className='fixed-overlay'>
-          <h1>{overlayText}</h1>
-        </div>
-      }
-      <div
-        className='carousel-items'
-        style={{ transform: `translateX(-${currentIndex * 100}vw)` }}
-      >
-        {items.map((item, index) => (
-          <div className='carousel-item' key={index}>
-            <div className='image-container'>
-              <img
-                src={item.image}
-                alt={item.altText}
-                style={{ height: '100%', objectFit: 'cover', objectPosition: 'center 75%'}}
-              />
-              <div className='overlay'></div>
-            </div>
-          </div>
-        ))}
-      </div>
+    <div className='carousel'>
+      {header && <h1>{header}</h1>}
+      {carouselData.map((item, index) => (
+        currentIndex === index && (
+          <p key={item.description} className='description-overlay'>{item.description}</p>
+        )
+      ))}
+      <div className='color-overlay'></div>
       <div className='indicators-container'>
-        {items.map(index => (
+        {carouselData.map((_, index) => (
           <div
             key={index}
             onClick={() => goToItem(index)}
@@ -54,6 +44,19 @@ export default function Carousel({ items, overlayText }) {
           ></div>
         ))}
       </div>
+      <div className='carousel-items' style={{ transform: `translateX(-${currentIndex * 100}vw)` }}>
+        {carouselData.map(item => (
+          <div className='carousel-item' key={item.description}>
+            <div className='image-container'>
+              <img
+                src={item.image}
+                alt={item.altText}
+                style={{ height: '100%', objectFit: 'cover', objectPosition: 'center 75%'}}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
-};
+}

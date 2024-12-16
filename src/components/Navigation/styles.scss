@@ -1,0 +1,18 @@
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: var(--navigation-height);
+  padding: 0 var(--pad-xl);
+
+  ul {
+    display: flex;
+    flex-direction: row;
+    gap: var(--pad-xl);
+  }
+
+  p {
+    color: var(--color-primary);
+  }
+}

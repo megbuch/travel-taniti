@@ -1,16 +1,16 @@
 .landing-page {
   .page-container {
-    gap: var(--pad-lg);
+    gap: var(--pad-xl);
 
     .featured-items-container {
-      justify-content: space-evenly;
+      justify-content: center;
       flex-wrap: wrap;
-      gap: var(--pad-xl);
+      gap: 60px;
       
       .featured-item {
         align-items: center;
         gap: var(--pad);
-        
+
           img {
             width: 200px;
           }
@@ -20,6 +20,5 @@
           }
       }
     }
-
   }
 }
