@@ -4,7 +4,10 @@ import villasImage from '../../assets/images/villas.jpg';
 import rainforestImage from '../../assets/images/rainforest.jpg';
 import landscapeImage from '../../assets/images/landscape.jpg';
 import hikingImage from '../../assets/images/hiking.jpg';
-
+import diningImage from '../../assets/images/dining-circular.png';
+import lodgingImage from '../../assets/images/leilani-royal-circular.png';
+import activitiesImage from '../../assets/images/dolphin-circular.png';
+import transportationImage from '../../assets/images/bus-circular.png';
 import './styles.scss'
 
 export default function LandingPageScreen() {
@@ -21,6 +24,24 @@ export default function LandingPageScreen() {
       <Carousel items={images} overlayText={'Explore Tahiti'} />
       <h2>About Tahiti</h2>
       <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione vero consequatur placeat recusandae deserunt excepturi fuga! Recusandae optio, doloribus nesciunt quo minus molestiae itaque dolorem aut officiis iusto voluptates asperiores! Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo quis consequuntur enim ea architecto odio quia commodi eius, obcaecati quas non repellendus quaerat et officia mollitia doloremque expedita, dignissimos nulla. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae, aperiam nemo aut est iure ducimus ipsum architecto quas hic corrupti minima, debitis adipisci. Tempora molestias, reiciendis mollitia eius accusantium ducimus!</p>
+      <div className='featured-items-container row'>
+        <div className='featured-item col'>
+          <img src={activitiesImage} />
+          <p>Activities</p>
+        </div>
+        <div className='featured-item col'>
+          <img src={diningImage} />
+          <p>Dining</p>
+        </div>
+        <div className='featured-item col'>
+          <img src={lodgingImage} />
+          <p>Lodging</p>
+        </div>
+        <div className='featured-item col'>
+          <img src={transportationImage} />
+          <p>Transportation</p>
+        </div>
+      </div>
     </div>
   )
 }

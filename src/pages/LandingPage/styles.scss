@@ -1,0 +1,12 @@
+.landing-page-component {
+  .featured-items-container {
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    
+    .featured-item {
+        img {
+          width: 250px;
+        }
+    }
+  }
+}
