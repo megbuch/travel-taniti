@@ -24,8 +24,8 @@ export default function LandingPage() {
       image: landscapeImage
     },
     { 
-      altText: 'Villas at Leilani Royal Resort', 
-      description: 'Villas at Leilani Royal Resort',
+      altText: 'Villas at Yellow Leaf Bay Grand Resort', 
+      description: 'Villas at Yellow Leaf Bay Grand Resort',
       image: villasImage 
     },
     { 

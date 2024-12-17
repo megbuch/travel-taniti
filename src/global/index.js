@@ -4,6 +4,7 @@ export { default as Carousel } from '../components/Carousel/index';
 export { default as Banner } from '../components/Banner/index';
 export { default as Navigation } from '../components/Navigation/index';
 export { default as CallToAction } from '../components/CallToAction/index';
+export { default as FeaturedHotelCard } from '../components/FeaturedHotelCard/index';
 
 // Images
 export { default as sandbarImage } from '../assets/images/sandbar.jpg';
@@ -14,7 +15,10 @@ export { default as hikingImage } from '../assets/images/hiking.jpg';
 export { default as scallopsImageCircular } from '../assets/images/scallops-circular.png';
 export { default as scallopsImage } from '../assets/images/scallops.jpg';
 export { default as leilaniRoyalImageCircular } from '../assets/images/leilani-royal-circular.png';
+export { default as leilaniRoyalImageSquare} from '../assets/images/leilani-royal-square.png';
 export { default as leilaniRoyalImage } from '../assets/images/leilani-royal.jpg';
+export { default as yellowLeafBayGrandImageSquare} from '../assets/images/yellow-leaf-bay-grand-square.png';
+export { default as seasideImageSquare} from '../assets/images/seaside-square.png';
 export { default as dolphinImageCircular } from '../assets/images/dolphin-circular.png';
 export { default as dolphinImage } from '../assets/images/dolphin.jpg';
 export { default as busImageCircular } from '../assets/images/bus-circular.png';

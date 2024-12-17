@@ -1,3 +1,15 @@
 .lodging-page {
+  align-items: center;
+  justify-content: center;
+  margin: auto;
   
+  .page-container {
+    .featured-hotels-container {
+      gap: var(--pad-lg);
+
+      @media only screen and (min-width: '800px') {
+        flex-direction: row;
+      }
+    }
+  }
 }
