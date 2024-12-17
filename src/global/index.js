@@ -4,7 +4,7 @@ export { default as Carousel } from '../components/Carousel/index';
 export { default as Banner } from '../components/Banner/index';
 export { default as Navigation } from '../components/Navigation/index';
 export { default as CallToAction } from '../components/CallToAction/index';
-export { default as FeaturedHotelCard } from '../components/FeaturedHotelCard/index';
+export { default as FeaturedCard } from '../components/FeaturedCard/index';
 
 // Images
 export { default as sandbarImage } from '../assets/images/sandbar.jpg';
@@ -24,3 +24,9 @@ export { default as dolphinImage } from '../assets/images/dolphin.jpg';
 export { default as busImageCircular } from '../assets/images/bus-circular.png';
 export { default as busImage } from '../assets/images/bus.jpg';
 export { default as mapImage } from '../assets/images/map.jpg';
+export { default as weddingImageSquare } from '../assets/images/wedding-square.png';
+export { default as microbreweryImageSquare } from '../assets/images/microbrewery-square.png';
+export { default as volcanoImageSquare } from '../assets/images/volcano-square.png';
+export { default as seaAndStoneImageSquare } from '../assets/images/sea-and-stone-square.png';
+export { default as pinnacoveImageSquare } from '../assets/images/pinnacove-square.png';
+export { default as yellowLeafGrillSquare } from '../assets/images/yellow-leaf-grill-square.png';

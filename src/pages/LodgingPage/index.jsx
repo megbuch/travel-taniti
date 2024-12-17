@@ -2,7 +2,7 @@ import {
   Navigation, 
   Banner, 
   CallToAction, 
-  FeaturedHotelCard, 
+  FeaturedCard, 
   leilaniRoyalImage, 
   leilaniRoyalImageSquare, 
   yellowLeafBayGrandImageSquare,
@@ -21,7 +21,7 @@ export default function LodgingPage() {
     {
       name: 'Leilani Royal Resort',
       rating: '⭐⭐⭐⭐',
-      description: ' Our premier four-star resort offers spacious suites, spa services, and direct access to Merriton Landing for dining and entertainment.',
+      description: 'Our premier four-star resort offers spacious suites, spa services, and direct access to Merriton Landing for dining and entertainment.',
       address: '120 Paragon Way | Merriton Landing',
       image: leilaniRoyalImageSquare
     },
@@ -60,7 +60,7 @@ export default function LodgingPage() {
           <h2>Featured Accommodations</h2>
           <p>Discover some of our most popular places to stay.</p>
           <div className='featured-hotels-container col'>
-            {featuredHotels.map((hotel, index) => <FeaturedHotelCard key={index} hotelData={hotel} />)}
+            {featuredHotels.map((hotel, index) => <FeaturedCard key={index} data={hotel} />)}
           </div>
         </div>
         <CallToAction />
