@@ -15,7 +15,7 @@ export default function CallToAction() {
       </div>
       <div className='col'>
         <p>
-          <span className='emphasize-sm'>Let us plan your perfect trip!</span><br /><br />
+          <span className='emphasized-small'>Let us plan your perfect trip!</span><br /><br />
           Our local tourism experts can help you discover everything Taniti has to offer.<br />
           Contact us today to learn more about activities, dining, lodging, transportation, and more.
         </p>

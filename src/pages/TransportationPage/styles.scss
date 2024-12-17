@@ -1,16 +1,21 @@
 .transportation-page {
-  .col {
-    align-items: center;
-  }
-
   .page-container {
-    align-items: center;
     justify-content: center;
     margin: auto;
-
+    
+    .two-column-container {
+      gap: var(--page-gap);
+      
+      @media only screen and (min-width: '1000px') {
+        flex-direction: row;
+      }
+    }
+    
     .map {
       border-radius: 50%;
-      width: 500px;
+      width: 350px;
+      margin: auto;
+      margin-top: var(--pad-xl);
     }
   }
 }

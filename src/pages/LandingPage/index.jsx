@@ -61,7 +61,7 @@ export default function LandingPage() {
       <div id='text-content' className='page-container'>
         <div className='text-section'>
           <h1>About Taniti</h1>
-          <p className='emphasis'>
+          <p className='emphasized-large'>
             Discover the wonder of Taniti, nestled at the heart of the Pacific. 
           </p>
           <p>
