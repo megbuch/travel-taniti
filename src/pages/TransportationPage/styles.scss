@@ -1,2 +1,16 @@
 .transportation-page {
+  .col {
+    align-items: center;
+  }
+
+  .page-container {
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+
+    .map {
+      border-radius: 50%;
+      width: 500px;
+    }
+  }
 }

@@ -4,10 +4,23 @@ export default function CallToAction() {
   return (
     <div className='call-to-action row'>
       <div className='text-section'>
-        <h3>Get in Touch</h3>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum, iusto! Nemo numquam totam illo at praesentium pariatur nam aperiam! Aut, consequatur quibusdam rerum culpa minima quae id facilis obcaecati laudantium.</p>
+        <h2>Get in Touch ✍️</h2>
+        <p className='address'>
+          Taniti Tourism Main Office<br />
+          720 Palea Avenue<br />
+          Taniti City, Taniti<br /><br />
+          📞 &nbsp; (772) 891-9700<br />
+          📧 &nbsp; inquiries@traveltaniti.com
+        </p>
       </div>
-      <button>Contact Us</button>
+      <div className='col'>
+        <p>
+          <span className='emphasize-sm'>Let us plan your perfect trip!</span><br /><br />
+          Our local tourism experts can help you discover everything Taniti has to offer.<br />
+          Contact us today to learn more about activities, dining, lodging, transportation, and more.
+        </p>
+        <button>Contact Us</button>
+      </div>
     </div>
   )
 }

@@ -19,3 +19,4 @@ export { default as dolphinImageCircular } from '../assets/images/dolphin-circul
 export { default as dolphinImage } from '../assets/images/dolphin.jpg';
 export { default as busImageCircular } from '../assets/images/bus-circular.png';
 export { default as busImage } from '../assets/images/bus.jpg';
+export { default as mapImage } from '../assets/images/map.jpg';

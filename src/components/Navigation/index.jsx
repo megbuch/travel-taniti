@@ -4,7 +4,7 @@ import './styles.scss'
 export default function Navigation() {
   return (
     <div className='navigation'>
-      <p>Logo</p>
+      <p className='logo'>🌿</p>
       <ul>
         <li className='link'>
           <Link to='/' className='link'>Home</Link>

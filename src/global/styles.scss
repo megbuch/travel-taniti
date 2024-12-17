@@ -3,7 +3,10 @@
 :root {
   --color-primary: rgb(189, 42, 23);
   --color-primary-dark: rgb(156, 33, 17);
-  --color-transparent-red: rgba(189, 42, 23, 0.4);
+  --color-background: rgb(255, 246, 235);
+  --color-surface: rgb(255, 253, 250);
+  --color-neutral: rgb(218, 218, 218);
+  --color-transparent-red: rgba(189, 42, 23, 0.25);
   --color-transparent-dark: rgba(0, 0, 0, 0.4);
   
   --pad-xs: 4px;
@@ -13,17 +16,19 @@
   --pad-xl: 36px;
 
   --title: 80px;
-  --body-lg: 18px;
-  --body: 14px;
-  --body-sm: 11px;
+  --body-lg: 20px;
+  --body: 16px;
+  --body-sm: 12px;
 
-  --navigation-height: 40px;
+  --page-gap: 60px;
+  --navigation-height: 55px;
 }
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  scrollbar-color: var(--color-transparent-red) var(--color-background);
 }
 
 body {
@@ -31,6 +36,7 @@ body {
   overflow-x: hidden;
   font-family: 'Inter', Arial, Helvetica, sans-serif, sans-serif;
   color: black;
+  background: var(--color-background);
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Merriweather', Georgia, 'Times New Roman', Times, serif;
@@ -38,6 +44,10 @@ body {
   
   p, a {
     font-size: var(--body);
+  }
+
+  p {
+    line-height: 1.4;
   }
   
   a {
@@ -57,17 +67,22 @@ body {
   }
 
   button {
-    font-family: 'Inter', Arial, Helvetica, sans-serif, sans-serif;
     background-color: var(--color-primary);
     color: white;
     padding: var(--pad);
     border: none;
     border-radius: 4px;
     min-width: 150px;
+    font-size: var(--body);
+    font-family: 'Merriweather', Georgia, 'Times New Roman', Times, serif;
+    font-weight: 600;
+    letter-spacing: 1px;
+    width: 300px;
 
     &.small-btn {
       padding: var(--pad-xs) var(--pad);
-      min-width: 80px;
+      font-size: var(--body-sm);
+      width: 50px;
     }
 
     &:hover {
@@ -78,15 +93,11 @@ body {
   
   .row {
     display: flex;
-    align-items: center;
-    justify-content: center;
   }
   
   .col {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
   }
 
   .text-section {
@@ -99,7 +110,19 @@ body {
     display: flex;
     flex-direction: column;
     padding: var(--pad-xl);
-    gap: var(--pad-xl);
-    width: 80vw;
+    gap: var(--page-gap);
+    width: 95vw;
+
+    @media only screen and (min-width: '600px') {
+      width: 90vw;
+    }
+
+    @media only screen and (min-width: '900px') {
+      width: 80vw;
+    }
+
+    @media only screen and (min-width: '1200px') {
+      width: 70vw;
+    }
   }
 }

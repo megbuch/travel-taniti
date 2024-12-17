@@ -1,7 +1,26 @@
 .call-to-action {
-  justify-content: space-between;
   gap: var(--pad-xl);
   box-shadow: 0px 1px 20px rgba(0, 0, 0, 0.2);
   padding: var(--pad-xl);
   border-radius: 4px;
+  background-color: var(--color-surface);
+
+  &.row {
+    justify-content: space-between;
+  }
+
+  .address {
+    font-size: var(--body-sm);
+    color: rgb(82, 82, 82);
+  }
+
+  button {
+    margin-top: var(--pad-xl);
+    width: 100%;
+  }
+
+  .emphasize-sm {
+    font-weight: 600;
+    font-size: var(--body-lg);
+  }
 }
