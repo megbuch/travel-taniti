@@ -2,7 +2,7 @@ import './styles.scss'
 
 export default function CallToAction() {
   return (
-    <div className='call-to-action row'>
+    <div className='call-to-action col'>
       <div className='text-section'>
         <h2>Get in Touch ✍️</h2>
         <p className='address'>
