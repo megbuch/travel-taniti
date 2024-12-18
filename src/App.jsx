@@ -7,6 +7,7 @@ import ActivitiesPage from './pages/ActivitiesPage/index'
 import DiningPage from './pages/DiningPage/index'
 import LodgingPage from './pages/LodgingPage/index'
 import TransportationPage from './pages/TransportationPage/index'
+import ReferencesPage from './pages/ReferencesPage/index'
 import './global/styles.scss'
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path='/dining' element={<DiningPage />} />
         <Route path='/lodging' element={<LodgingPage />} />
         <Route path='/transportation' element={<TransportationPage />} />
+        <Route path='/references' element={<ReferencesPage />} />
       </Routes>
       <ContactForm />
       <ToastContainer closeButton={false} />

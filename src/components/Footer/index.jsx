@@ -33,6 +33,9 @@ export default function Footer() {
         <li className='link'>
           <Link to='' onClick={openModal} className='link'>Contact Us</Link>
         </li>
+        <li className='link'>
+          <Link to='/references' className='link'>References</Link>
+        </li>
       </ul>
     </div>
   );

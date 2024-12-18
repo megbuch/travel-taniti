@@ -1,0 +1,10 @@
+.references-page {
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+
+  .references-list {
+    gap: var(--pad-sm);
+    list-style: circle;
+  }
+}

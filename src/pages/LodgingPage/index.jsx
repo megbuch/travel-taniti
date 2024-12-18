@@ -66,7 +66,7 @@ export default function LodgingPage() {
         </div>
         <CallToAction />
       </div>
-       <Footer />
+      <Footer />
     </div>
   )
 }
