@@ -7,6 +7,13 @@ export default function Footer() {
 
   return (
     <div className='footer'>
+      <p className='subtitle'>
+        Taniti Tourism Main Office<br />
+        720 Palea Avenue<br />
+        Taniti City, Taniti<br /><br />
+        📞 &nbsp; (772) 891-9700<br />
+        📧 &nbsp; inquiries@traveltaniti.com
+      </p>
       <ul>
         <li className='link'>
           <Link to='/' className='link'>Home</Link>
@@ -26,9 +33,6 @@ export default function Footer() {
         <li className='link'>
           <Link to='' onClick={openModal} className='link'>Contact Us</Link>
         </li>
-        {/* <li>
-          <button onClick={openModal} className='small-btn'>Contact Us</button>
-        </li> */}
       </ul>
     </div>
   );

@@ -3,6 +3,7 @@
 :root {
   --color-primary: rgb(189, 42, 23);
   --color-primary-dark: rgb(156, 33, 17);
+  --color-secondary: rgb(90, 95, 77);
   --color-background: rgb(255, 246, 235);
   --color-surface: rgb(255, 253, 250);
   --color-neutral: rgb(218, 218, 218);
@@ -115,7 +116,7 @@ body {
   .page-container {
     display: flex;
     flex-direction: column;
-    padding: var(--pad-xl);
+    padding: 100px 0;
     gap: var(--page-gap);
     width: 95vw;
 
