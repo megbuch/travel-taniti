@@ -1,0 +1,33 @@
+
+.contact-form {
+  gap: var(--pad);
+  position: absolute;
+  z-index: 1000;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 400px;
+  padding: var(--pad-xl);
+  border-radius: 4px;
+  background-color: var(--color-surface);
+  box-shadow: 0px 1px 20px rgba(0, 0, 0, 0.2);
+
+  .col { gap: var(--pad-sm); }
+
+  .button-row {
+    margin: var(--pad-sm) 0;
+    gap: var(--pad-sm);
+
+    .cancel-button {
+      background-color: var(--color-surface);
+      border: 2px solid var(--color-primary);
+      color: var(--color-primary);
+      
+      &:hover {
+        background-color: var(--color-background);
+        border: 2px solid var(--color-primary-dark);
+        color: var(--color-primary-dark);
+      }
+    }
+  }
+}

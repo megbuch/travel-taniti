@@ -90,6 +90,12 @@ body {
       cursor: pointer;
     }
   }
+
+  input[type='text'], textarea {
+    border: 1px solid gray;
+    border-radius: 4px;
+    padding: var(--pad-sm);
+  }
   
   .row {
     display: flex;
@@ -140,7 +146,7 @@ body {
     font-size: var(--body-lg);
   }
 
-  .address {
+  .subtitle {
     font-size: var(--body-sm);
     color: rgb(82, 82, 82);
   }

@@ -1,4 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
+import { ModalProvider } from './global/ModalContext'
+import { ContactForm } from './global/index'
 import LandingPage from './pages/LandingPage/index'
 import ActivitiesPage from './pages/ActivitiesPage/index'
 import DiningPage from './pages/DiningPage/index'
@@ -8,7 +10,7 @@ import './global/styles.scss'
 
 function App() {
   return (
-    <>
+    <ModalProvider>
       <Routes>
         <Route path='/' element={<LandingPage />} />
         <Route path='/activities' element={<ActivitiesPage />} />
@@ -16,7 +18,8 @@ function App() {
         <Route path='/lodging' element={<LodgingPage />} />
         <Route path='/transportation' element={<TransportationPage />} />
       </Routes>
-    </>
+      <ContactForm />
+    </ModalProvider>
   )
 }
 

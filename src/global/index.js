@@ -5,6 +5,7 @@ export { default as Banner } from '../components/Banner/index';
 export { default as Navigation } from '../components/Navigation/index';
 export { default as CallToAction } from '../components/CallToAction/index';
 export { default as FeaturedCard } from '../components/FeaturedCard/index';
+export { default as ContactForm } from '../components/ContactForm/index';
 
 // Images
 export { default as sandbarImage } from '../assets/images/sandbar.jpg';

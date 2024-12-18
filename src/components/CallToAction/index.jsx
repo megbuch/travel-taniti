@@ -1,11 +1,14 @@
+import { useModal } from '../../global/ModalContext.jsx'
 import './styles.scss'
 
 export default function CallToAction() {
+  const { openModal } = useModal();
+
   return (
     <div className='call-to-action col'>
       <div className='text-section'>
         <h2>Get in Touch ✍️</h2>
-        <p className='address'>
+        <p className='subtitle'>
           Taniti Tourism Main Office<br />
           720 Palea Avenue<br />
           Taniti City, Taniti<br /><br />
@@ -19,7 +22,7 @@ export default function CallToAction() {
           Our local tourism experts can help you discover everything Taniti has to offer.<br />
           Contact us today to learn more about activities, dining, lodging, transportation, and more.
         </p>
-        <button>Contact Us</button>
+        <button onClick={openModal}>Contact Us</button>
       </div>
     </div>
   )
