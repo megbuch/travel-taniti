@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify';
 import { ModalProvider } from './global/ModalContext'
 import { ContactForm } from './global/index'
 import LandingPage from './pages/LandingPage/index'
@@ -19,6 +20,7 @@ function App() {
         <Route path='/transportation' element={<TransportationPage />} />
       </Routes>
       <ContactForm />
+      <ToastContainer closeButton={false} />
     </ModalProvider>
   )
 }
