@@ -2,6 +2,7 @@ import {
   Navigation, 
   Banner, 
   CallToAction, 
+  Footer,
   dolphinImage,
   microbreweryImageSquare,
   weddingImageSquare,
@@ -64,6 +65,7 @@ export default function ActivitiesPage() {
         </div>
         <CallToAction />
       </div>
+      <Footer />
     </div>
   )
 }

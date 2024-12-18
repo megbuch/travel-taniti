@@ -6,6 +6,7 @@ export { default as Navigation } from '../components/Navigation/index';
 export { default as CallToAction } from '../components/CallToAction/index';
 export { default as FeaturedCard } from '../components/FeaturedCard/index';
 export { default as ContactForm } from '../components/ContactForm/index';
+export { default as Footer } from '../components/Footer/index';
 
 // Images
 export { default as sandbarImage } from '../assets/images/sandbar.jpg';

@@ -3,6 +3,7 @@ import {
   Banner, 
   CallToAction, 
   FeaturedCard, 
+  Footer,
   leilaniRoyalImage, 
   leilaniRoyalImageSquare, 
   yellowLeafBayGrandImageSquare,
@@ -65,6 +66,7 @@ export default function LodgingPage() {
         </div>
         <CallToAction />
       </div>
+       <Footer />
     </div>
   )
 }

@@ -4,6 +4,7 @@ import {
   Navigation,
   Carousel, 
   CallToAction,
+  Footer,
   sandbarImage, 
   villasImage, 
   rainforestImage,
@@ -109,6 +110,7 @@ export default function LandingPage() {
         </div>
         <CallToAction />
       </div>
+      <Footer />
     </div>
   )
 }

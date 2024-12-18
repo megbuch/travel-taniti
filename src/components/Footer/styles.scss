@@ -1,0 +1,23 @@
+.footer {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  text-align: right;
+  padding: 30px 60px;
+  background-color: var(--color-primary);
+  width: 100%;
+
+  a {
+    color: var(--color-surface);
+
+    &:hover {
+      color: var(--color-background);
+    }
+  }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pad-sm);
+  }
+}

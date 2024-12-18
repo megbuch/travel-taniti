@@ -2,6 +2,7 @@ import {
   Navigation, 
   Banner, 
   CallToAction, 
+  Footer,
   busImage,
   mapImage
 } from '../../global'
@@ -48,6 +49,7 @@ export default function TransportationPage() {
         </div>
         <CallToAction />
       </div>
+       <Footer />
     </div>
   )
 }

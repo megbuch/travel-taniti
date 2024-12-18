@@ -3,6 +3,7 @@ import {
   Banner, 
   CallToAction,
   FeaturedCard, 
+  Footer,
   scallopsImage,
   yellowLeafGrillSquare,
   pinnacoveImageSquare,
@@ -64,6 +65,7 @@ export default function DiningPage() {
         </div>
         <CallToAction />
       </div>
+      <Footer />
     </div>
   )
 }
