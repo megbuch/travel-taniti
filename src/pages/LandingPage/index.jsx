@@ -91,22 +91,22 @@ export default function LandingPage() {
           <p>Your Taniti story begins here.</p>
         </div>
         <div className='featured-items-container row'>
-          <div className='featured-item col'>
+          <Link to='/activities' className='featured-item col'>
             <img src={dolphinImageCircular} />
-            <Link to='/activities'>Activities</Link>
-          </div>
-          <div className='featured-item col'>
+            <a>Activities</a>
+          </Link>
+          <Link to='/dining' className='featured-item col'>
             <img src={scallopsImageCircular} />
-            <Link to='/dining'>Dining</Link>
-          </div>
-          <div className='featured-item col'>
+            <a>Dining</a>
+          </Link>
+          <Link to='/lodging' className='featured-item col'>
             <img src={leilaniRoyalImageCircular} />
-            <Link to='/lodging'>Lodging</Link>
-          </div>
-          <div className='featured-item col'>
+            <a>Lodging</a>
+          </Link>
+          <Link to='/transportation' className='featured-item col'>
             <img src={busImageCircular} />
-            <Link to='/transportation'>Transportation</Link>
-          </div>
+            <a>Transportation</a>
+          </Link>
         </div>
         <CallToAction />
       </div>

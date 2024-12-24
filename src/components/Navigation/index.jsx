@@ -7,22 +7,22 @@ export default function Navigation() {
 
   return (
     <div className='navigation'>
-      <p className='logo'>🌿</p>
+      <Link to='/'><p className='logo'>🌿</p></Link>
       <ul>
         <li className='link'>
-          <Link to='/' className='link'>Home</Link>
+          <Link to='/'>Home</Link>
         </li>
         <li className='link'>
           <Link to='/activities' className='link'>Activities</Link>
         </li>
         <li className='link'>
-          <Link to='/dining' className='link'>Dining</Link>
+          <Link to='/dining'>Dining</Link>
         </li>
         <li className='link'>
-          <Link to='/lodging' className='link'>Lodging</Link>
+          <Link to='/lodging'>Lodging</Link>
         </li>
         <li className='link'>
-          <Link to='/transportation' className='link'>Transportation</Link>
+          <Link to='/transportation'>Transportation</Link>
         </li>
         <li>
           <button onClick={openModal} className='small-btn'>Contact Us</button>

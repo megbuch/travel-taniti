@@ -17,6 +17,13 @@ export default function ContactForm() {
       <h1>Get in Touch</h1>
       <p>Let our experts help you plan your dream vacation!</p>
       <p className='subtitle'>A Taniti travel agent will contact you by email or phone within 24-48 hours.</p>
+      <p className='subtitle'>
+        Taniti Tourism Main Office<br />
+        720 Palea Avenue<br />
+        Taniti City, Taniti<br /><br />
+        📞 &nbsp; (772) 891-9700<br />
+        📧 &nbsp; inquiries@traveltaniti.com
+      </p>
       <form onSubmit={submit} className='col'>
         <>
           <p className='subtitle'>First Name *</p>
@@ -42,6 +49,7 @@ export default function ContactForm() {
           <button onClick={closeModal} className='cancel-button'>Cancel</button>
           <button type='submit'>Submit</button>
         </div>
+
       </form>
     </div>
   )
