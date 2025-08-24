@@ -2,6 +2,7 @@ require('dotenv').config()
 const express = require('express')
 const app = express()
 const { initializeDatabase } = require('./config/database')
+const { createAdmin } = require('./scripts/createAdmin')
 
 app.use(express.json())
 

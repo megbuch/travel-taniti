@@ -27,7 +27,8 @@ const create = async (req, res) => {
         id: user.id,
         email, 
         firstName, 
-        lastName 
+        lastName ,
+        role: user.role
       }, 
       accessToken 
     })

@@ -9,6 +9,11 @@ export function SessionProvider({ children }) {
   const [token, setToken] = useState(null)
   const [loading, setLoading] = useState(true)
 
+  const Role = {
+    ADMIN: 'admin',
+    TRAVELER: 'traveler'
+  }  
+
   useEffect(() => {
     const storedToken = localStorage.getItem('token')
     if (storedToken) setToken(storedToken)
@@ -23,7 +28,7 @@ export function SessionProvider({ children }) {
   const signIn = (token, me) => {
     setToken(token)
     setMe(me)
-    navigate('/traveler-dashboard')
+    navigate(me.role == Role.ADMIN ? '/admin-dashboard' : '/traveler-dashboard')
   }
 
   const signOut = () => {
