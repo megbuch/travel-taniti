@@ -1,4 +1,4 @@
-import { ListItem } from '../'
+import { ListItem } from '..'
 
 export default function List(props) {
   const { label, items = [] } = props

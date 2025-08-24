@@ -31,7 +31,7 @@ const schema = {
     type: DataTypes.STRING,
   },
   rating: {
-    type: DataTypes.DECIMAL(2,1),
+    type: DataTypes.INTEGER,
     defaultValue: 0,
     validate: { min: 0, max: 5 }
   },

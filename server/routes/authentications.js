@@ -3,6 +3,6 @@ const router = express.Router()
 const authenticationsController = require('../controllers/authentications')
 // const { authenticateToken } = require('../middleware/authentications')
 
-router.post('/', authenticationsController.create)
+router.post('/', authenticationsController.createAuthentication)
 
 module.exports = router

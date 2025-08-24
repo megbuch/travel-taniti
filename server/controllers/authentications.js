@@ -2,7 +2,7 @@ const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 
-const create = async (req, res) => {
+const createAuthentication = async (req, res) => {
   try {
     const { email, password } = req.body
     const user = await User.scope('withPassword').findOne({ where: { email } })
@@ -31,5 +31,5 @@ const create = async (req, res) => {
 }
 
 module.exports = {
-  create
+  createAuthentication
 }

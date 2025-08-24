@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt')
 const SALT_ROUNDS = 10
 
 
-const create = async (req, res) => {
+const createUser = async (req, res) => {
   try {
     const { email, password, firstName, lastName } = req.body
     const existingUser = await User.findOne({ where: { email } })
@@ -36,5 +36,5 @@ const create = async (req, res) => {
 }
 
 module.exports = {
-  create
+  createUser
 }

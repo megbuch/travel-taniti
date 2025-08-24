@@ -5,9 +5,7 @@ import { Navigation, List } from '../../components'
 export default function AdminDashboard() {
   const [accommodations, setAccommodations] = useState([])
 
-  useEffect(() => {
-    fetchData()
-  }, [])
+  useEffect(() => { fetchData() }, [])
 
   const fetchData = async () => {
     try {
