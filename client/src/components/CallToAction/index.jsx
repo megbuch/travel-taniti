@@ -1,4 +1,4 @@
-import { useModal } from '../../contexts/ModalContext.jsx'
+import { useModal } from '../../hooks'
 import { ContactForm, Button } from '../'
 import './styles.scss'
 

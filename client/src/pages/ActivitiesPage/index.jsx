@@ -19,7 +19,6 @@ export default function ActivitiesPage() {
     image: dolphinImage 
   }
 
-  
   return (
     <div className='activities-page col'>
       <Navigation />

@@ -30,4 +30,8 @@ export function ModalProvider({ children }) {
   );
 }
 
-export const useModal = () => useContext(ModalContext)
+export const useModal = () => {
+  const context = useContext(ModalContext)
+  if (!context) return console.log('useModal should be used within a ModalProvider')
+  return context
+}

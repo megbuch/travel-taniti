@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { useModal } from '../../contexts/ModalContext.jsx'
+import { useModal } from '../../hooks'
 import { ContactForm } from '../'
 import './styles.scss'
 

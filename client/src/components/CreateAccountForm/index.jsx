@@ -1,12 +1,13 @@
-import { toast } from 'react-toastify';
 import { useRef } from 'react'
-import { useModal } from '../../contexts/ModalContext.jsx'
+import { toast } from 'react-toastify'
+import { useModal, useSession } from '../../hooks'
 import { Button } from '../'
-import { createUser } from '../../services/users'
+import { createUser } from '../../api/'
 import './styles.scss'
 
 export default function CreateAccountForm() {
-  const { closeModal } = useModal();
+  const { closeModal } = useModal()
+  const { signIn } = useSession()
   const firstNameRef = useRef()
   const lastNameRef = useRef()
   const emailRef = useRef()
@@ -17,16 +18,17 @@ export default function CreateAccountForm() {
     e.preventDefault()
     try {
       if (passwordRef.current?.value !== confirmPasswordRef.current?.value) {
-        return toast.error("Passwords don't match")
+        return toast.error("Passwords don't match.")
       }
       const userData = {
-        firstName: firstNameRef.current.value,
-        lastName: lastNameRef.current.value,
-        email: emailRef.current.value,
+        firstName: firstNameRef.current.value.trim(),
+        lastName: lastNameRef.current.value.trim(),
+        email: emailRef.current.value.trim(),
         password: passwordRef.current.value
       }
-      await createUser(userData)
-      toast.success('Your account has been created')
+      const response = await createUser(userData)
+      signIn(response.accessToken, response.user)
+      toast.success('Your account has been created.')
       closeModal()
     } catch (error) {
       toast.error('Your account could not be created. Please try again.')

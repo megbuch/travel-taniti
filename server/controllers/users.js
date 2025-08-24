@@ -1,6 +1,7 @@
 const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
+const validateFields = require('./validateFields')
 
 const SALT_ROUNDS = 10
 
@@ -20,27 +21,22 @@ const create = async (req, res) => {
       firstName, 
       lastName 
     })
-    const accessToken = jwt.sign({ userID: user.id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '24h' })
-    res.json({ accessToken: accessToken })
+    const accessToken = jwt.sign({ userID: user.id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: process.env.ACCESS_TOKEN_EXPIRATION })
+    res.json({ 
+      user: { 
+        id: user.id,
+        email, 
+        firstName, 
+        lastName 
+      }, 
+      accessToken 
+    })
   } catch (error) {
     console.log(error)
-    return res.status(400).json({ error: 'Invalid field(s)' })
+    return res.status(400).json({ error: 'Could not create user' })
   }
 }
 
 module.exports = {
   create
-}
-
-function validateFields(requiredFields = [], req, res) {
-  if (!req.body) {
-    res.status(400).json({ error: 'Request body is required' })
-    return false
-  }
-  const missingFields = requiredFields.filter(field => !req.body[field])
-  if (missingFields.length > 0) {
-    res.status(400).json({ error: `Missing required fields: ${missingFields.join(', ')}` })
-    return false
-  }
-  return true
 }

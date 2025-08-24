@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom'
-import { useModal } from '../../contexts/ModalContext.jsx'
-import { ContactForm, LoginForm, Button } from '../'
+import { useModal, useSession } from '../../hooks'
+import { ContactForm, SignInForm, Button } from '../'
 import './styles.scss'
 
 export default function Navigation() {
-  const { openModal, closeModal, isModalOpen } = useModal();
+  const { openModal } = useModal()
+  const { isAuthenticated, signOut } = useSession()
 
   return (
     <div className='navigation'>
@@ -27,7 +28,11 @@ export default function Navigation() {
         </li>
         <li>
           <Button small onClick={()=>openModal(<ContactForm />)} text='Contact Us' />
-          <Button small onClick={()=>openModal(<LoginForm />)} text='Sign In' />
+          {isAuthenticated ? 
+            <Button small onClick={signOut} text='Sign Out' />
+          : 
+            <Button small onClick={()=>openModal(<SignInForm />)} text='Sign In' />
+          }
         </li>
       </ul>
     </div>

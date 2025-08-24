@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify';
-import { useModal } from '../../contexts/ModalContext.jsx'
+import { useModal } from '../../hooks'
 import { Button } from '../'
 import './styles.scss'
 

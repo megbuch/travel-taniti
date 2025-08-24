@@ -1,4 +1,4 @@
-import { useModal } from '../../contexts/ModalContext.jsx'
+import { useModal } from '../../hooks'
 import './styles.scss'
 
 export default function Modal() {
