@@ -27,10 +27,10 @@ const schema = {
   },
   role: {
     type: DataTypes.STRING,
-    defaultValue: 'client',
+    defaultValue: 'traveler',
     allowNull: false,
     validate: {
-      isIn: [['client', 'admin']]
+      isIn: [['traveler', 'admin']]
     }
   }
 }

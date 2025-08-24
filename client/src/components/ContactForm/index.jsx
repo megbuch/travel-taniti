@@ -46,7 +46,7 @@ export default function ContactForm() {
           <textarea required type='text' rows='4' />
         </>
         <div className='row button-row'>
-          <Button outline onClick={closeModal} text='Cancel'/>
+          <Button inverted onClick={closeModal} text='Cancel'/>
           <Button type='submit' text='Submit' />
         </div>
 

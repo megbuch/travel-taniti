@@ -2,18 +2,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: fixed;
-  z-index: 500;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: var(--navigation-height);
-  padding: 0 var(--pad-xl);
-  background-color: var(--color-background);
-
-  .logo {
-    font-size: 36px;
-  }
+  padding: var(--pad-sm) var(--pad);
+  width: 100%;
   
   ul {
     display: flex;

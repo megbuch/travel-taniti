@@ -1,8 +1,10 @@
 import { createContext, useContext, useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const SessionContext = createContext()
 
 export function SessionProvider({ children }) {
+  const navigate = useNavigate()
   const [me, setMe] = useState(null)
   const [token, setToken] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -21,11 +23,13 @@ export function SessionProvider({ children }) {
   const signIn = (token, me) => {
     setToken(token)
     setMe(me)
+    navigate('/traveler-dashboard')
   }
 
   const signOut = () => {
     setToken(null)
     setMe(null)
+    navigate('/')
   }
 
   const value = {

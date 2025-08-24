@@ -1,4 +1,5 @@
 import { useRef } from 'react'
+import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { useModal, useSession } from '../../hooks'
 import { CreateAccountForm, Button } from '../'
@@ -20,7 +21,6 @@ export default function SignInForm() {
       }
       const response = await createAuthentication(userData)
       signIn(response.accessToken, response.user)
-      toast.success('You are now signed in.')
       closeModal()
     } catch (error) {
       toast.error('Could not sign in.')
@@ -40,9 +40,16 @@ export default function SignInForm() {
           <p className='subtitle'>Password</p>
           <input ref={passwordRef} type='password' required />
         </>
-        <Button small onClick={()=>openModal(<CreateAccountForm />)} text='Create an Account' />
-        <div className='row button-row'>
-          <Button outline onClick={closeModal} text='Cancel' />
+        <p className='row'>
+          <span className='subtitle'>Need an account?</span>
+          <span><Button short smallText backgroundless onClick={()=>openModal(<CreateAccountForm />)} text='Sign Up' /></span>
+        </p>
+        <p className='row'>
+          <span className='subtitle'>Forgot your password?</span>
+          <span><Button short smallText backgroundless text='Reset Password' /></span>
+        </p>
+        <div className='row'>
+          <Button inverted withBorder onClick={closeModal} text='Cancel' />
           <Button type='submit' text='Submit' />
         </div>
       </form>

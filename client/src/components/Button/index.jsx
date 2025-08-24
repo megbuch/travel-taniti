@@ -2,10 +2,14 @@ import './styles.scss'
 
 export default function Button(props) {
   const { 
-    outline, 
-    small, 
+    smallText, 
+    short,
+    inverted,
+    backgroundless,
+    withBorder,
     onClick, 
     text, 
+    icon,
     type 
   } = props
 
@@ -13,9 +17,17 @@ export default function Button(props) {
     <button 
       type={type}
       onClick={onClick} 
-      className={`button ${outline && 'button-outline'} ${small && 'button-small'}`}
+      className={`button 
+        ${withBorder && 'with-border'} 
+        ${inverted && 'inverted'} 
+        ${smallText && 'small-text'} 
+        ${short && 'short'} 
+        ${backgroundless && 'backgroundless'} 
+        ${navigation && 'navigation'}`
+      }
     >
-      {text}
+      {icon && <span className='icon'>{icon}</span>}
+      {text && <span>{text}</span>}
     </button>
   )
 }

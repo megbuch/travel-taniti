@@ -8,6 +8,7 @@ import DiningPage from './pages/DiningPage/index'
 import LodgingPage from './pages/LodgingPage/index'
 import TransportationPage from './pages/TransportationPage/index'
 import ReferencesPage from './pages/ReferencesPage/index'
+import TravelerDashboard from './pages/TravelerDashboard/index'
 import './global/styles.scss'
 
 function App() {
@@ -21,6 +22,8 @@ function App() {
           <Route path='/lodging' element={<LodgingPage />} />
           <Route path='/transportation' element={<TransportationPage />} />
           <Route path='/references' element={<ReferencesPage />} />
+          <Route path='/dashboard' element={<ReferencesPage />} />
+          <Route path='/traveler-dashboard' element={<TravelerDashboard />} />
         </Routes>
         <Modal />
         <ToastContainer closeButton={false} />

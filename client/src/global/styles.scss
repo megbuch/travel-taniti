@@ -6,7 +6,7 @@
   --color-secondary: rgb(90, 95, 77);
   --color-background: rgb(255, 246, 235);
   --color-surface: rgb(255, 253, 250);
-  --color-neutral: rgb(218, 218, 218);
+  --color-neutral: rgb(143, 99, 79);
   --color-transparent-red: rgba(189, 42, 23, 0.25);
   --color-transparent-dark: rgba(0, 0, 0, 0.4);
   
@@ -78,6 +78,8 @@ body {
   
   .row {
     display: flex;
+    align-items: center;
+    gap: var(--pad-sm);
   }
   
   .col {
@@ -94,7 +96,7 @@ body {
   .page-container {
     display: flex;
     flex-direction: column;
-    padding: 100px 0;
+    padding: calc(var(--navigation-height) + var(--pad-xl)) var(--pad-xl);
     gap: var(--page-gap);
     width: 95vw;
 
@@ -140,23 +142,5 @@ body {
     box-shadow: 0px 1px 20px rgba(0, 0, 0, 0.2);
   
     .col { gap: var(--pad-sm); }
-  
-    .button-row {
-      margin: var(--pad-sm) 0;
-      gap: var(--pad-sm);
-  
-      .cancel-button {
-        background-color: var(--color-surface);
-        border: 2px solid var(--color-primary);
-        color: var(--color-primary);
-        
-        &:hover {
-          background-color: var(--color-background);
-          border: 2px solid var(--color-primary-dark);
-          color: var(--color-primary-dark);
-        }
-      }
-    }
   }
-  
 }
