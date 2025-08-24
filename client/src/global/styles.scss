@@ -92,7 +92,10 @@ body {
     }
   }
 
-  input[type='text'], input[type='email'], textarea {
+  input[type='text'], 
+  input[type='email'], 
+  input[type='password'], 
+  textarea {
     border: 1px solid gray;
     border-radius: 4px;
     padding: var(--pad-sm);
@@ -151,4 +154,34 @@ body {
     font-size: var(--body-sm);
     color: rgb(82, 82, 82);
   }
+
+  .form {
+    gap: var(--pad);
+    top: 50%;
+    left: 50%;
+    padding: var(--pad-xl);
+    border-radius: 4px;
+    background-color: var(--color-surface);
+    box-shadow: 0px 1px 20px rgba(0, 0, 0, 0.2);
+  
+    .col { gap: var(--pad-sm); }
+  
+    .button-row {
+      margin: var(--pad-sm) 0;
+      gap: var(--pad-sm);
+  
+      .cancel-button {
+        background-color: var(--color-surface);
+        border: 2px solid var(--color-primary);
+        color: var(--color-primary);
+        
+        &:hover {
+          background-color: var(--color-background);
+          border: 2px solid var(--color-primary-dark);
+          color: var(--color-primary-dark);
+        }
+      }
+    }
+  }
+  
 }

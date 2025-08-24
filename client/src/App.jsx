@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify';
-import { ModalProvider } from './global/ModalContext'
-import { ContactForm } from './global/index'
+import { ModalProvider } from './contexts/ModalContext'
+import { Modal } from './components'
 import LandingPage from './pages/LandingPage/index'
 import ActivitiesPage from './pages/ActivitiesPage/index'
 import DiningPage from './pages/DiningPage/index'
@@ -21,7 +21,7 @@ function App() {
         <Route path='/transportation' element={<TransportationPage />} />
         <Route path='/references' element={<ReferencesPage />} />
       </Routes>
-      <ContactForm />
+      <Modal />
       <ToastContainer closeButton={false} />
     </ModalProvider>
   )

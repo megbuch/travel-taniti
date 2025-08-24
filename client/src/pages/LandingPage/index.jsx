@@ -5,6 +5,8 @@ import {
   Carousel, 
   CallToAction,
   Footer,
+} from '../../components'
+import {
   sandbarImage, 
   villasImage, 
   rainforestImage,

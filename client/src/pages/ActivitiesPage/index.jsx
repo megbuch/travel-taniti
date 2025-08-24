@@ -1,8 +1,10 @@
-import { 
+import {
   Navigation, 
   Banner, 
   CallToAction, 
   Footer,
+} from '../../components'
+import { 
   dolphinImage,
   microbreweryImageSquare,
   weddingImageSquare,

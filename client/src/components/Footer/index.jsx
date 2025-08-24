@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
-import { useModal } from '../../global/ModalContext.jsx'
+import { useModal } from '../../contexts/ModalContext.jsx'
+import { ContactForm } from '../'
 import './styles.scss'
 
 export default function Footer() {
@@ -31,7 +32,7 @@ export default function Footer() {
           <Link to='/transportation' className='link'>Transportation</Link>
         </li>
         <li className='link'>
-          <Link to='' onClick={openModal} className='link'>Contact Us</Link>
+          <Link to='' onClick={()=>openModal(<ContactForm />)} className='link'>Contact Us</Link>
         </li>
         <li className='link'>
           <Link to='/references' className='link'>References</Link>

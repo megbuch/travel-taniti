@@ -4,20 +4,28 @@ const ModalContext = createContext()
 
 export function ModalProvider({ children }) {
   const [isModalOpen, setIsModalOpen] = useState(false)
-  
-  const openModal = () => {
-    window.scrollTo(0, 0)
-    document.body.style.overflow = 'hidden'
+  const [modalContent, setModalContent] = useState(null)
+  console.log(isModalOpen)
+
+  const openModal = component => {
+    setModalContent(component)
     setIsModalOpen(true)
   }
 
   const closeModal = () => {
-    document.body.style.overflow = 'unset'
     setIsModalOpen(false)
+    setModalContent(null)
+  }
+
+  const value = {
+    isModalOpen,
+    modalContent,
+    openModal,
+    closeModal
   }
 
   return (
-    <ModalContext.Provider value={{ isModalOpen, openModal, closeModal }}>
+    <ModalContext.Provider value={value}>
       {children}
     </ModalContext.Provider>
   );

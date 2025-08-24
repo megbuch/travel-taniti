@@ -1,9 +1,11 @@
-import { 
+import {
   Navigation, 
   Banner, 
   CallToAction, 
   FeaturedCard, 
   Footer,
+} from '../../components'
+import { 
   leilaniRoyalImage, 
   leilaniRoyalImageSquare, 
   yellowLeafBayGrandImageSquare,

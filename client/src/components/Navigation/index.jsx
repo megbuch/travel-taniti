@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom'
-import { useModal } from '../../global/ModalContext.jsx'
+import { useModal } from '../../contexts/ModalContext.jsx'
+import { ContactForm, LoginForm } from '../'
 import './styles.scss'
 
 export default function Navigation() {
-  const { openModal } = useModal();
+  const { openModal, closeModal, isModalOpen } = useModal();
 
   return (
     <div className='navigation'>
@@ -25,7 +26,8 @@ export default function Navigation() {
           <Link to='/transportation'>Transportation</Link>
         </li>
         <li>
-          <button onClick={openModal} className='small-btn'>Contact Us</button>
+          <button onClick={()=>openModal(<ContactForm />)} className='small-btn'>Contact Us</button>
+          <button onClick={()=>openModal(<LoginForm />)} className='small-btn'>Sign In</button>
         </li>
       </ul>
     </div>

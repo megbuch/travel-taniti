@@ -1,4 +1,4 @@
-import { Navigation, Footer } from '../../global'
+import { Navigation, Footer } from '../../components'
 import './styles.scss'
 
 export default function ReferencesPage() {

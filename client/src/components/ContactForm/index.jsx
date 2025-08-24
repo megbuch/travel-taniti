@@ -1,9 +1,9 @@
 import { toast } from 'react-toastify';
-import { useModal } from '../../global/ModalContext.jsx'
+import { useModal } from '../../contexts/ModalContext.jsx'
 import './styles.scss'
 
 export default function ContactForm() {
-  const { isModalOpen, closeModal } = useModal();
+  const { closeModal } = useModal();
   
   const submit = e => {
     e.preventDefault()
@@ -11,9 +11,8 @@ export default function ContactForm() {
     closeModal()
   }
 
-  if (!isModalOpen) return null
   return (
-    <div className='contact-form col'>
+    <div className='form col'>
       <h1>Get in Touch</h1>
       <p>Let our experts help you plan your dream vacation!</p>
       <p className='subtitle'>A Taniti travel agent will contact you by email or phone within 24-48 hours.</p>
