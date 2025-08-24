@@ -29,16 +29,16 @@ export default function Navigation() {
         </li>
       </ul>
       <div className='button-row row'>
-        <Button backgroundless onClick={()=>openModal(<ContactForm />)} icon={<LuMessageSquareMore />}/>
+        <Button backgroundless icon={<LuMessageSquareMore />} onClick={()=>openModal(<ContactForm />)} />
         {isAuthenticated ? 
           <div className='row'>
-            <Button backgroundless onClick={()=>navigate('/traveler-dashboard')} icon={<LuLayoutDashboard />} />
-            <Button small onClick={signOut} text='Sign Out' />
+            <Button backgroundless icon={<LuLayoutDashboard />} onClick={()=>navigate('/traveler-dashboard')} />
+            <Button small text='Sign Out' onClick={signOut} />
           </div>
         : 
           <>
-            <Button tall onClick={()=>openModal(<SignInForm />)} text='Sign In' />
-            <Button tall onClick={()=>openModal(<CreateAccountForm />)} text='Get Started' />
+            <Button tall text='Sign In' onClick={()=>openModal(<SignInForm />)} />
+            <Button tall text='Get Started' onClick={()=>openModal(<CreateAccountForm />)} />
           </>
         }
       </div>

@@ -10,18 +10,22 @@ const schema = {
   },
   name: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    validate: { notEmpty: true }
   },
   description: {
     type: DataTypes.TEXT,
-    allowNull: false
+    allowNull: false,
+    validate: { notEmpty: true }
   },
   location: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    validate: { notEmpty: true }
   },
   contactEmail: {
     type: DataTypes.STRING,
+    validate: { isEmail: true },
   },
   contactPhone: {
     type: DataTypes.STRING,

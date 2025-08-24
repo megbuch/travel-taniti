@@ -26,7 +26,7 @@ const schema = {
     validate: { min: 1 }
   },
   pricePerNight: {
-    type: DataTypes.DECIMAL(4,2),
+    type: DataTypes.DECIMAL(10,2),
     allowNull: false,
     validate: { min: 0 }
   },
@@ -46,7 +46,10 @@ const schema = {
         }
       }
     }
-  }
+  },
+  amenities: {
+    type: DataTypes.ARRAY(DataTypes.STRING),
+  },
 }
 
 const options = {

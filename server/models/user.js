@@ -1,5 +1,8 @@
 const { DataTypes, Model } = require('sequelize')
 const { sequelize } = require('../config/database')
+const bcrypt = require('bcrypt')
+
+const SALT_ROUNDS = 10
 
 class User extends Model {}
 
@@ -12,27 +15,41 @@ const schema = {
   email: {
     type: DataTypes.STRING,
     unique: true,
-    validate: { isEmail: true },
     allowNull: false,
+    validate: { 
+      isEmail: true,
+      notEmpty: true
+    }
   },
   password: {
     type: DataTypes.STRING,
     allowNull: false,
+    validate: { notEmpty: true }
   },
   firstName: {
     type: DataTypes.STRING,
     allowNull: false,
+    validate: { notEmpty: true }
   },
   lastName: {
     type: DataTypes.STRING,
     allowNull: false,
+    validate: { notEmpty: true }
   },
   role: {
     type: DataTypes.STRING,
     defaultValue: 'traveler',
     allowNull: false,
-    validate: { isIn: [['traveler', 'admin']] }
-  }
+    validate: { isIn: [['traveler', 'admin']] },
+    set(value) {
+      const isAdminCreation = (this.isNewRecord && this.email === process.env.TEST_ADMIN_EMAIL)
+      if (isAdminCreation && value === 'admin') {
+        this.setDataValue('role', 'admin')
+      } else {
+        this.setDataValue('role', 'traveler')
+      }
+    }
+  },
 }
 
 const options = {

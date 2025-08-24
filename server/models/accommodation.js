@@ -11,11 +11,14 @@ const schema = {
   },
   checkInTime: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    validate: { notEmpty: true }
+
   },
   checkOutTime: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    validate: { notEmpty: true }
   }
 }
 

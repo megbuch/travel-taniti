@@ -1,12 +1,9 @@
 const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
-const validateFields = require('./validateFields')
 
 const create = async (req, res) => {
   try {
-    const requiredFields = ['email', 'password']
-    if (!validateFields(requiredFields, req, res)) return
     const { email, password } = req.body
     const user = await User.scope('withPassword').findOne({ where: { email } })
     if (!user) {

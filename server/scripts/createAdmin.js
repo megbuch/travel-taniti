@@ -1,19 +1,20 @@
+require('dotenv').config()
 const bcrypt = require('bcrypt')
 const User = require('../models/user')
 
 const createAdmin = async () => {
-  const adminEmail = process.env.TEST_ADMIN_EMAIL
-  const adminPassword = process.env.TEST_ADMIN_PASSWORD
-  if (!adminEmail || !adminPassword) return
+  const email = process.env.TEST_ADMIN_EMAIL
+  const password = process.env.TEST_ADMIN_PASSWORD
+  if (!email || !password) return
   try {
-    const existingAdmin = await User.findOne({ where: { email: adminEmail } })
+    const existingAdmin = await User.findOne({ where: { email } })
     if (existingAdmin) {
       console.log('Admin user already exists')
       return
     }
-    const hashedPassword = await bcrypt.hash(adminPassword, 10)
+    const hashedPassword = await bcrypt.hash(password, 10)
     const user = await User.create({
-      email: adminEmail,
+      email,
       password: hashedPassword,
       firstName: 'Samantha',
       lastName: 'Jennings',
