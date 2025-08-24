@@ -1,4 +1,5 @@
 export { default as Banner } from './Banner/index';
+export { default as Button } from './Button/index';
 export { default as CallToAction } from './CallToAction/index';
 export { default as Carousel } from './Carousel/index';
 export { default as ContactForm } from './ContactForm/index';

@@ -1,5 +1,6 @@
 import { toast } from 'react-toastify';
 import { useModal } from '../../contexts/ModalContext.jsx'
+import { Button } from '../'
 import './styles.scss'
 
 export default function ContactForm() {
@@ -45,8 +46,8 @@ export default function ContactForm() {
           <textarea required type='text' rows='4' />
         </>
         <div className='row button-row'>
-          <button onClick={closeModal} className='cancel-button'>Cancel</button>
-          <button type='submit'>Submit</button>
+          <Button outline onClick={closeModal} text='Cancel'/>
+          <Button type='submit' text='Submit' />
         </div>
 
       </form>

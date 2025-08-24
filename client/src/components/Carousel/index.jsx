@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Button } from '../'
 import './styles.scss'
 
 // The Carousel is a reusable component that cycles through multiple images.
@@ -31,7 +32,7 @@ export default function Carousel({ carouselData, header, buttonText, onClick }) 
       )}
 
       {buttonText && onClick && (
-        <button onClick={onClick}>{buttonText}</button>
+        <Button onClick={onClick} text={buttonText} />
       )}
 
       <div className="indicators-container">

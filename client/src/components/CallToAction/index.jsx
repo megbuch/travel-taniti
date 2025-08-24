@@ -1,5 +1,5 @@
 import { useModal } from '../../contexts/ModalContext.jsx'
-import { ContactForm } from '../'
+import { ContactForm, Button } from '../'
 import './styles.scss'
 
 export default function CallToAction() {
@@ -23,7 +23,7 @@ export default function CallToAction() {
           Our local tourism experts can help you discover everything Taniti has to offer.<br />
           Contact us today to learn more about activities, dining, lodging, transportation, and more.
         </p>
-        <button onClick={()=>openModal(<ContactForm />)}>Contact Us</button>
+        <Button onClick={()=>openModal(<ContactForm />)} text='Contact Us'/>
       </div>
     </div>
   )

@@ -1,8 +1,9 @@
 // import { toast } from 'react-toastify';
 import { useModal } from '../../contexts/ModalContext.jsx'
+import { Button } from '../'
 import './styles.scss'
 
-export default function UserRegistrationForm() {
+export default function CreateAccountForm() {
   const { isModalOpen, closeModal } = useModal();
   
   if (!isModalOpen) return <></>
@@ -32,8 +33,8 @@ export default function UserRegistrationForm() {
           <input type='password' required />
         </>
         <div className='row button-row'>
-          <button onClick={closeModal} className='cancel-button'>Cancel</button>
-          <button type='submit'>Submit</button>
+          <Button onClick={closeModal} text='Cancel' />
+          <Button type='submit' text='submit' />
         </div>
       </form>
     </div>

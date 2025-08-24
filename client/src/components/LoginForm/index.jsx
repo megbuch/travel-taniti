@@ -1,5 +1,5 @@
 import { useModal } from '../../contexts/ModalContext.jsx'
-import { CreateAccountForm } from '../'
+import { CreateAccountForm, Button } from '../'
 import './styles.scss'
 
 export default function LoginForm() {
@@ -19,10 +19,10 @@ export default function LoginForm() {
           <p className='subtitle'>Password</p>
           <input type='password' />
         </>
-        <button onClick={()=>openModal(<CreateAccountForm />)} className='small-btn'>Create an Account</button>
+        <Button small onClick={()=>openModal(<CreateAccountForm />)} text='Create an Account' />
         <div className='row button-row'>
-          <button onClick={closeModal} className='cancel-button'>Cancel</button>
-          <button type='submit'>Submit</button>
+          <Button outline onClick={closeModal} text='Cancel' />
+          <Button type='submit' text='Submit' />
         </div>
       </form>
     </div>

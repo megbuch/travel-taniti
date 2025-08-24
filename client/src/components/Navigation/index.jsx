@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useModal } from '../../contexts/ModalContext.jsx'
-import { ContactForm, LoginForm } from '../'
+import { ContactForm, LoginForm, Button } from '../'
 import './styles.scss'
 
 export default function Navigation() {
@@ -26,8 +26,8 @@ export default function Navigation() {
           <Link to='/transportation'>Transportation</Link>
         </li>
         <li>
-          <button onClick={()=>openModal(<ContactForm />)} className='small-btn'>Contact Us</button>
-          <button onClick={()=>openModal(<LoginForm />)} className='small-btn'>Sign In</button>
+          <Button small onClick={()=>openModal(<ContactForm />)} text='Contact Us' />
+          <Button small onClick={()=>openModal(<LoginForm />)} text='Sign In' />
         </li>
       </ul>
     </div>
