@@ -19,6 +19,10 @@ const initializeDatabase = async () => {
     await sequelize.authenticate()
     const User = require('../models/user')
     await User.sync({ force: false })
+    const Accommodation = require('../models/accommodation')
+    await Accommodation.sync({ force: false })
+    const RoomType = require('../models/roomType')
+    await RoomType.sync({ force: false })
     console.log('Database tables created/verified')
   } catch (error) {
     console.error('Database initialization failed:', error)

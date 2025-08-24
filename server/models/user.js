@@ -1,5 +1,7 @@
-const { DataTypes } = require('sequelize')
+const { DataTypes, Model } = require('sequelize')
 const { sequelize } = require('../config/database')
+
+class User extends Model {}
 
 const schema = {
   id: {
@@ -11,31 +13,31 @@ const schema = {
     type: DataTypes.STRING,
     unique: true,
     validate: { isEmail: true },
-    allowNull: false
+    allowNull: false,
   },
   password: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
   },
   firstName: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
   },
   lastName: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
   },
   role: {
     type: DataTypes.STRING,
     defaultValue: 'traveler',
     allowNull: false,
-    validate: {
-      isIn: [['traveler', 'admin']]
-    }
+    validate: { isIn: [['traveler', 'admin']] }
   }
 }
 
 const options = {
+  sequelize,
+  modelName: 'User',
   tableName: 'users',
   timestamps: true,
   defaultScope: {
@@ -53,5 +55,5 @@ const options = {
   }
 }
 
-const User = sequelize.define('User', schema, options)
+User.init(schema, options)
 module.exports = User
