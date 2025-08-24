@@ -3,9 +3,8 @@ import { CreateAccountForm, Button } from '../'
 import './styles.scss'
 
 export default function LoginForm() {
-  const { isModalOpen, openModal, closeModal } = useModal();
+  const { openModal, closeModal } = useModal();
 
-  if (!isModalOpen) return <></>
   return (
     <div className='form col'>
       <h1>Sign In</h1>
