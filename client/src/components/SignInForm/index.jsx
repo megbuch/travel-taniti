@@ -41,11 +41,11 @@ export default function SignInForm() {
         </>
         <p className='row'>
           <span className='subtitle'>Need an account?</span>
-          <span><Button short smallText backgroundless onClick={()=>openModal(<CreateAccountForm />)} text='Sign Up' /></span>
+          <span><Button short small backgroundless onClick={()=>openModal(<CreateAccountForm />)} text='Sign Up' /></span>
         </p>
         <p className='row'>
           <span className='subtitle'>Forgot your password?</span>
-          <span><Button short smallText backgroundless text='Reset Password' /></span>
+          <span><Button short small backgroundless text='Reset Password' /></span>
         </p>
         <div className='row'>
           <Button inverted withBorder onClick={closeModal} text='Cancel' />

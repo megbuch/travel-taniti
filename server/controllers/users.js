@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt')
 
 const SALT_ROUNDS = 10
 
-
 const createUser = async (req, res) => {
   try {
     const { email, password, firstName, lastName } = req.body

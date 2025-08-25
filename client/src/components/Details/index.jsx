@@ -7,6 +7,8 @@ export default function Details({ item }) {
 
   return (
     <div className='details-comp col'>
+      <img src={item?.imageURL} />
+
       <h1>{item.name}</h1>
       <p>{item.description}</p>
       <p>{renderStars(item.rating)}</p>

@@ -11,7 +11,7 @@ export default function ListItem({ item }) {
         <p>{item.name}</p>
         <p className='subtitle'>{item.location}</p>
       </div>
-      <Button backgroundless icon={<HiMagnifyingGlassCircle onClick={()=>openModal(<Details item={item} />)} />} />
+      <Button backgroundless neutral small icon={<HiMagnifyingGlassCircle onClick={()=>openModal(<Details item={item} />)} />} />
     </div>
   )
 }

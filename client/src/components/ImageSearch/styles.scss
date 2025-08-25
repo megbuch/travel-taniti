@@ -1,0 +1,11 @@
+.image-search-comp {
+  .image-result {
+    box-shadow: var(--box-shadow);    
+    border-radius: 4px;
+
+    &:hover { 
+      cursor: pointer; 
+      background: var(--color-primary);
+    }
+  }
+}

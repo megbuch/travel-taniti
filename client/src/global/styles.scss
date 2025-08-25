@@ -9,7 +9,10 @@
   --color-neutral: rgb(143, 99, 79);
   --color-transparent-red: rgba(189, 42, 23, 0.25);
   --color-transparent-dark: rgba(0, 0, 0, 0.4);
+  --color-shadow: rgba(0, 0, 0, 0.4);
   
+  --box-shadow: 0px 1px 20px var(--color-shadow);
+
   --pad-xs: 4px;
   --pad-sm: 8px;
   --pad: 16px;
@@ -23,6 +26,7 @@
 
   --page-gap: 60px;
   --navigation-height: 55px;
+
 }
 
 * {
@@ -70,6 +74,8 @@ body {
   input[type='text'], 
   input[type='email'], 
   input[type='password'], 
+  input[type='number'], 
+  input[type='url'], 
   textarea {
     border: 1px solid gray;
     border-radius: 4px;
