@@ -4,7 +4,7 @@ import { createAccommodation, updateAccommodation } from '../../api'
 import { AccommodationDetails, Button, ImageSearch } from '..'
 import { useModal } from '../../hooks'
 
-export default function AccommodationEdit({ accommodation, onSave }) {
+export default function AccommodationEdit({ accommodation, onSave, onDelete }) {
   const { openModal, closeModal } = useModal()
   const [selectedImageUrl, setSelectedImageUrl] = useState('')
   const nameRef = useRef()
@@ -44,7 +44,7 @@ export default function AccommodationEdit({ accommodation, onSave }) {
         : await createAccommodation(accommodationData)
       if (accommodation) {
         onSave(response?.accommodation)
-        openModal(<AccommodationDetails accommodation={response?.accommodation} onSave={onSave} />)
+        openModal(<AccommodationDetails accommodation={response?.accommodation} onSave={onSave} onDelete={onDelete} />)
       } else {
         onSave(response?.accommodation)
         closeModal()

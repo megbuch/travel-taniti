@@ -32,7 +32,7 @@ export default function AccommodationDetails({ accommodation, onSave, onDelete }
           <h1>{accommodation.name}</h1>
           <p>{renderStars(accommodation.rating)}</p>
         </div>
-        <Button backgroundless icon={<EditSquareIcon />} onClick={()=>openModal(<AccommodationEdit accommodation={accommodation} onSave={onSave} />)} />
+        <Button backgroundless icon={<EditSquareIcon />} onClick={()=>openModal(<AccommodationEdit accommodation={accommodation} onSave={onSave} onDelete={onDelete} />)} />
         <Button backgroundless icon={<DeleteForeverIcon />} onClick={handleDelete} />
       </div>
 

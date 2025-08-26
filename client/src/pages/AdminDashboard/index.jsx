@@ -1,23 +1,47 @@
 import { useEffect, useState } from 'react'
-import { getAccommodations } from '../../api'
-import { Navigation, List, Footer, AccommodationDetails } from '../../components'
+import { getUsers, getAccommodations } from '../../api'
+import { Navigation, List, Button, Footer, UserDetails, AccommodationDetails, AccommodationEdit } from '../../components'
 import { useModal } from '../../hooks'
-import AccommodationEdit from '../../components/AccommodationEdit'
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+
+const Tab = {
+  USERS: 'users',
+  ACCOMMODATIONS: 'accommodations',
+  RESTAURANTS: 'restaurants',
+  ACTIVITIES: 'activities'
+}
 
 export default function AdminDashboard() {
   const { openModal } = useModal()
+  const [currentTab, setCurrentTab] = useState(Tab.USERS)
   const [accommodations, setAccommodations] = useState([])
+  const [users, setUsers] = useState([])
 
-  useEffect(() => { fetchData() }, [])
+  useEffect(() => { fetchData() }, [currentTab])
 
   const fetchData = async () => {
     try {
-      const response = await getAccommodations()
-      setAccommodations(response?.accommodations)
+      switch (currentTab) {
+        case Tab.USERS:
+          {
+            const response = await getUsers()
+            setUsers(response?.users)
+          }
+          break
+        case Tab.ACCOMMODATIONS:
+          {
+            const response = await getAccommodations()
+            setAccommodations(response?.accommodations)
+          }
+          break
+      }
     } catch (error) {
-      console.log('Could not fetch accommodations: ', error)
+      console.log(`Could not fetch data for ${currentTab}: `, error)
     }
   }
+
+  const onViewUser = user =>
+    openModal(<UserDetails user={user} />)
 
   const onViewAccommodation = (accommodation) => {
     const handleSave = updatedAccommodation => onSaveAccommodation(updatedAccommodation)
@@ -31,14 +55,11 @@ export default function AdminDashboard() {
     )
   }
 
-  const onCreateAccommodation = () => {
-    const handleSave = newAccommodation => onSaveAccommodation(newAccommodation)
-    openModal(<AccommodationEdit onSave={handleSave} />)
-  }
+  const onCreateAccommodation = () => 
+    openModal(<AccommodationEdit onSave={onSaveAccommodation} />)
 
-  const onDeleteAccommodation = accommodation => {
+  const onDeleteAccommodation = accommodation =>
     setAccommodations(prev => prev.filter(a => a.id !== accommodation.id))
-  }
 
   const onSaveAccommodation = accommodation => {
     setAccommodations(prev => {
@@ -58,12 +79,25 @@ export default function AdminDashboard() {
       <div className='page-container'>
         <h1>Admin Dashboard</h1>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, earum nesciunt. Adipisci dolorum, quas voluptate laboriosam doloribus, delectus rerum excepturi non modi et fugit sequi! Veniam eius eos consectetur quod.</p>
-        <List 
-          label='Accommodations' 
-          items={accommodations} 
-          onCreate={onCreateAccommodation}
-          onView={onViewAccommodation}
-        />
+        <div className='row'>
+          <Button text='Users' onClick={()=>setCurrentTab(Tab.USERS)}/>
+          <Button text='Accommodations' onClick={()=>setCurrentTab(Tab.ACCOMMODATIONS)}/>
+        </div>
+        {currentTab == Tab.ACCOMMODATIONS &&
+          <>
+            <div className='row'>
+              <h2>Accommodations</h2>
+              <Button backgroundless icon={<AddCircleOutlineIcon />} onClick={onCreateAccommodation} />
+            </div>          
+            <List items={accommodations} onView={onViewAccommodation} />
+          </>
+        }
+        {currentTab == Tab.USERS &&
+          <>
+            <h2>Users</h2>
+            <List items={users} onView={onViewUser} />
+          </>
+        }
       </div>
       <Footer />
     </div>

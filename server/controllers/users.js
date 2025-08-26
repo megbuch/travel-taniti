@@ -1,9 +1,18 @@
 const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
+const { handleError } = require('../utils/errorHandler')
 
 const SALT_ROUNDS = 10
 
+const getUsers = async (req, res) => {
+  try {
+    const users = await User.findAll({ where: { role: 'traveler' } })
+    return res.status(200).json({ users })
+  } catch (error) {
+    handleError(res, error, 'Could not get users')
+  }
+}
 const createUser = async (req, res) => {
   try {
     const { email, password, firstName, lastName } = req.body
@@ -29,11 +38,11 @@ const createUser = async (req, res) => {
       accessToken 
     })
   } catch (error) {
-    console.log(error)
-    return res.status(400).json({ error: 'Could not create user' })
+    handleError(res, error, 'Could not create user')
   }
 }
 
 module.exports = {
+  getUsers,
   createUser
 }
