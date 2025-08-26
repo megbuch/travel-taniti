@@ -16,23 +16,11 @@ const schema = {
   hoursOfOperation: {
     type: DataTypes.STRING,
   },
-  totalCapacity: {
+  maxCapacity: {
     type: DataTypes.INTEGER,
     allowNull: false,
     validate: { min: 0 }
   },
-  availableCapacity: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    validate: {
-      min: 0,
-      notExceedTotal(value) {
-        if (value > this.totalCapacity) {
-          throw new Error('Available capacity cannot exceed total capacity')
-        }
-      }
-    }
-  }
 }
 
 const options = {

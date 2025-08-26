@@ -1,6 +1,16 @@
 import { useEffect, useState } from 'react'
 import { getUsers, getAccommodations, getRestaurants } from '../../api'
-import { Navigation, List, Button, Footer, UserDetails, AccommodationDetails, AccommodationEdit } from '../../components'
+import { 
+  Navigation, 
+  List, 
+  Button, 
+  Footer, 
+  UserDetails, 
+  AccommodationDetails, 
+  AccommodationEdit, 
+  RestaurantDetails, 
+  RestaurantEdit 
+} from '../../components'
 import { useModal } from '../../hooks'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
@@ -81,7 +91,7 @@ export default function AdminDashboard() {
 
   const onViewRestaurant = restaurant => {
     const handleSave = updatedRestaurant => onSaveRestaurant(updatedRestaurant)
-    const handleDelete = () => onDeleteAccommodation(restaurant)
+    const handleDelete = () => onDeleteRestaurant(restaurant)
     openModal(
       <RestaurantDetails 
         restaurant={restaurant} 
@@ -95,10 +105,10 @@ export default function AdminDashboard() {
     openModal(<RestaurantEdit onSave={onSaveRestaurant} />)
 
   const onDeleteRestaurant = restaurant =>
-    setAccommodations(prev => prev.filter(a => a.id !== restaurant.id))
+    setRestaurants(prev => prev.filter(a => a.id !== restaurant.id))
 
   const onSaveRestaurant = restaurant => {
-    setAccommodations(prev => {
+    setRestaurants(prev => {
       const existingIndex = prev.findIndex(item => item.id === restaurant.id)
       if (existingIndex >= 0) {
         return prev.map(item => 
