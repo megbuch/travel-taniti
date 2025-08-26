@@ -54,6 +54,7 @@ const options = {
   modelName: 'User',
   tableName: 'users',
   timestamps: true,
+  underscored: true,
   defaultScope: {
     attributes: { exclude: ['password'] }
   },

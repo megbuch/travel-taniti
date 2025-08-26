@@ -27,6 +27,7 @@ const options = {
   modelName: 'Accommodation',
   tableName: 'accommodations',
   timestamps: true,
+  underscored: true
 }
 
 Accommodation.init(schema, options)

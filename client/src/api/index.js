@@ -1,4 +1,5 @@
 export { createAuthentication } from './authentications'
 export { getUsers, createUser } from './users'
-export { getAccommodations, createAccommodation, updateAccommodation } from './accommodations'
+export { getAccommodations, createAccommodation, updateAccommodation, deleteAccommodation } from './accommodations'
+export { getRestaurants, createRestaurant, updateRestaurant, deleteRestaurant } from './restaurants'
 export { searchForImages } from './unsplash'

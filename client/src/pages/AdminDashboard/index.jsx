@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getUsers, getAccommodations } from '../../api'
+import { getUsers, getAccommodations, getRestaurants } from '../../api'
 import { Navigation, List, Button, Footer, UserDetails, AccommodationDetails, AccommodationEdit } from '../../components'
 import { useModal } from '../../hooks'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -15,6 +15,7 @@ export default function AdminDashboard() {
   const { openModal } = useModal()
   const [currentTab, setCurrentTab] = useState(Tab.USERS)
   const [accommodations, setAccommodations] = useState([])
+  const [restaurants, setRestaurants] = useState([])
   const [users, setUsers] = useState([])
 
   useEffect(() => { fetchData() }, [currentTab])
@@ -34,16 +35,21 @@ export default function AdminDashboard() {
             setAccommodations(response?.accommodations)
           }
           break
+        case Tab.RESTAURANTS:
+          {
+            const response = await getRestaurants()
+            setRestaurants(response?.restaurants)
+          }
+          break
       }
     } catch (error) {
       console.log(`Could not fetch data for ${currentTab}: `, error)
     }
   }
 
-  const onViewUser = user =>
-    openModal(<UserDetails user={user} />)
+  const onViewUser = user => openModal(<UserDetails user={user} />)
 
-  const onViewAccommodation = (accommodation) => {
+  const onViewAccommodation = accommodation => {
     const handleSave = updatedAccommodation => onSaveAccommodation(updatedAccommodation)
     const handleDelete = () => onDeleteAccommodation(accommodation)
     openModal(
@@ -73,6 +79,36 @@ export default function AdminDashboard() {
     })
   }
 
+  const onViewRestaurant = restaurant => {
+    const handleSave = updatedRestaurant => onSaveRestaurant(updatedRestaurant)
+    const handleDelete = () => onDeleteAccommodation(restaurant)
+    openModal(
+      <RestaurantDetails 
+        restaurant={restaurant} 
+        onSave={handleSave}
+        onDelete={handleDelete}
+      />
+    )
+  }
+
+  const onCreateRestaurant = () => 
+    openModal(<RestaurantEdit onSave={onSaveRestaurant} />)
+
+  const onDeleteRestaurant = restaurant =>
+    setAccommodations(prev => prev.filter(a => a.id !== restaurant.id))
+
+  const onSaveRestaurant = restaurant => {
+    setAccommodations(prev => {
+      const existingIndex = prev.findIndex(item => item.id === restaurant.id)
+      if (existingIndex >= 0) {
+        return prev.map(item => 
+          item.id === restaurant.id ? restaurant : item
+        )
+      } 
+      return [...prev, restaurant]
+    })
+  }
+
   return (
     <div className='admin-dashboard-page col'>
       <Navigation />
@@ -82,7 +118,14 @@ export default function AdminDashboard() {
         <div className='row'>
           <Button text='Users' onClick={()=>setCurrentTab(Tab.USERS)}/>
           <Button text='Accommodations' onClick={()=>setCurrentTab(Tab.ACCOMMODATIONS)}/>
+          <Button text='Restaurants' onClick={()=>setCurrentTab(Tab.RESTAURANTS)}/>
         </div>
+        {currentTab == Tab.USERS &&
+          <>
+            <h2>Users</h2>
+            <List items={users} onView={onViewUser} />
+          </>
+        }
         {currentTab == Tab.ACCOMMODATIONS &&
           <>
             <div className='row'>
@@ -92,10 +135,13 @@ export default function AdminDashboard() {
             <List items={accommodations} onView={onViewAccommodation} />
           </>
         }
-        {currentTab == Tab.USERS &&
+        {currentTab == Tab.RESTAURANTS &&
           <>
-            <h2>Users</h2>
-            <List items={users} onView={onViewUser} />
+            <div className='row'>
+              <h2>Restaurants</h2>
+              <Button backgroundless icon={<AddCircleOutlineIcon />} onClick={onCreateRestaurant} />
+            </div>          
+            <List items={restaurants} onView={onViewRestaurant} />
           </>
         }
       </div>

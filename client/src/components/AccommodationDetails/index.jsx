@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify'
-import { deleteAccommodation } from '../../api/accommodations';
+import { deleteAccommodation } from '../../api';
 import { useModal } from '../../hooks';
 import { Button, AccommodationEdit } from '..'
 import StarIcon from '@mui/icons-material/Star';

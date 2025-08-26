@@ -9,6 +9,7 @@ app.use('/api/authentications', require('./routes/authentications'))
 app.use('/api/users', require('./routes/users'))
 app.use('/api/roomTypes', require('./routes/roomTypes'))
 app.use('/api/accommodations', require('./routes/accommodations'))
+app.use('/api/restaurants', require('./routes/restaurants'))
 app.use('/api/unsplash', require('./routes/unsplash'))
 
 const port = process.env.PORT || 3001

@@ -23,6 +23,8 @@ const initializeDatabase = async () => {
     await Accommodation.sync({ force: false })
     const RoomType = require('../models/roomType')
     await RoomType.sync({ force: false })
+    const Restaurant = require('../models/restaurant')
+    await Restaurant.sync({ force: false })
     console.log('Database tables created/verified')
   } catch (error) {
     console.error('Database initialization failed:', error)

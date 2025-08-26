@@ -41,7 +41,7 @@ const schema = {
     validate: {
       min: 0,
       notExceedTotal(value) {
-        if (value > this.total_rooms) {
+        if (value > this.totalRooms) {
           throw new Error('Available rooms cannot exceed total rooms')
         }
       }
@@ -57,6 +57,7 @@ const options = {
   modelName: 'RoomType',
   tableName: 'room_types',
   timestamps: true,
+  underscored: true
 }
 
 RoomType.init(schema, options)
