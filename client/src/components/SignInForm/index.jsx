@@ -48,7 +48,7 @@ export default function SignInForm() {
           <span><Button short small backgroundless text='Reset Password' /></span>
         </p>
         <div className='row'>
-          <Button inverted withBorder onClick={closeModal} text='Cancel' />
+          <Button inverted border onClick={closeModal} text='Cancel' />
           <Button type='submit' text='Submit' />
         </div>
       </form>

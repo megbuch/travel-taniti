@@ -1,8 +1,5 @@
 const { DataTypes, Model } = require('sequelize')
 const { sequelize } = require('../config/database')
-const bcrypt = require('bcrypt')
-
-const SALT_ROUNDS = 10
 
 class User extends Model {}
 

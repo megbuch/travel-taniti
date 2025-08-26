@@ -1,7 +1,8 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useModal, useSession } from '../../hooks'
 import { ContactForm, SignInForm, Button, CreateAccountForm } from '../'
-import { LuMessageSquareMore, LuLayoutDashboard } from "react-icons/lu";
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import MessageIcon from '@mui/icons-material/Message';
 import './styles.scss'
 
 export default function Navigation() {
@@ -29,10 +30,10 @@ export default function Navigation() {
         </li>
       </ul>
       <div className='button-row row'>
-        <Button backgroundless icon={<LuMessageSquareMore />} onClick={()=>openModal(<ContactForm />)} />
+        <Button backgroundless icon={<MessageIcon />} onClick={()=>openModal(<ContactForm />)} />
         {isAuthenticated ? 
           <div className='row'>
-            <Button backgroundless icon={<LuLayoutDashboard />} onClick={()=>navigate('/traveler-dashboard')} />
+            <Button backgroundless icon={<DashboardIcon />} onClick={()=>navigate('/traveler-dashboard')} />
             <Button small text='Sign Out' onClick={signOut} />
           </div>
         : 

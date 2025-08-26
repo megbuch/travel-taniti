@@ -9,3 +9,7 @@ export const getAccommodations = async () => {
 export const createAccommodation = async (accommodationData) => {
   return sendRequest(BASE_URL, 'POST', accommodationData)
 }
+
+export const updateAccommodation = async (accommodationID, accommodationData) => {
+  return sendRequest(`${BASE_URL}/${accommodationID}`, 'PUT', accommodationData)
+}

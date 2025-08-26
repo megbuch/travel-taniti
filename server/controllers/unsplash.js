@@ -15,10 +15,8 @@ const searchForImages = async (req, res) => {
     if (!response.ok) {
       throw new Error(`Unsplash API error: ${response.statusText}`)
     }
-
     const data = await response.json()
     res.json(data)
-
   } catch (error) {
     handleError(res, error, 'Could not fetch images')
   }

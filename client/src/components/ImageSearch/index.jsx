@@ -3,90 +3,109 @@ import { searchForImages } from '../../api'
 import { Button } from '../../components'
 import './styles.scss'
 
-// todo: styling
-export default function ImageSearch({ onSelect, searchPlaceholder = "Search for images...", quickSearchTerms = [] }) {
-  const [selectedImage, setSelectedImage] = useState(null)
+export default function ImageSearch(props) {
+  const { 
+    onSelect, 
+    selectedImageURL,
+    searchPlaceholder = "Search for images...", 
+    quickSearchTerms = [] 
+  } = props
+  const [selectedImage, setSelectedImage] = useState(() => {
+    if (!selectedImageURL) return null
+    if (typeof selectedImageURL === 'object' && selectedImageURL.urls) {
+      return selectedImageURL
+    }
+    return { urls: { regular: selectedImageURL } }
+  })
   const [searchResults, setSearchResults] = useState([])
   const [isSearching, setIsSearching] = useState(false)
   const searchInputRef = useRef()
 
   const selectImage = image => {
+    searchInputRef.current.value = ''
     setSelectedImage(image)
     onSelect(image)
   }
 
-  const searchImages = async () => {
-    const query = searchInputRef.current.value.trim()
-    if (!query) return
+  const searchImages = async (term) => {
+    if (term) searchInputRef.current.value = term
+    const searchTerm = searchInputRef.current.value.trim()
+    if (!searchTerm) return
     setSelectedImage(null)
     setIsSearching(true)
     try {
-      const data = await searchForImages(query)
+      const data = await searchForImages(searchTerm)
       setSearchResults(data.results)
     } catch (error) {
-      console.error('Image search error:', error)
-      alert('Search failed. Please try again.')
+      console.log('Image search error: ', error)
     }
     setIsSearching(false)
   }
 
+  const handleKeyPress = event => {
+    if (event.key === 'Enter') {
+      event.preventDefault()
+      searchImages()
+    }
+  }
 
   return (
     <div className='image-search-comp col'>
-      {!selectedImage ? (
-        <p>Search for an image via the Unsplash API</p>
-      ) : (
-        <>
-          <div>
-            <img
-              src={selectedImage.urls.small}
-              alt={selectedImage.alt_description || 'Selected image'}
-            />
-          </div>
-          <p className="image-attribution">
-            Photo by <a href={selectedImage.user.links.html} target="_blank" rel="noopener noreferrer">
-              {selectedImage.user.name}
-            </a> on Unsplash
-          </p>
-        </>
-      )}
-        <>
-          <div className='row'>
-            <input
-              ref={searchInputRef}
-              type='text'
-              placeholder={searchPlaceholder}
+      {selectedImage ?
+        <div className='selected-image-container col'>
+          <Button inverted text='Select a different image' onClick={()=>setSelectedImage(null)} type='button' />
+
+          <div className='selected-image col'>
+            <div>
+              <img
+                src={selectedImage.urls.regular}
+                alt={selectedImage.alt_description || 'Selected image'}
               />
-            <Button short text={isSearching ? 'Searching...' : 'Search'} onClick={searchImages} disabled={isSearching} />
-          </div>
-          {quickSearchTerms.length > 0 && (
-            <div className='row'>
-              {quickSearchTerms.map((term) => (
-                <Button small short inverted
-                  key={term}
-                  text={term}
-                  onClick={() => {
-                    searchInputRef.current.value = term
-                    searchImages()
-                  }}
-                />
-              ))}
             </div>
-          )}
-          {!selectedImage && searchResults.length > 0 && (
-            <>
-              {searchResults.map(image => (
-                <div key={image.id} onClick={() => selectImage(image)} className='image-result'>
-                  <img src={image.urls.thumb} alt={image.alt_description || 'Search result'} />
-                  {/* <p className="search-result-attribution">by {image.user.name}</p> */}
-                </div>
-              ))}
-            </>
-          )}
-          {searchResults.length === 0 && !isSearching && searchInputRef.current?.value && (
-            <p className="no-results">No images found. Try a different search term.</p>
-          )}
+            {selectedImage.user && <Button short small inverted text={`Photo by ${selectedImage.user?.name}`} type='button' />}
+          </div>
+        </div>
+      :
+        <>
+          <p>Search for an image via the Unsplash API</p>
+          <>
+            <div className='row'>
+              <input
+                ref={searchInputRef}
+                type='text'
+                placeholder={searchPlaceholder}
+                onKeyDown={handleKeyPress}
+                />
+              <Button short text={isSearching ? 'Searching...' : 'Search'} onClick={searchImages} disabled={isSearching} type='button' />
+            </div>
+            {quickSearchTerms.length > 0 && (
+              <div className='row'>
+                {quickSearchTerms.map((term) => (
+                  <Button small short inverted
+                    key={term}
+                    text={term}
+                    onClick={()=>searchImages(term)}
+                    type='button'
+                  />
+                ))}
+              </div>
+            )}
+            {searchResults.length > 0 && (
+              <div className='image-list'>
+                {searchResults.map(image => (
+                  <div key={image.id} onClick={()=>selectImage(image)} className='image-card'>
+                    <img src={image.urls.regular} alt={image.alt_description || 'Search result'}/>
+                    <p className='subtitle'>by {image.user.name}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+            {searchResults.length === 0 && !isSearching && searchInputRef.current?.value && (
+              <p>No images found. Try a different search term.</p>
+            )}
+          </>
         </>
+      }
     </div>
   )
 }

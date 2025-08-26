@@ -61,7 +61,7 @@ export default function CreateAccountForm() {
           <input ref={confirmPasswordRef} type='password' minLength='8' required />
         </>
         <div className='row button-row'>
-          <Button inverted onClick={closeModal} text='Cancel' />
+          <Button inverted border onClick={closeModal} text='Cancel' />
           <Button type='submit' text='Submit' />
         </div>
       </form>

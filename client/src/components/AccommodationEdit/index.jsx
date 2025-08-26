@@ -1,9 +1,11 @@
 import { useState, useRef } from 'react'
-import { createAccommodation } from '../../api'
-import { Button } from '../../components'
-import ImageSearch from '../../components/ImageSearch'
+import { createAccommodation, updateAccommodation } from '../../api'
+import { AccommodationDetails, Button } from '..'
+import { useModal } from '../../hooks'
+import ImageSearch from '../ImageSearch'
 
-export default function AccommodationEdit({ accommodation, onSave, onCancel }) {
+export default function AccommodationEdit({ accommodation, onSave }) {
+  const { openModal, closeModal } = useModal()
   const [selectedImageUrl, setSelectedImageUrl] = useState('')
   const nameRef = useRef()
   const descriptionRef = useRef()
@@ -29,14 +31,24 @@ export default function AccommodationEdit({ accommodation, onSave, onCancel }) {
         location: locationRef.current.value,
         checkInTime: checkInTimeRef.current.value,
         checkOutTime: checkOutTimeRef.current.value,
-        amenities: amenitiesRef.current.value.split(',').map(a => a.trim().toLowerCase()),
-        contactEmail: contactEmailRef.current.value,
-        contactPhone: contactPhoneRef.current.value,
-        rating: parseInt(ratingRef.current.value),
-        imageURL: selectedImageUrl
+        amenities: amenitiesRef.current?.value 
+          ? amenitiesRef.current.value.split(',').map(a => a.trim().toLowerCase()) 
+          : [],
+        contactEmail: contactEmailRef.current.value.trim() || null,
+        contactPhone: contactPhoneRef.current.value.trim() || null,
+        rating: parseInt(ratingRef.current?.value) || null,
+        imageURL: selectedImageUrl || accommodation?.imageURL || null
       }
-      const response = await createAccommodation(accommodationData)
-      onSave(response?.accommodation)
+      const response = accommodation 
+        ? await updateAccommodation(accommodation.id, accommodationData)
+        : await createAccommodation(accommodationData)
+      if (accommodation) {
+        onSave(response?.accommodation)
+        openModal(<AccommodationDetails accommodation={response?.accommodation} onSave={onSave} />)
+      } else {
+        onSave(response?.accommodation)
+        closeModal()
+      }
     } catch (error) {
       console.log('Could not create accommodation.')
     }
@@ -53,6 +65,7 @@ export default function AccommodationEdit({ accommodation, onSave, onCancel }) {
             type='text' 
             required 
             placeholder='The Grand Viridian Resort'
+            defaultValue={accommodation?.name}
           />
         </>
         <>
@@ -62,6 +75,7 @@ export default function AccommodationEdit({ accommodation, onSave, onCancel }) {
             required 
             rows='3' 
             placeholder='An upscale resort surrounded by verdant landscapes—where nature meets luxury.'
+            defaultValue={accommodation?.description}
           />
         </>
         <>
@@ -71,24 +85,28 @@ export default function AccommodationEdit({ accommodation, onSave, onCancel }) {
             type='text' 
             required 
             placeholder='273 Ocean Drive'
+            defaultValue={accommodation?.location}
+
           />
         </>
         <>
-          <p className='subtitle'>Check In Time *</p>
+          <p className='subtitle'>Check In *</p>
           <input 
             ref={checkInTimeRef}
             type='text' 
             required 
             placeholder='4 PM'
+            defaultValue={accommodation?.checkInTime}
           />
         </>
         <>
-          <p className='subtitle'>Check Out Time *</p>
+          <p className='subtitle'>Check Out *</p>
           <input 
             ref={checkOutTimeRef}
             type='text' 
             required 
             placeholder='12 PM'
+            defaultValue={accommodation?.checkOutTime}
           />
         </>
         <>
@@ -97,30 +115,32 @@ export default function AccommodationEdit({ accommodation, onSave, onCancel }) {
             ref={amenitiesRef}
             type='text' 
             placeholder='Pools, Cabanas, Room Service, Spa Services'
+            defaultValue={accommodation?.amenities?.join(', ')}
           />
         </>
         <>
-          <p className='subtitle'>Contact Email *</p>
-          <input ref={contactEmailRef} type='email' required placeholder='email@example.com' />
-        </>
-        <>
-          <p className='subtitle'>Contact Phone *</p>
-          <input ref={contactPhoneRef} type='text' required placeholder='123-123-1234' />
-        </>
-        <>
           <p className='subtitle'>Rating</p>
-          <input ref={ratingRef} type='number'  max='5' min='1' defaultValue={1} />
+          <input ref={ratingRef} type='number'  max='5' min='1' defaultValue={accommodation?.rating} />
         </>
         <>
-          <p className='subtitle'>Accommodation Image *</p>
+          <p className='subtitle'>Contact Email</p>
+          <input ref={contactEmailRef} type='email' defaultValue={accommodation?.contactEmail} />
+        </>
+        <>
+          <p className='subtitle'>Contact Phone</p>
+          <input ref={contactPhoneRef} type='text' defaultValue={accommodation?.contactPhone} />
+        </>
+        <>
+          <p className='subtitle'>Image</p>
           <ImageSearch 
             onSelect={selectImage}
+            selectedImageURL={accommodation?.imageURL}
             searchPlaceholder="Search for hotels, resorts, luxury..."
             quickSearchTerms={['ocean villa', 'beach hotel', 'luxury hotel', 'tropical resort']}
           />
         </>
         <div className='row'>
-          <Button inverted withBorder onClick={onCancel} text='Cancel'/>
+          <Button inverted border onClick={closeModal} text='Cancel'/>
           <Button type='submit' text='Submit' />
         </div>
       </form>

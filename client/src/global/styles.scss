@@ -3,10 +3,12 @@
 :root {
   --color-primary: rgb(189, 42, 23);
   --color-primary-dark: rgb(156, 33, 17);
+  --color-on-primary: white;
   --color-secondary: rgb(90, 95, 77);
   --color-background: rgb(255, 246, 235);
   --color-surface: rgb(255, 253, 250);
-  --color-neutral: rgb(143, 99, 79);
+  --color-neutral:  rgb(250, 239, 225);
+  --color-neutral-dark:  rgb(241, 229, 214);
   --color-transparent-red: rgba(189, 42, 23, 0.25);
   --color-transparent-dark: rgba(0, 0, 0, 0.4);
   --color-shadow: rgba(0, 0, 0, 0.4);
@@ -26,7 +28,9 @@
 
   --page-gap: 60px;
   --navigation-height: 55px;
-
+  --corner-radius: 4px;
+  --icon-size: 36px;
+  --icon-size-sm: 24px;
 }
 
 * {
@@ -80,6 +84,7 @@ body {
     border: 1px solid gray;
     border-radius: 4px;
     padding: var(--pad-sm);
+    font-family: 'Inter', Arial, Helvetica, sans-serif, sans-serif;
   }
   
   .row {

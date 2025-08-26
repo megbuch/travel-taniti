@@ -11,6 +11,20 @@ const createAccommodation = async (req, res) => {
   }
 }
 
+const updateAccommodation = async (req, res) => {
+  try {
+    const { id } = req.params
+     const accommodation = await Accommodation.findByPk(id)
+     if (!accommodation) {
+       return res.status(404).json({ error: 'Accommodation not found' })
+     }
+     const updatedAccommodation = await accommodation.update(req.body)
+    res.status(200).json({ accommodation: updatedAccommodation })
+  } catch (error) {
+    handleError(res, error, 'Could not update accommodation')
+  }
+}
+
 const getAccommodations = async (req, res) => {
   try {
     const accommodations = await Accommodation.findAll()
@@ -27,5 +41,6 @@ const getAccommodations = async (req, res) => {
 
 module.exports = {
   createAccommodation,
+  updateAccommodation,
   getAccommodations
 }

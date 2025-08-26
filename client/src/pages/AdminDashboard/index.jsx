@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 import { getAccommodations } from '../../api'
-import { Navigation, List } from '../../components'
+import { Navigation, List, Footer, AccommodationDetails } from '../../components'
 import { useModal } from '../../hooks'
-import AccommodationEdit from './AccommodationEdit'
+import AccommodationEdit from '../../components/AccommodationEdit'
 
 export default function AdminDashboard() {
-  const { openModal, closeModal } = useModal()
+  const { openModal } = useModal()
   const [accommodations, setAccommodations] = useState([])
 
   useEffect(() => { fetchData() }, [])
@@ -20,8 +20,19 @@ export default function AdminDashboard() {
   }
 
   const onSaveAccommodation = accommodation => {
-    setAccommodations(prev => [...prev, accommodation])
-    closeModal()
+    setAccommodations(prev => {
+      const existingIndex = prev.findIndex(item => item.id === accommodation.id)
+      if (existingIndex >= 0) {
+        return prev.map(item => 
+          item.id === accommodation.id ? accommodation : item
+        )
+      } 
+      return [...prev, accommodation]
+    })
+  }
+
+  const onViewAccommodation = accommodation => {
+    openModal(<AccommodationDetails accommodation={accommodation} onSave={onSaveAccommodation} />)
   }
 
   return (
@@ -30,8 +41,14 @@ export default function AdminDashboard() {
       <div className='page-container'>
         <h1>Admin Dashboard</h1>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, earum nesciunt. Adipisci dolorum, quas voluptate laboriosam doloribus, delectus rerum excepturi non modi et fugit sequi! Veniam eius eos consectetur quod.</p>
-        <List label='Accommodations' items={accommodations} onAdd={()=>openModal(<AccommodationEdit onSave={onSaveAccommodation} onCancel={closeModal} />)} />
+        <List 
+          label='Accommodations' 
+          items={accommodations} 
+          onCreate={()=>openModal(<AccommodationEdit onSave={onSaveAccommodation} />)}
+          onView={onViewAccommodation}
+        />
       </div>
+      <Footer />
     </div>
   )
 }

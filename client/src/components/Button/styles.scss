@@ -23,12 +23,15 @@
   
   &.inverted {
     color: var(--color-primary);
-    background-color: var(--color-background);
+    background-color: var(--color-neutral);
     
     &:hover {
-      color: white;
-      background-color: var(--color-primary);
+      background-color: var(--color-neutral-dark);
       cursor: pointer;
+    }
+
+    &.border {
+      border: 2px solid var(--color-neutral-dark);
     }
   }
   
@@ -42,12 +45,8 @@
     }
   }
   
-  &.with-border {
-    border: 2px solid var(--color-primary);
-    
-    &:hover {
-      border: 2px solid var(--color-primary-dark);
-    }
+  &.border {
+    border: 2px solid var(--color-primary-dark);
   }
 
   &.short {
@@ -59,19 +58,15 @@
     font-size: var(--body-sm);
   }
 
-  &.neutral {
-    color: var(--color-neutral);
-  }
-
-  .icon {
+  .icon svg {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size:  30px;
+    font-size:  var(--icon-size);
     margin-top: var(--pad-xs);
   }
   
-  .small-icon {
-    font-size: 24px;
+  .small-icon svg {
+    font-size: var(--icon-size-sm);
   }
 }

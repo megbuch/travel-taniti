@@ -1,17 +1,14 @@
-import { HiMagnifyingGlassCircle } from "react-icons/hi2";
-import { Button, Details } from '../../components'
-import { useModal } from "../../hooks";
+import InfoIcon from '@mui/icons-material/Info';
+import { Button } from '../../components'
 
-export default function ListItem({ item }) {
-  const { openModal } = useModal()
-
+export default function ListItem({ item, onView }) {
   return (
     <div className='list-item-comp row'>
       <div>
         <p>{item.name}</p>
         <p className='subtitle'>{item.location}</p>
       </div>
-      <Button backgroundless neutral small icon={<HiMagnifyingGlassCircle onClick={()=>openModal(<Details item={item} />)} />} />
+      <Button backgroundless small icon={<InfoIcon onClick={()=>onView(item)} />} />
     </div>
   )
 }

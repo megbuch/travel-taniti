@@ -1,11 +1,60 @@
 .image-search-comp {
-  .image-result {
-    box-shadow: var(--box-shadow);    
-    border-radius: 4px;
+  .image-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--pad);
+    justify-content: center;
+    align-items: center;
+    margin: var(--pad) 0;
 
-    &:hover { 
-      cursor: pointer; 
-      background: var(--color-primary);
+    .image-card {
+      position: relative;
+      width: 40%;
+      transition: transform 100ms ease-in-out;
+  
+      &:hover {
+        cursor: pointer; 
+        transform: translateY(-6px);
+      }
+  
+      img {
+        border-radius: var(--corner-radius);
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+        overflow: hidden;
+        box-shadow: 0px 1px 20px rgba(18, 18, 18, 0.205);
+  
+      }
+  
+      p {
+        position: absolute;
+        bottom: var(--pad);
+        right: var(--pad);
+        color: var(--color-on-primary);
+        font-size: var(--body-sm)
+      }
+    }
+  }
+
+  .selected-image-container {
+    .selected-image {
+      position: relative;
+  
+      img {
+        border-radius: var(--corner-radius);
+        width: 100%;
+      }
+  
+      button {
+        position: absolute;
+        bottom: var(--pad);
+        left: var(--pad);
+      }
+    }
+
+    button {
+      max-width: 100%;
     }
   }
 }

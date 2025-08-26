@@ -6,8 +6,7 @@ export default function Button(props) {
     short,
     inverted,
     backgroundless,
-    neutral,
-    withBorder,
+    border,
     onClick, 
     text, 
     icon,
@@ -19,13 +18,12 @@ export default function Button(props) {
       type={type}
       onClick={onClick} 
       className={`button 
-        ${withBorder && 'with-border'} 
+        ${border && 'border'} 
         ${inverted && 'inverted'} 
         ${small && 'small'} 
         ${short && 'short'} 
         ${backgroundless && 'backgroundless'}
-        ${neutral && 'neutral'}`
-      }
+      `}
     >
       {icon && <span className={`icon ${small && 'small-icon'}`}>{icon}</span>}
       {text && <span>{text}</span>}
