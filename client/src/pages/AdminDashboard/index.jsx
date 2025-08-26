@@ -15,8 +15,29 @@ export default function AdminDashboard() {
       const response = await getAccommodations()
       setAccommodations(response?.accommodations)
     } catch (error) {
-      console.log('Could not fetch accommodations.')
+      console.log('Could not fetch accommodations: ', error)
     }
+  }
+
+  const onViewAccommodation = (accommodation) => {
+    const handleSave = updatedAccommodation => onSaveAccommodation(updatedAccommodation)
+    const handleDelete = () => onDeleteAccommodation(accommodation)
+    openModal(
+      <AccommodationDetails 
+        accommodation={accommodation} 
+        onSave={handleSave}
+        onDelete={handleDelete}
+      />
+    )
+  }
+
+  const onCreateAccommodation = () => {
+    const handleSave = newAccommodation => onSaveAccommodation(newAccommodation)
+    openModal(<AccommodationEdit onSave={handleSave} />)
+  }
+
+  const onDeleteAccommodation = accommodation => {
+    setAccommodations(prev => prev.filter(a => a.id !== accommodation.id))
   }
 
   const onSaveAccommodation = accommodation => {
@@ -31,10 +52,6 @@ export default function AdminDashboard() {
     })
   }
 
-  const onViewAccommodation = accommodation => {
-    openModal(<AccommodationDetails accommodation={accommodation} onSave={onSaveAccommodation} />)
-  }
-
   return (
     <div className='admin-dashboard-page col'>
       <Navigation />
@@ -44,7 +61,7 @@ export default function AdminDashboard() {
         <List 
           label='Accommodations' 
           items={accommodations} 
-          onCreate={()=>openModal(<AccommodationEdit onSave={onSaveAccommodation} />)}
+          onCreate={onCreateAccommodation}
           onView={onViewAccommodation}
         />
       </div>

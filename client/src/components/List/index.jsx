@@ -1,8 +1,8 @@
 import { ListItem, Button } from '../'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+
 export default function List(props) {
   const { label, items = [], onCreate, onView } = props
-
   return (
     <div className='list-comp'>
       <div className='row'>

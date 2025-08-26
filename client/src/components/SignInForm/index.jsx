@@ -22,7 +22,7 @@ export default function SignInForm() {
       signIn(response.accessToken, response.user)
       closeModal()
     } catch (error) {
-      toast.error('Could not sign in.')
+      toast.error('Could not sign in')
     }
   }
 

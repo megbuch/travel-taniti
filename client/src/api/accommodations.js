@@ -13,3 +13,7 @@ export const createAccommodation = async (accommodationData) => {
 export const updateAccommodation = async (accommodationID, accommodationData) => {
   return sendRequest(`${BASE_URL}/${accommodationID}`, 'PUT', accommodationData)
 }
+
+export const deleteAccommodation = async (accommodationID) => {
+  return sendRequest(`${BASE_URL}/${accommodationID}`, 'DELETE')
+}

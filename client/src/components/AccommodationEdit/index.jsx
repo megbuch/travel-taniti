@@ -1,8 +1,8 @@
 import { useState, useRef } from 'react'
+import { toast } from 'react-toastify'
 import { createAccommodation, updateAccommodation } from '../../api'
-import { AccommodationDetails, Button } from '..'
+import { AccommodationDetails, Button, ImageSearch } from '..'
 import { useModal } from '../../hooks'
-import ImageSearch from '../ImageSearch'
 
 export default function AccommodationEdit({ accommodation, onSave }) {
   const { openModal, closeModal } = useModal()
@@ -50,7 +50,8 @@ export default function AccommodationEdit({ accommodation, onSave }) {
         closeModal()
       }
     } catch (error) {
-      console.log('Could not create accommodation.')
+      console.log('Could not create accommodation: ', error)
+      toast.error('Could not create accommodation')
     }
   }
 

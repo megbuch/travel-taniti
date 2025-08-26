@@ -1,13 +1,27 @@
-import { Button, AccommodationEdit } from '..'
+import { toast } from 'react-toastify'
+import { deleteAccommodation } from '../../api/accommodations';
 import { useModal } from '../../hooks';
+import { Button, AccommodationEdit } from '..'
 import StarIcon from '@mui/icons-material/Star';
 import EditSquareIcon from '@mui/icons-material/EditSquare';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
-export default function AccommodationDetails({ accommodation, onSave }) {
-  const { openModal } = useModal() 
+export default function AccommodationDetails({ accommodation, onSave, onDelete }) {
+  const { openModal, closeModal } = useModal() 
   
   const renderStars = count => {
     return [...Array(count)].map((_, i) => <StarIcon key={i} />)
+  }
+
+  const handleDelete = async () => {
+    try {
+      await deleteAccommodation(accommodation.id)
+      onDelete(accommodation)
+      closeModal()
+    } catch (error) {
+      console.log('Could not delete accommodation: ', error)
+      toast.error('Could not delete accommodation')
+    }
   }
 
   return (
@@ -19,6 +33,7 @@ export default function AccommodationDetails({ accommodation, onSave }) {
           <p>{renderStars(accommodation.rating)}</p>
         </div>
         <Button backgroundless icon={<EditSquareIcon />} onClick={()=>openModal(<AccommodationEdit accommodation={accommodation} onSave={onSave} />)} />
+        <Button backgroundless icon={<DeleteForeverIcon />} onClick={handleDelete} />
       </div>
 
       <h4>About this accommodation</h4>
