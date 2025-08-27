@@ -6,7 +6,7 @@ import { useModal } from '../../hooks'
 
 export default function RestaurantEdit({ restaurant, onSave, onDelete }) {
   const { openModal, closeModal } = useModal()
-  const [selectedImageUrl, setSelectedImageUrl] = useState('')
+  const [selectedImageURL, setSelectedImageURL] = useState('')
   const nameRef = useRef()
   const descriptionRef = useRef()
   const locationRef = useRef()
@@ -19,8 +19,7 @@ export default function RestaurantEdit({ restaurant, onSave, onDelete }) {
   const cuisineTypeRef = useRef()
 
   const selectImage = image => {
-    if (image) setSelectedImageUrl(image.urls.regular)
-    else setSelectedImageUrl('')
+    setSelectedImageURL(image ? image.urls.regular : '')
   }
 
   const save = async (e) => {
@@ -33,7 +32,7 @@ export default function RestaurantEdit({ restaurant, onSave, onDelete }) {
         contactEmail: contactEmailRef.current.value.trim() || null,
         contactPhone: contactPhoneRef.current.value.trim() || null,
         rating: parseInt(ratingRef.current?.value) || null,
-        imageURL: selectedImageUrl || restaurant?.imageURL || null,
+        imageURL: selectedImageURL || restaurant?.imageURL || null,
         cuisineType: cuisineTypeRef.current.value,
         priceRange: priceRangeRef.current.value,
         hoursOfOperation: hoursOfOperationRef.current.value,

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getUsers, getAccommodations, getRestaurants } from '../../api'
+import { getUsers, getAccommodations, getRestaurants, getActivities } from '../../api'
 import { 
   Navigation, 
   List, 
@@ -9,7 +9,9 @@ import {
   AccommodationDetails, 
   AccommodationEdit, 
   RestaurantDetails, 
-  RestaurantEdit 
+  RestaurantEdit,
+  ActivityDetails,
+  ActivityEdit
 } from '../../components'
 import { useModal } from '../../hooks'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -55,7 +57,7 @@ export default function AdminDashboard() {
         case Tab.ACTIVITIES:
           {
             const response = await getActivities()
-            setActivities(response?.activiteis)
+            setActivities(response?.activities)
           }
           break
       }
@@ -86,11 +88,9 @@ export default function AdminDashboard() {
 
   const onSaveAccommodation = accommodation => {
     setAccommodations(prev => {
-      const existingIndex = prev.findIndex(item => item.id === accommodation.id)
+      const existingIndex = prev.findIndex(a => a.id === accommodation.id)
       if (existingIndex >= 0) {
-        return prev.map(item => 
-          item.id === accommodation.id ? accommodation : item
-        )
+        return prev.map(a => a.id === accommodation.id ? accommodation : a)
       } 
       return [...prev, accommodation]
     })
@@ -112,17 +112,43 @@ export default function AdminDashboard() {
     openModal(<RestaurantEdit onSave={onSaveRestaurant} />)
 
   const onDeleteRestaurant = restaurant =>
-    setRestaurants(prev => prev.filter(a => a.id !== restaurant.id))
+    setRestaurants(prev => prev.filter(r => r.id !== restaurant.id))
 
   const onSaveRestaurant = restaurant => {
     setRestaurants(prev => {
-      const existingIndex = prev.findIndex(item => item.id === restaurant.id)
+      const existingIndex = prev.findIndex(r => r.id === restaurant.id)
       if (existingIndex >= 0) {
-        return prev.map(item => 
-          item.id === restaurant.id ? restaurant : item
-        )
+        return prev.map(r => r.id === restaurant.id ? restaurant : r)
       } 
       return [...prev, restaurant]
+    })
+  }
+
+  const onViewActivity = activity => {
+    const handleSave = updatedActivity => onSaveActivity(updatedActivity)
+    const handleDelete = () => onDeleteActivity(activity)
+    openModal(
+      <ActivityDetails 
+        activity={activity} 
+        onSave={handleSave}
+        onDelete={handleDelete}
+      />
+    )
+  }
+
+  const onCreateActivity = () => 
+    openModal(<ActivityEdit onSave={onSaveActivity} />)
+
+  const onDeleteActivity = activity =>
+    setActivities(prev => prev.filter(a => a.id !== activity.id))
+
+  const onSaveActivity = activity => {
+    setActivities(prev => {
+      const existingIndex = prev.findIndex(a => a.id === activity.id)
+      if (existingIndex >= 0) { 
+        return prev.map(a => a.id === activity.id ? activity : a)
+      } 
+      return [...prev, activity]
     })
   }
 
@@ -160,6 +186,15 @@ export default function AdminDashboard() {
               <Button backgroundless icon={<AddCircleOutlineIcon />} onClick={onCreateRestaurant} />
             </div>          
             <List items={restaurants} onView={onViewRestaurant} />
+          </>
+        }
+        {currentTab == Tab.ACTIVITIES &&
+          <>
+            <div className='row'>
+              <h2>Activities</h2>
+              <Button backgroundless icon={<AddCircleOutlineIcon />} onClick={onCreateActivity} />
+            </div>          
+            <List items={activities} onView={onViewActivity} />
           </>
         }
       </div>

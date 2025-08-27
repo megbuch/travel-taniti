@@ -4,11 +4,6 @@ const { handleError } = require('../utils/errorHandler')
 const getActivities = async (req, res) => {
   try {
     const activities = await Activity.findAll()
-    for (const activity of activities) {
-      activity.dataValues.roomTypes = await RoomType.findAll({ 
-        where: { accommodationID: activity.id } 
-      })
-    }
     res.status(200).json({ activities })
   } catch (error) {
     handleError(res, error, 'Could not fetch activities')
@@ -31,8 +26,8 @@ const updateActivity = async (req, res) => {
     if (!activity) {
       return res.status(404).json({ error: 'Activity not found' })
     }
-    const updatedAccommodation = await activity.update(req.body)
-    res.status(200).json({ activity: updatedAccommodation })
+    const updatedActivity = await activity.update(req.body)
+    res.status(200).json({ activity: updatedActivity })
   } catch (error) {
     handleError(res, error, 'Could not update activity')
   }

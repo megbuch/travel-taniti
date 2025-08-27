@@ -6,7 +6,7 @@ import { useModal } from '../../hooks'
 
 export default function AccommodationEdit({ accommodation, onSave, onDelete }) {
   const { openModal, closeModal } = useModal()
-  const [selectedImageUrl, setSelectedImageUrl] = useState('')
+  const [selectedImageURL, setSelectedImageURL] = useState('')
   const nameRef = useRef()
   const descriptionRef = useRef()
   const locationRef = useRef()
@@ -18,8 +18,7 @@ export default function AccommodationEdit({ accommodation, onSave, onDelete }) {
   const ratingRef = useRef()
 
   const selectImage = image => {
-    if (image) setSelectedImageUrl(image.urls.regular)
-    else setSelectedImageUrl('')
+    setSelectedImageURL(image ? image.urls.regular : '')
   }
 
   const save = async (e) => {
@@ -37,7 +36,7 @@ export default function AccommodationEdit({ accommodation, onSave, onDelete }) {
         contactEmail: contactEmailRef.current.value.trim() || null,
         contactPhone: contactPhoneRef.current.value.trim() || null,
         rating: parseInt(ratingRef.current?.value) || null,
-        imageURL: selectedImageUrl || accommodation?.imageURL || null
+        imageURL: selectedImageURL || accommodation?.imageURL || null
       }
       const response = accommodation 
         ? await updateAccommodation(accommodation.id, accommodationData)

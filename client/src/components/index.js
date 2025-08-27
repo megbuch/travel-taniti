@@ -1,5 +1,7 @@
 export { default as AccommodationDetails } from './AccommodationDetails/index'
 export { default as AccommodationEdit } from './AccommodationEdit/index'
+export { default as ActivityDetails } from './ActivityDetails/index'
+export { default as ActivityEdit } from './ActivityEdit/index'
 export { default as Banner } from './Banner/index'
 export { default as Button } from './Button/index'
 export { default as CallToAction } from './CallToAction/index'

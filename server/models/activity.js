@@ -15,7 +15,6 @@ const schema = {
   },
   durationMinutes: {
     type: DataTypes.INTEGER,
-    allowNull: false,
     validate: { min: 0 }
   },
   pricePerPerson: {
