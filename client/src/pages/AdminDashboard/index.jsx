@@ -26,6 +26,7 @@ export default function AdminDashboard() {
   const [currentTab, setCurrentTab] = useState(Tab.USERS)
   const [accommodations, setAccommodations] = useState([])
   const [restaurants, setRestaurants] = useState([])
+  const [activities, setActivities] = useState([])
   const [users, setUsers] = useState([])
 
   useEffect(() => { fetchData() }, [currentTab])
@@ -49,6 +50,12 @@ export default function AdminDashboard() {
           {
             const response = await getRestaurants()
             setRestaurants(response?.restaurants)
+          }
+          break
+        case Tab.ACTIVITIES:
+          {
+            const response = await getActivities()
+            setActivities(response?.activiteis)
           }
           break
       }
@@ -126,9 +133,10 @@ export default function AdminDashboard() {
         <h1>Admin Dashboard</h1>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, earum nesciunt. Adipisci dolorum, quas voluptate laboriosam doloribus, delectus rerum excepturi non modi et fugit sequi! Veniam eius eos consectetur quod.</p>
         <div className='row'>
-          <Button text='Users' onClick={()=>setCurrentTab(Tab.USERS)}/>
-          <Button text='Accommodations' onClick={()=>setCurrentTab(Tab.ACCOMMODATIONS)}/>
-          <Button text='Restaurants' onClick={()=>setCurrentTab(Tab.RESTAURANTS)}/>
+          <Button inverted={currentTab != Tab.USERS} text='Users' onClick={()=>setCurrentTab(Tab.USERS)}/>
+          <Button inverted={currentTab != Tab.ACCOMMODATIONS} text='Accommodations' onClick={()=>setCurrentTab(Tab.ACCOMMODATIONS)}/>
+          <Button inverted={currentTab != Tab.RESTAURANTS} text='Restaurants' onClick={()=>setCurrentTab(Tab.RESTAURANTS)}/>
+          <Button inverted={currentTab != Tab.ACTIVITIES} text='Activities' onClick={()=>setCurrentTab(Tab.ACTIVITIES)}/>
         </div>
         {currentTab == Tab.USERS &&
           <>

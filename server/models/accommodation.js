@@ -13,7 +13,6 @@ const schema = {
     type: DataTypes.STRING,
     allowNull: false,
     validate: { notEmpty: true }
-
   },
   checkOutTime: {
     type: DataTypes.STRING,
