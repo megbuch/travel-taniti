@@ -10,12 +10,12 @@ const schema = {
     type: DataTypes.ARRAY(DataTypes.STRING),
   },
   checkInTime: {
-    type: DataTypes.STRING,
+    type: DataTypes.TIME,
     allowNull: false,
     validate: { notEmpty: true }
   },
   checkOutTime: {
-    type: DataTypes.STRING,
+    type: DataTypes.TIME,
     allowNull: false,
     validate: { notEmpty: true }
   }

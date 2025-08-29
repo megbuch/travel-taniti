@@ -13,8 +13,17 @@ const schema = {
     type: DataTypes.STRING,
     validate: { isIn: [['$', '$$', '$$$']] }
   },
-  hoursOfOperation: {
-    type: DataTypes.STRING,
+  operatingDays: {
+    type: DataTypes.ARRAY(DataTypes.STRING),
+    allowNull: false
+  },
+  openTime: {
+    type: DataTypes.TIME,
+    allowNull: false
+  },
+  closeTime: {
+    type: DataTypes.TIME,
+    allowNull: false
   },
   maxCapacity: {
     type: DataTypes.INTEGER,

@@ -1,12 +1,16 @@
 import { useState, useRef } from 'react'
 import { toast } from 'react-toastify'
 import { createRestaurant, updateRestaurant } from '../../api'
-import { RestaurantDetails, Button, ImageSearch } from '..'
+import { RestaurantDetails, Button, ImageSearch, DaysOfWeekPicker } from '..'
 import { useModal } from '../../hooks'
 
 export default function RestaurantEdit({ restaurant, onSave, onDelete }) {
   const { openModal, closeModal } = useModal()
   const [selectedImageURL, setSelectedImageURL] = useState('')
+  const [selectedDays, setSelectedDays] = useState(
+    restaurant?.operatingDays || []
+  )
+
   const nameRef = useRef()
   const descriptionRef = useRef()
   const locationRef = useRef()
@@ -14,12 +18,20 @@ export default function RestaurantEdit({ restaurant, onSave, onDelete }) {
   const contactPhoneRef = useRef()
   const ratingRef = useRef()
   const maxCapacityRef = useRef()
-  const hoursOfOperationRef = useRef()
+  const openTimeRef = useRef()
+  const closeTimeRef = useRef()
   const priceRangeRef = useRef()
   const cuisineTypeRef = useRef()
 
   const selectImage = image => {
     setSelectedImageURL(image ? image.urls.regular : '')
+  }
+
+  const toggleDay = day => {
+    setSelectedDays(prev => prev.includes(day) 
+      ? prev.filter(d => d !== day)
+      : [...prev, day]
+    )
   }
 
   const save = async (e) => {
@@ -29,14 +41,16 @@ export default function RestaurantEdit({ restaurant, onSave, onDelete }) {
         name: nameRef.current.value,
         description: descriptionRef.current.value,
         location: locationRef.current.value,
+        operatingDays: selectedDays,
+        openTime: openTimeRef.current.value,
+        closeTime: closeTimeRef.current.value,
+        maxCapacity: maxCapacityRef.current.value,
         contactEmail: contactEmailRef.current.value.trim() || null,
         contactPhone: contactPhoneRef.current.value.trim() || null,
         rating: parseInt(ratingRef.current?.value) || null,
         imageURL: selectedImageURL || restaurant?.imageURL || null,
-        cuisineType: cuisineTypeRef.current.value,
-        priceRange: priceRangeRef.current.value,
-        hoursOfOperation: hoursOfOperationRef.current.value,
-        maxCapacity: maxCapacityRef.current.value
+        cuisineType: cuisineTypeRef.current?.value || null,
+        priceRange: priceRangeRef.current?.value || null,
       }
       const response = restaurant 
         ? await updateRestaurant(restaurant.id, restaurantData)
@@ -90,6 +104,33 @@ export default function RestaurantEdit({ restaurant, onSave, onDelete }) {
           />
         </>
         <>
+          <p className='subtitle'>Days of Operation *</p>
+          <DaysOfWeekPicker 
+            selectedDays={selectedDays} 
+            onToggleDay={toggleDay} 
+          />
+        </>
+        <div className='row'>
+          <div className='col'>
+            <p className='subtitle'>Open Time *</p>
+            <input 
+              required
+              ref={openTimeRef}
+              type='time' 
+              defaultValue={restaurant?.openTime || '17:00'}
+            />
+          </div>
+          <div className='col'>
+            <p className='subtitle'>Close Time *</p>
+            <input 
+              required
+              ref={closeTimeRef}
+              type='time' 
+              defaultValue={restaurant?.closeTime || '23:00'}
+            />
+          </div>
+        </div>
+        <>
           <p className='subtitle'>Max Capacity *</p>
           <input 
             ref={maxCapacityRef}
@@ -108,41 +149,37 @@ export default function RestaurantEdit({ restaurant, onSave, onDelete }) {
             defaultValue={restaurant?.cuisineType}
           />
         </>
-        <>
-          <p className='subtitle'>Price Range</p>
-          <select ref={priceRangeRef}>
-            <option value='$'>$</option> 
-            <option value='$$'>$$</option> 
-            <option value='$$'>$$$</option> 
-          </select>
-        </>
-        <>
-          <p className='subtitle'>Rating</p>
-          <select ref={ratingRef} defaultValue={restaurant?.rating}>
-            <option value='1'>★</option> 
-            <option value='2'>★★</option> 
-            <option value='3'>★★★</option> 
-            <option value='4'>★★★★</option> 
-            <option value='5'>★★★★★</option> 
-          </select>
-        </>
-        <>
-          <p className='subtitle'>Hours of Operation</p>
-          <input 
-            ref={hoursOfOperationRef}
-            type='text' 
-            placeholder='4 PM - 10 PM'
-            defaultValue={restaurant?.hoursOfOperation}
-          />
-        </>
-        <>
-          <p className='subtitle'>Contact Email</p>
-          <input ref={contactEmailRef} type='email' defaultValue={restaurant?.contactEmail} />
-        </>
-        <>
-          <p className='subtitle'>Contact Phone</p>
-          <input ref={contactPhoneRef} type='text' defaultValue={restaurant?.contactPhone} />
-        </>
+        <div className='row'>
+          <>
+            <p className='subtitle'>Price Range</p>
+            <select ref={priceRangeRef}>
+              <option value='$'>$</option> 
+              <option value='$$'>$$</option> 
+              <option value='$$$'>$$$</option> 
+            </select>
+          </>
+          <>
+            <p className='subtitle'>Rating</p>
+            <select ref={ratingRef} defaultValue={restaurant?.rating}>
+              <option value='1'>★</option> 
+              <option value='2'>★★</option> 
+              <option value='3'>★★★</option> 
+              <option value='4'>★★★★</option> 
+              <option value='5'>★★★★★</option> 
+            </select>
+          </>
+        </div>
+       
+        <div className='row'>
+          <div className='col'>
+            <p className='subtitle'>Email</p>
+            <input ref={contactEmailRef} type='email' defaultValue={restaurant?.contactEmail} />
+          </div>
+          <div className='col'>
+            <p className='subtitle'>Phone</p>
+            <input ref={contactPhoneRef} type='text' defaultValue={restaurant?.contactPhone} />
+          </div>
+        </div>
         <>
           <p className='subtitle'>Image</p>
           <ImageSearch 

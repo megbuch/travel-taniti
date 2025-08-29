@@ -89,26 +89,26 @@ export default function AccommodationEdit({ accommodation, onSave, onDelete }) {
 
           />
         </>
-        <>
-          <p className='subtitle'>Check In *</p>
-          <input 
-            ref={checkInTimeRef}
-            type='text' 
-            required 
-            placeholder='4 PM'
-            defaultValue={accommodation?.checkInTime}
-          />
-        </>
-        <>
-          <p className='subtitle'>Check Out *</p>
-          <input 
-            ref={checkOutTimeRef}
-            type='text' 
-            required 
-            placeholder='12 PM'
-            defaultValue={accommodation?.checkOutTime}
-          />
-        </>
+        <div className='row'>
+          <div className='col'>
+            <p className='subtitle'>Check In *</p>
+            <input 
+              ref={checkInTimeRef}
+              type='time' 
+              required 
+              defaultValue={accommodation?.checkInTime || '16:00'}
+            />
+          </div>
+          <div className='col'>
+            <p className='subtitle'>Check Out *</p>
+            <input 
+              ref={checkOutTimeRef}
+              type='time' 
+              required
+              defaultValue={accommodation?.checkOutTime || '12:00'}
+            />
+          </div>
+        </div>
         <>
           <p className='subtitle'>Amenities</p>
           <input 
@@ -128,14 +128,16 @@ export default function AccommodationEdit({ accommodation, onSave, onDelete }) {
             <option value='5'>★★★★★</option> 
           </select>
         </>
-        <>
-          <p className='subtitle'>Contact Email</p>
-          <input ref={contactEmailRef} type='email' defaultValue={accommodation?.contactEmail} />
-        </>
-        <>
-          <p className='subtitle'>Contact Phone</p>
-          <input ref={contactPhoneRef} type='text' defaultValue={accommodation?.contactPhone} />
-        </>
+        <div className='row'>
+          <div className='col'>
+            <p className='subtitle'>Contact Email</p>
+            <input ref={contactEmailRef} type='email' defaultValue={accommodation?.contactEmail} />
+          </div>
+          <div className='col'>
+            <p className='subtitle'>Contact Phone</p>
+            <input ref={contactPhoneRef} type='text' defaultValue={accommodation?.contactPhone} />
+          </div>
+        </div>
         <>
           <p className='subtitle'>Image</p>
           <ImageSearch 

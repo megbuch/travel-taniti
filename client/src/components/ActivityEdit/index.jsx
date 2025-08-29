@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react'
 import { toast } from 'react-toastify'
 import { createActivity, updateActivity } from '../../api'
-import { ActivityDetails, Button, ImageSearch } from '..'
+import { ActivityDetails, Button, ImageSearch, DaysOfWeekPicker } from '..'
 import { useModal } from '../../hooks'
 
 export default function ActivityEdit({ activity, onSave, onDelete }) {
@@ -27,21 +27,11 @@ export default function ActivityEdit({ activity, onSave, onDelete }) {
   const recurringStartDateRef = useRef()
   const recurringEndDateRef = useRef()
 
-  const daysOfWeek = [
-    { value: 'monday', label: 'Mon' },
-    { value: 'tuesday', label: 'Tue' },
-    { value: 'wednesday', label: 'Wed' },
-    { value: 'thursday', label: 'Thu' },
-    { value: 'friday', label: 'Fri' },
-    { value: 'saturday', label: 'Sat' },
-    { value: 'sunday', label: 'Sun' }
-  ]
-
   const selectImage = image => {
     setSelectedImageURL(image ? image.urls.regular : '')
   }
 
-  const handleDayToggle = day => {
+  const toggleDay = day => {
     setSelectedDays(prev => prev.includes(day) 
       ? prev.filter(d => d !== day)
       : [...prev, day]
@@ -61,6 +51,7 @@ export default function ActivityEdit({ activity, onSave, onDelete }) {
         name: nameRef.current.value.trim(),
         description: descriptionRef.current.value.trim(),
         location: locationRef.current.value.trim(),
+        maxParticipants: parseInt(maxParticipantsRef.current.value),
         contactEmail: contactEmailRef.current?.value.trim() || null,
         contactPhone: contactPhoneRef.current?.value.trim() || null,
         rating: parseInt(ratingRef.current?.value) || null,
@@ -68,7 +59,6 @@ export default function ActivityEdit({ activity, onSave, onDelete }) {
         companyName: companyNameRef.current?.value.trim() || null,
         durationMinutes: parseInt(durationMinutesRef.current?.value) || null,
         pricePerPerson: pricePerPersonRef.current?.value || null,
-        maxParticipants: parseInt(maxParticipantsRef.current.value),
         isRecurring
       }
 
@@ -196,18 +186,10 @@ export default function ActivityEdit({ activity, onSave, onDelete }) {
           <>
             <div>
               <p className='subtitle'>Recurring Days of Week *</p>
-              <div className='row'>
-                {daysOfWeek.map(day => (
-                  <label key={day.value}>
-                    <input
-                      type='checkbox'
-                      checked={selectedDays.includes(day.value)}
-                      onChange={() => handleDayToggle(day.value)}
-                    />
-                    <span>{day.label}</span>
-                  </label>
-                ))}
-              </div>
+              <DaysOfWeekPicker 
+                selectedDays={selectedDays} 
+                onToggleDay={toggleDay} 
+              />
               <>
                 <p className='subtitle'>Recurring Time *</p>
                 <input 
@@ -218,27 +200,23 @@ export default function ActivityEdit({ activity, onSave, onDelete }) {
                 />
               </>
               <div className='row'>
-                <>
-                  <div>
-                    <p className='subtitle'>Start Date *</p>
-                    <input 
-                      ref={recurringStartDateRef}
-                      type='date'
-                      required={isRecurring}
-                      defaultValue={activity?.recurringStartDate}
-                    />
-                  </div>
-                </>
-                <>
-                  <div>
-                    <p className='subtitle'>End Date</p>
-                    <input 
-                      ref={recurringEndDateRef}
-                      type='date'
-                      defaultValue={activity?.recurringEndDate}
-                    />
-                  </div>
-                </>
+                <div className='col'>
+                  <p className='subtitle'>Start Date *</p>
+                  <input 
+                    ref={recurringStartDateRef}
+                    type='date'
+                    required={isRecurring}
+                    defaultValue={activity?.recurringStartDate}
+                  />
+                </div>
+                <div className='col'>
+                  <p className='subtitle'>End Date</p>
+                  <input 
+                    ref={recurringEndDateRef}
+                    type='date'
+                    defaultValue={activity?.recurringEndDate}
+                  />
+                </div>
               </div>
             </div>
           </>
@@ -271,14 +249,14 @@ export default function ActivityEdit({ activity, onSave, onDelete }) {
           <input ref={companyNameRef} type='text' defaultValue={activity?.companyName} />
         </>
         <div className='row'>
-          <>
+          <div className='col'>
             <p className='subtitle'>Email</p>
             <input ref={contactEmailRef} type='email' defaultValue={activity?.contactEmail} />
-          </>
-          <>
+          </div>
+          <div className='col'>
             <p className='subtitle'>Phone</p>
             <input ref={contactPhoneRef} type='text' defaultValue={activity?.contactPhone} />
-          </>
+          </div>
         </div>
         <>
           <p className='subtitle'>Image</p>

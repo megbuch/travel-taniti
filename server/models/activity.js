@@ -29,10 +29,8 @@ const schema = {
     type: DataTypes.DATE,
     allowNull: true
   },
-  
-  // For recurring activities
   recurringDays: {
-    type: DataTypes.JSON, // ['monday', 'wednesday', 'friday']
+    type: DataTypes.ARRAY(DataTypes.STRING),
     allowNull: true
   },
   recurringTime: {
