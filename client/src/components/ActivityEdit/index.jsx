@@ -7,6 +7,11 @@ import { useModal } from '../../hooks'
 export default function ActivityEdit({ activity, onSave, onDelete }) {
   const { openModal, closeModal } = useModal()
   const [selectedImageURL, setSelectedImageURL] = useState('')
+  const [isRecurring, setIsRecurring] = useState(activity?.isRecurring || false)
+  const [selectedDays, setSelectedDays] = useState(
+    activity?.recurringDays || []
+  )
+
   const nameRef = useRef()
   const descriptionRef = useRef()
   const locationRef = useRef()
@@ -14,35 +19,100 @@ export default function ActivityEdit({ activity, onSave, onDelete }) {
   const contactPhoneRef = useRef()
   const ratingRef = useRef()
   const companyNameRef = useRef()
-  const dateRef = useRef()
   const durationMinutesRef = useRef()
   const pricePerPersonRef = useRef()
   const maxParticipantsRef = useRef()
- 
+  const oneTimeDateRef = useRef()
+  const recurringTimeRef = useRef()
+  const recurringStartDateRef = useRef()
+  const recurringEndDateRef = useRef()
+
+  const daysOfWeek = [
+    { value: 'monday', label: 'Mon' },
+    { value: 'tuesday', label: 'Tue' },
+    { value: 'wednesday', label: 'Wed' },
+    { value: 'thursday', label: 'Thu' },
+    { value: 'friday', label: 'Fri' },
+    { value: 'saturday', label: 'Sat' },
+    { value: 'sunday', label: 'Sun' }
+  ]
+
   const selectImage = image => {
     setSelectedImageURL(image ? image.urls.regular : '')
+  }
+
+  const handleDayToggle = day => {
+    setSelectedDays(prev => prev.includes(day) 
+      ? prev.filter(d => d !== day)
+      : [...prev, day]
+    )
+  }
+
+  const formatDateForInput = dateString => {
+    if (!dateString) return ''
+    const date = new Date(dateString)
+    return date.toISOString().slice(0, 16)
   }
 
   const save = async (e) => {
     e.preventDefault()
     try {
-      const activityData = {
+      const baseActivityData = {
         name: nameRef.current.value.trim(),
         description: descriptionRef.current.value.trim(),
         location: locationRef.current.value.trim(),
-        contactEmail: contactEmailRef.current.value.trim() || null,
-        contactPhone: contactPhoneRef.current.value.trim() || null,
+        contactEmail: contactEmailRef.current?.value.trim() || null,
+        contactPhone: contactPhoneRef.current?.value.trim() || null,
         rating: parseInt(ratingRef.current?.value) || null,
         imageURL: selectedImageURL || activity?.imageURL || null,
-        companyName: companyNameRef.current.value.trim(),
-        date: new Date(dateRef.current.value),
-        durationMinutes: parseInt(durationMinutesRef.current.value) || null,
-        pricePerPerson: pricePerPersonRef.current.value || null,
-        maxParticipants: parseInt(maxParticipantsRef.current.value) || null
+        companyName: companyNameRef.current?.value.trim() || null,
+        durationMinutes: parseInt(durationMinutesRef.current?.value) || null,
+        pricePerPerson: pricePerPersonRef.current?.value || null,
+        maxParticipants: parseInt(maxParticipantsRef.current.value),
+        isRecurring
       }
+
+      let activityData
+      if (isRecurring) {
+        if (selectedDays.length === 0) {
+          toast.error('Please select at least one day for recurring activity')
+          return
+        }
+        if (!recurringTimeRef.current?.value) {
+          toast.error('Please select a time for recurring activity')
+          return
+        }
+        if (!recurringStartDateRef.current?.value) {
+          toast.error('Please select a start date for recurring activity')
+          return
+        }
+        activityData = {
+          ...baseActivityData,
+          recurringDays: selectedDays,
+          recurringTime: recurringTimeRef.current.value,
+          recurringStartDate: recurringStartDateRef.current.value,
+          recurringEndDate: recurringEndDateRef.current?.value || null,
+          oneTimeDate: null
+        }
+      } else {
+        if (!oneTimeDateRef.current?.value) {
+          toast.error('Please select a date and time for one-time activity')
+          return
+        }
+        activityData = {
+          ...baseActivityData,
+          oneTimeDate: new Date(oneTimeDateRef.current.value),
+          recurringDays: null,
+          recurringTime: null,
+          recurringStartDate: null,
+          recurringEndDate: null
+        }
+      }
+
       const response = activity 
         ? await updateActivity(activity.id, activityData)
         : await createActivity(activityData)
+
       if (activity) {
         onSave(response?.activity)
         openModal(<ActivityDetails activity={response?.activity} onSave={onSave} onDelete={onDelete} />)
@@ -88,13 +158,91 @@ export default function ActivityEdit({ activity, onSave, onDelete }) {
             required 
             placeholder=''
             defaultValue={activity?.location}
-
           />
         </>
         <>
-          <p className='subtitle'>Date *</p>
-          <input required ref={dateRef} type='date' defaultValue={activity?.date} />
+          <p className='subtitle'>Activity Type *</p>
+          <div className='row'>
+            <label>
+              <input type='radio'
+                name='activityType'
+                checked={!isRecurring}
+                onChange={() => setIsRecurring(false)}
+              />
+              One-time Event
+            </label>
+            <label>
+              <input
+                type='radio'
+                name='activityType'
+                checked={isRecurring}
+                onChange={() => setIsRecurring(true)}
+              />
+              Recurring Activity
+            </label>
+          </div>
         </>
+        {!isRecurring ? (
+          <>
+            <p className='subtitle'>Date & Time *</p>
+            <input 
+              ref={oneTimeDateRef}
+              type='datetime-local' 
+              required
+              defaultValue={activity?.oneTimeDate ? formatDateForInput(activity.oneTimeDate) : ''}
+            />
+          </>
+        ) : (
+          <>
+            <div>
+              <p className='subtitle'>Recurring Days of Week *</p>
+              <div className='row'>
+                {daysOfWeek.map(day => (
+                  <label key={day.value}>
+                    <input
+                      type='checkbox'
+                      checked={selectedDays.includes(day.value)}
+                      onChange={() => handleDayToggle(day.value)}
+                    />
+                    <span>{day.label}</span>
+                  </label>
+                ))}
+              </div>
+              <>
+                <p className='subtitle'>Recurring Time *</p>
+                <input 
+                  ref={recurringTimeRef}
+                  type='time'
+                  required={isRecurring}
+                  defaultValue={activity?.recurringTime}
+                />
+              </>
+              <div className='row'>
+                <>
+                  <div>
+                    <p className='subtitle'>Start Date *</p>
+                    <input 
+                      ref={recurringStartDateRef}
+                      type='date'
+                      required={isRecurring}
+                      defaultValue={activity?.recurringStartDate}
+                    />
+                  </div>
+                </>
+                <>
+                  <div>
+                    <p className='subtitle'>End Date</p>
+                    <input 
+                      ref={recurringEndDateRef}
+                      type='date'
+                      defaultValue={activity?.recurringEndDate}
+                    />
+                  </div>
+                </>
+              </div>
+            </div>
+          </>
+        )}
         <>
           <p className='subtitle'>Max Participants *</p>
           <input required ref={maxParticipantsRef} type='number' defaultValue={activity?.maxParticipants} />
@@ -102,6 +250,7 @@ export default function ActivityEdit({ activity, onSave, onDelete }) {
         <>
           <p className='subtitle'>Rating</p>
           <select ref={ratingRef} defaultValue={activity?.rating}>
+            <option value=''>Select rating...</option>
             <option value='1'>★</option> 
             <option value='2'>★★</option> 
             <option value='3'>★★★</option> 
@@ -110,32 +259,34 @@ export default function ActivityEdit({ activity, onSave, onDelete }) {
           </select>
         </>
         <>
-          <p className='subtitle'>Company Name</p>
-          <input ref={companyNameRef} type='text' defaultValue={activity?.companyName} />
-        </>
-        <>
           <p className='subtitle'>Duration Minutes</p>
           <input ref={durationMinutesRef} type='number' defaultValue={activity?.durationMinutes} />
         </>
         <>
           <p className='subtitle'>Price Per Person</p>
-          <input ref={pricePerPersonRef} type='number' defaultValue={activity?.pricePerPerson} />
+          <input ref={pricePerPersonRef} type='number' step='0.01' defaultValue={activity?.pricePerPerson} />
         </>
         <>
-          <p className='subtitle'>Contact Email</p>
-          <input ref={contactEmailRef} type='email' defaultValue={activity?.contactEmail} />
+          <p className='subtitle'>Company Name</p>
+          <input ref={companyNameRef} type='text' defaultValue={activity?.companyName} />
         </>
-        <>
-          <p className='subtitle'>Contact Phone</p>
-          <input ref={contactPhoneRef} type='text' defaultValue={activity?.contactPhone} />
-        </>
+        <div className='row'>
+          <>
+            <p className='subtitle'>Email</p>
+            <input ref={contactEmailRef} type='email' defaultValue={activity?.contactEmail} />
+          </>
+          <>
+            <p className='subtitle'>Phone</p>
+            <input ref={contactPhoneRef} type='text' defaultValue={activity?.contactPhone} />
+          </>
+        </div>
         <>
           <p className='subtitle'>Image</p>
           <ImageSearch 
             onSelect={selectImage}
             selectedImageURL={activity?.imageURL}
-            searchPlaceholder="Search for hotels, resorts, luxury..."
-            quickSearchTerms={['ocean villa', 'beach hotel', 'luxury hotel', 'tropical resort']}
+            searchPlaceholder="Search for activity images..."
+            quickSearchTerms={['activity', 'event', 'recreation', 'entertainment']}
           />
         </>
         <div className='row'>
