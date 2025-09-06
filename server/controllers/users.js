@@ -1,18 +1,28 @@
 const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
+const { Op } = require('sequelize')
 const { handleError } = require('../utils/errorHandler')
 
 const SALT_ROUNDS = 10
 
 const getUsers = async (req, res) => {
   try {
-    const users = await User.findAll({ where: { role: 'traveler' } })
+    const { name } = req.query
+    const whereClause = { role: 'traveler' }
+    if (name) {
+      whereClause[Op.or] = [
+        { firstName: { [Op.iLike]: `%${name}%` } },
+        { lastName: { [Op.iLike]: `%${name}%` } }
+      ]
+    }
+    const users = await User.findAll({ where: whereClause })
     return res.status(200).json({ users })
   } catch (error) {
     handleError(res, error, 'Could not get users')
   }
 }
+
 const createUser = async (req, res) => {
   try {
     const { email, password, firstName, lastName } = req.body

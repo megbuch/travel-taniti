@@ -1,15 +1,15 @@
 const Restaurant = require('../models/restaurant')
-const RoomType = require('../models/roomType')
+const { Op } = require('sequelize')
 const { handleError } = require('../utils/errorHandler')
 
 const getRestaurants = async (req, res) => {
   try {
-    const restaurants = await Restaurant.findAll()
-    for (const restaurant of restaurants) {
-      restaurant.dataValues.roomTypes = await RoomType.findAll({ 
-        where: { accommodationID: restaurant.id } 
-      })
+    const { name } = req.query
+    const whereClause = {}
+    if (name) {
+      whereClause.name = { [Op.iLike]: `%${name}%` }
     }
+    const restaurants = await Restaurant.findAll({ where: whereClause })
     res.status(200).json({ restaurants })
   } catch (error) {
     handleError(res, error, 'Could not fetch restaurants')

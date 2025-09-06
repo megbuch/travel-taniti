@@ -2,8 +2,8 @@ import sendRequest from './sendRequest'
 
 const BASE_URL = '/api/restaurants'
 
-export const getRestaurants = async () => {
-  return sendRequest(BASE_URL, 'GET')
+export const getRestaurants = async (query) => {
+  return sendRequest(BASE_URL, 'GET', null, query)
 }
 
 export const createRestaurant = async (restaurantData) => {

@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { getUsers, getAccommodations, getRestaurants, getActivities } from '../../api'
+import { toast } from 'react-toastify'
 import { 
   Navigation, 
   List, 
@@ -17,47 +18,45 @@ import { useModal } from '../../hooks'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 const Tab = {
-  USERS: 'users',
-  ACCOMMODATIONS: 'accommodations',
-  RESTAURANTS: 'restaurants',
-  ACTIVITIES: 'activities'
+  USERS: 'Users',
+  ACCOMMODATIONS: 'Accommodations',
+  RESTAURANTS: 'Restaurants',
+  ACTIVITIES: 'Activities'
 }
 
 export default function AdminDashboard() {
   const { openModal } = useModal()
   const [currentTab, setCurrentTab] = useState(Tab.USERS)
-  const [accommodations, setAccommodations] = useState([])
-  const [restaurants, setRestaurants] = useState([])
-  const [activities, setActivities] = useState([])
-  const [users, setUsers] = useState([])
+  const [items, setItems] = useState([])
+  const searchRef = useRef()
 
   useEffect(() => { fetchData() }, [currentTab])
 
-  const fetchData = async () => {
+  const fetchData = async (query) => {
     try {
       switch (currentTab) {
         case Tab.USERS:
           {
-            const response = await getUsers()
-            setUsers(response?.users)
+            const response = await getUsers(query)
+            setItems(response?.users)
           }
           break
         case Tab.ACCOMMODATIONS:
           {
-            const response = await getAccommodations()
-            setAccommodations(response?.accommodations)
+            const response = await getAccommodations(query)
+            setItems(response?.accommodations)
           }
           break
         case Tab.RESTAURANTS:
           {
-            const response = await getRestaurants()
-            setRestaurants(response?.restaurants)
+            const response = await getRestaurants(query)
+            setItems(response?.restaurants)
           }
           break
         case Tab.ACTIVITIES:
           {
-            const response = await getActivities()
-            setActivities(response?.activities)
+            const response = await getActivities(query)
+            setItems(response?.activities)
           }
           break
       }
@@ -66,90 +65,47 @@ export default function AdminDashboard() {
     }
   }
 
-  const onViewUser = user => openModal(<UserDetails user={user} />)
-
-  const onViewAccommodation = accommodation => {
-    const handleSave = updatedAccommodation => onSaveAccommodation(updatedAccommodation)
-    const handleDelete = () => onDeleteAccommodation(accommodation)
-    openModal(
-      <AccommodationDetails 
-        accommodation={accommodation} 
-        onSave={handleSave}
-        onDelete={handleDelete}
-      />
-    )
+  const onView = item => {
+    const handleSave = updatedItem => onSave(updatedItem)
+    const handleDelete = () => onDelete(item)
+    switch (currentTab) {
+      case Tab.USERS: openModal(<UserDetails user={item} />); break
+      case Tab.ACCOMMODATIONS: openModal(<AccommodationDetails accommodation={item} onSave={handleSave} onDelete={handleDelete} />); break
+      case Tab.RESTAURANTS: openModal(<RestaurantDetails restaurant={item} onSave={handleSave} onDelete={handleDelete} />); break
+      case Tab.ACTIVITIES: openModal(<ActivityDetails activity={item} onSave={handleSave} onDelete={handleDelete} />); break
+    }
   }
 
-  const onCreateAccommodation = () => 
-    openModal(<AccommodationEdit onSave={onSaveAccommodation} />)
-
-  const onDeleteAccommodation = accommodation =>
-    setAccommodations(prev => prev.filter(a => a.id !== accommodation.id))
-
-  const onSaveAccommodation = accommodation => {
-    setAccommodations(prev => {
-      const existingIndex = prev.findIndex(a => a.id === accommodation.id)
-      if (existingIndex >= 0) {
-        return prev.map(a => a.id === accommodation.id ? accommodation : a)
-      } 
-      return [...prev, accommodation]
-    })
+  const onCreate = () => {
+    switch (currentTab) {
+      case Tab.ACCOMMODATIONS: openModal(<AccommodationEdit onSave={onSave} />); break
+      case Tab.RESTAURANTS: openModal(<RestaurantEdit onSave={onSave} />); break
+      case Tab.ACTIVITIES: openModal(<ActivityEdit onSave={onSave} />); break
+    }
   }
 
-  const onViewRestaurant = restaurant => {
-    const handleSave = updatedRestaurant => onSaveRestaurant(updatedRestaurant)
-    const handleDelete = () => onDeleteRestaurant(restaurant)
-    openModal(
-      <RestaurantDetails 
-        restaurant={restaurant} 
-        onSave={handleSave}
-        onDelete={handleDelete}
-      />
-    )
+  const onDelete = item => {
+    setItems(prev => prev.filter(i => i.id === item.id))
   }
 
-  const onCreateRestaurant = () => 
-    openModal(<RestaurantEdit onSave={onSaveRestaurant} />)
-
-  const onDeleteRestaurant = restaurant =>
-    setRestaurants(prev => prev.filter(r => r.id !== restaurant.id))
-
-  const onSaveRestaurant = restaurant => {
-    setRestaurants(prev => {
-      const existingIndex = prev.findIndex(r => r.id === restaurant.id)
-      if (existingIndex >= 0) {
-        return prev.map(r => r.id === restaurant.id ? restaurant : r)
-      } 
-      return [...prev, restaurant]
-    })
-  }
-
-  const onViewActivity = activity => {
-    const handleSave = updatedActivity => onSaveActivity(updatedActivity)
-    const handleDelete = () => onDeleteActivity(activity)
-    openModal(
-      <ActivityDetails 
-        activity={activity} 
-        onSave={handleSave}
-        onDelete={handleDelete}
-      />
-    )
-  }
-
-  const onCreateActivity = () => 
-    openModal(<ActivityEdit onSave={onSaveActivity} />)
-
-  const onDeleteActivity = activity =>
-    setActivities(prev => prev.filter(a => a.id !== activity.id))
-
-  const onSaveActivity = activity => {
-    setActivities(prev => {
-      const existingIndex = prev.findIndex(a => a.id === activity.id)
+  const onSave = item => {
+    setItems(prev => {
+      const existingIndex = prev.findIndex(i => i.id === item.id)
       if (existingIndex >= 0) { 
-        return prev.map(a => a.id === activity.id ? activity : a)
+        return prev.map(i => i.id === item.id ? item : i)
       } 
-      return [...prev, activity]
+      return [...prev, item]
     })
+  }
+
+  const search = () => {
+    const searchTerm = searchRef.current.value.trim()
+    fetchData({ name: searchTerm })
+  }
+
+  const clearFilter = () => {
+    searchRef.current.value = ''
+    fetchData()
   }
 
   return (
@@ -164,39 +120,16 @@ export default function AdminDashboard() {
           <Button inverted={currentTab != Tab.RESTAURANTS} text='Restaurants' onClick={()=>setCurrentTab(Tab.RESTAURANTS)}/>
           <Button inverted={currentTab != Tab.ACTIVITIES} text='Activities' onClick={()=>setCurrentTab(Tab.ACTIVITIES)}/>
         </div>
-        {currentTab == Tab.USERS &&
-          <>
-            <h2>Users</h2>
-            <List items={users} onView={onViewUser} />
-          </>
-        }
-        {currentTab == Tab.ACCOMMODATIONS &&
-          <>
-            <div className='row'>
-              <h2>Accommodations</h2>
-              <Button backgroundless icon={<AddCircleOutlineIcon />} onClick={onCreateAccommodation} />
-            </div>          
-            <List items={accommodations} onView={onViewAccommodation} />
-          </>
-        }
-        {currentTab == Tab.RESTAURANTS &&
-          <>
-            <div className='row'>
-              <h2>Restaurants</h2>
-              <Button backgroundless icon={<AddCircleOutlineIcon />} onClick={onCreateRestaurant} />
-            </div>          
-            <List items={restaurants} onView={onViewRestaurant} />
-          </>
-        }
-        {currentTab == Tab.ACTIVITIES &&
-          <>
-            <div className='row'>
-              <h2>Activities</h2>
-              <Button backgroundless icon={<AddCircleOutlineIcon />} onClick={onCreateActivity} />
-            </div>          
-            <List items={activities} onView={onViewActivity} />
-          </>
-        }
+        <div className='row'>
+          <h2>{currentTab}</h2>
+          {currentTab !== Tab.USERS && <Button backgroundless icon={<AddCircleOutlineIcon />} onClick={onCreate} />}
+        </div>
+        <div className='row'>
+          <input type='text' placeholder={`Search ${currentTab}..`} ref={searchRef} />
+          <Button small short text='Search' onClick={search} />
+          <Button small short inverted border text='Clear Filter' onClick={clearFilter} />
+        </div>
+        <List items={items} onView={onView} />
       </div>
       <Footer />
     </div>

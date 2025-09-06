@@ -1,4 +1,9 @@
-export default async function sendRequest(url, method = 'GET', payload = null) {
+export default async function sendRequest(url, method = 'GET', payload = null, query = null) {
+  if (query && Object.keys(query).length > 0) {
+    const queryString = new URLSearchParams(query).toString()
+    url += (url.includes('?') ? '&' : '?') + queryString
+  }
+
   const options = { method }
   if (payload) {
     options.headers = { 'Content-Type': 'application/json' }

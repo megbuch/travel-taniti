@@ -2,8 +2,8 @@ import sendRequest from './sendRequest'
 
 const BASE_URL = '/api/activities'
 
-export const getActivities = async () => {
-  return sendRequest(BASE_URL, 'GET')
+export const getActivities = async (query) => {
+  return sendRequest(BASE_URL, 'GET', null, query)
 }
 
 export const createActivity = async (activityData) => {

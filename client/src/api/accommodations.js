@@ -2,8 +2,8 @@ import sendRequest from './sendRequest'
 
 const BASE_URL = '/api/accommodations'
 
-export const getAccommodations = async () => {
-  return sendRequest(BASE_URL, 'GET')
+export const getAccommodations = async (query) => {
+  return sendRequest(BASE_URL, 'GET', null, query);
 }
 
 export const createAccommodation = async (accommodationData) => {

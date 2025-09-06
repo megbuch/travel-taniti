@@ -1,10 +1,16 @@
 const Accommodation = require('../models/accommodation')
 const RoomType = require('../models/roomType')
+const { Op } = require('sequelize')
 const { handleError } = require('../utils/errorHandler')
 
 const getAccommodations = async (req, res) => {
   try {
-    const accommodations = await Accommodation.findAll()
+    const { name } = req.query
+    const whereClause = {}
+    if (name) {
+      whereClause.name = { [Op.iLike]: `%${name}%` }
+    }
+    const accommodations = await Accommodation.findAll({ where: whereClause });
     for (const accommodation of accommodations) {
       accommodation.dataValues.roomTypes = await RoomType.findAll({ 
         where: { accommodationID: accommodation.id } 

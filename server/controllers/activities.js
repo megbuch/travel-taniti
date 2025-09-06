@@ -1,9 +1,15 @@
 const Activity = require('../models/activity')
+const { Op } = require('sequelize')
 const { handleError } = require('../utils/errorHandler')
 
 const getActivities = async (req, res) => {
   try {
-    const activities = await Activity.findAll()
+    const { name } = req.query
+    const whereClause = {}
+    if (name) {
+      whereClause.name = { [Op.iLike]: `%${name}%` }
+    }
+    const activities = await Activity.findAll({ where: whereClause })
     res.status(200).json({ activities })
   } catch (error) {
     handleError(res, error, 'Could not fetch activities')

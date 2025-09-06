@@ -1,5 +1,6 @@
 import InfoIcon from '@mui/icons-material/Info';
 import { Button } from '../../components'
+import './styles.scss'
 
 export default function ListItem({ item, onView }) {
   return (

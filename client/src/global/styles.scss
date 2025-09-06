@@ -147,11 +147,11 @@ body {
     color: rgb(82, 82, 82);
   }
 
-  .form {
-    gap: var(--pad);
+  .form, .details {
+    gap: var(--pad-lg);
     top: 50%;
     left: 50%;
-    padding: var(--pad-xl);
+    padding: var(--pad-lg);
     border-radius: 4px;
     background-color: var(--color-surface);
     box-shadow: 0px 1px 20px rgba(0, 0, 0, 0.2);
