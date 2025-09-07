@@ -49,7 +49,6 @@ export default function ContactForm() {
           <Button inverted onClick={closeModal} text='Cancel'/>
           <Button type='submit' text='Submit' />
         </div>
-
       </form>
     </div>
   )

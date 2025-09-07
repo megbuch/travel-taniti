@@ -42,9 +42,11 @@ export default function AccommodationEdit({ accommodation, onSave, onDelete, onR
         ? await updateAccommodation(accommodation.id, accommodationData)
         : await createAccommodation(accommodationData)
       if (accommodation) {
+        toast.success('Updated accommodation')
         onSave(response?.accommodation)
         openModal(<AccommodationDetails accommodation={response?.accommodation} onSave={onSave} onDelete={onDelete} onRefresh={onRefresh} />)
       } else {
+        toast.success('Saved accommodation')
         onSave(response?.accommodation)
         closeModal()
       }

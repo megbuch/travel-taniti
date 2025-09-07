@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Button } from '..'
 import { deleteRoomType } from '../../api'
+import { toast } from 'react-toastify'
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
@@ -12,9 +13,15 @@ export default function RoomTypeDetails({ roomType, onDelete }) {
   const [showFullAmenities, setShowFullAmenities] = useState(false)
   const defaultAmenitiesCount = 5
 
-  const handleDelete = () => {
-    deleteRoomType(roomType.id)
-    onDelete()
+  const handleDelete = async () => {
+    try {
+      await deleteRoomType(roomType.id)
+      toast.success('Deleted room type')
+      onDelete()
+    } catch (error) {
+      console.log('Could not delete room type: ', error)
+      toast.error('Could not delete room type')
+    }
   }
 
   return (
@@ -47,26 +54,28 @@ export default function RoomTypeDetails({ roomType, onDelete }) {
               <p>{roomType.totalRooms}</p>
             </div>
           </div>
-          <div className='section'>
-            <p className='subtitle'>Amenities</p>
-            <ul>
-              {showFullAmenities ? 
-                <>
-                  {roomType.amenities.map((a, index) => <li key={index}>{a}</li>)}
-                  {roomType.amenities.length > defaultAmenitiesCount && 
-                    <li key='-1'><Button small short text='Show Less' onClick={()=>setShowFullAmenities(false)}/></li>
-                  }
-                </>
-              : 
-                <>
-                  {roomType.amenities.slice(0, defaultAmenitiesCount).map((a, index) => <li key={index}>{a}</li>)}
-                  {roomType.amenities.length > defaultAmenitiesCount && 
-                    <li key='-1'><Button small short text={`Show ${roomType.amenities.length - defaultAmenitiesCount} more`} onClick={()=>setShowFullAmenities(true)}/></li>
-                  }
-                </>
-              }
-            </ul>
-          </div>
+          {roomType.amenities?.length > 0 && 
+            <div className='section'>
+              <p className='subtitle'>Amenities</p>
+              <ul>
+                {showFullAmenities ? 
+                  <>
+                    {roomType.amenities.map((a, index) => <li key={index}>{a}</li>)}
+                    {roomType.amenities.length > defaultAmenitiesCount && 
+                      <li key='-1'><Button small short text='Show Less' onClick={()=>setShowFullAmenities(false)}/></li>
+                    }
+                  </>
+                : 
+                  <>
+                    {roomType.amenities.slice(0, defaultAmenitiesCount).map((a, index) => <li key={index}>{a}</li>)}
+                    {roomType.amenities.length > defaultAmenitiesCount && 
+                      <li key='-1'><Button small short text={`Show ${roomType.amenities.length - defaultAmenitiesCount} more`} onClick={()=>setShowFullAmenities(true)}/></li>
+                    }
+                  </>
+                }
+              </ul>
+            </div>
+          }
         </div>
       }
     </div>

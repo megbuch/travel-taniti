@@ -104,9 +104,11 @@ export default function ActivityEdit({ activity, onSave, onDelete }) {
         : await createActivity(activityData)
 
       if (activity) {
+        toast.success('Updated activity')
         onSave(response?.activity)
         openModal(<ActivityDetails activity={response?.activity} onSave={onSave} onDelete={onDelete} />)
       } else {
+        toast.success('Saved activity')
         onSave(response?.activity)
         closeModal()
       }

@@ -91,7 +91,7 @@ export default function AdminDashboard() {
   }
 
   const onDelete = item => {
-    setItems(prev => prev.filter(i => i.id === item.id))
+    setItems(prev => prev.filter(i => i.id !== item.id))
   }
 
   const onSave = item => {

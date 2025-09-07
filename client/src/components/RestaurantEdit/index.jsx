@@ -56,9 +56,11 @@ export default function RestaurantEdit({ restaurant, onSave, onDelete }) {
         ? await updateRestaurant(restaurant.id, restaurantData)
         : await createRestaurant(restaurantData)
       if (restaurant) {
+        toast.success('Updated restaurant')
         onSave(response?.restaurant)
         openModal(<RestaurantDetails restaurant={response?.restaurant} onSave={onSave} onDelete={onDelete} />)
       } else {
+        toast.success('Saved restaurant')
         onSave(response?.restaurant)
         closeModal()
       }

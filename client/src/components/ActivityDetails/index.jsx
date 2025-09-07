@@ -17,6 +17,7 @@ export default function ActivityDetails({ activity, onSave, onDelete }) {
   const handleDelete = async () => {
     try {
       await deleteActivity(activity.id)
+      toast.success('Deleted activity')
       onDelete(activity)
       closeModal()
     } catch (error) {

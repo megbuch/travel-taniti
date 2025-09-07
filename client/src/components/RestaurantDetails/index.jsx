@@ -17,6 +17,7 @@ export default function RestaurantDetails({ restaurant, onSave, onDelete }) {
   const handleDelete = async () => {
     try {
       await deleteRestaurant(restaurant.id)
+      toast.success('Deleted restaurant')
       onDelete(restaurant)
       closeModal()
     } catch (error) {

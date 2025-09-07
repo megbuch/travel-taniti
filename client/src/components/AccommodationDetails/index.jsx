@@ -1,13 +1,16 @@
+import { useState } from 'react'
 import { toast } from 'react-toastify'
 import { deleteAccommodation } from '../../api';
 import { useModal } from '../../hooks';
-import { Button, AccommodationEdit, RoomTypeDetails } from '..'
+import { Button, AccommodationEdit, RoomTypeDetails, RoomTypeEdit } from '..'
 import StarIcon from '@mui/icons-material/Star';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import './styles.scss'
 
 export default function AccommodationDetails({ accommodation, onSave, onDelete, onRefresh }) {
   const { openModal, closeModal } = useModal() 
-  
+  const [showRoomTypeForm, setShowRoomTypeForm] = useState(false)
+
   const renderStars = count => {
     return [...Array(count)].map((_, i) => <StarIcon key={i} />)
   }
@@ -15,12 +18,18 @@ export default function AccommodationDetails({ accommodation, onSave, onDelete, 
   const handleDelete = async () => {
     try {
       await deleteAccommodation(accommodation.id)
+      toast.success('Deleted accommodation')
       onDelete(accommodation)
       closeModal()
     } catch (error) {
       console.log('Could not delete accommodation: ', error)
       toast.error('Could not delete accommodation')
     }
+  }
+
+  const saveRoomType = () => {
+    onRefresh()
+    setShowRoomTypeForm(false)
   }
 
   return (
@@ -58,15 +67,15 @@ export default function AccommodationDetails({ accommodation, onSave, onDelete, 
             {accommodation.amenities.join(', ')}
           </div>
         }
-
-        {accommodation.roomTypes && 
-          <div className='section'>
-            <p className='subtitle'>Room Types</p>
-            {accommodation.roomTypes?.map(rt => <RoomTypeDetails key={rt.id} roomType={rt} onDelete={onRefresh} />)}
-          </div>
-        }
-
-        <h4>Contact</h4>
+        <div className='row'>
+          <h3>Room Types</h3>
+          {!showRoomTypeForm && <Button small short backgroundless icon={<AddCircleOutlineIcon />} onClick={()=>setShowRoomTypeForm(true)} />}
+        </div>
+        {showRoomTypeForm && <RoomTypeEdit accommodation={accommodation} onSave={saveRoomType} onCancel={()=>setShowRoomTypeForm(false)} />}
+        <div className='section'>
+          {accommodation.roomTypes?.map(rt => <RoomTypeDetails key={rt.id} roomType={rt} onDelete={onRefresh} />)}
+        </div>
+        <h3>Contact</h3>
         <div className='section'>
           <p className='subtitle'>Location</p>
           <p>{accommodation.location}</p>
