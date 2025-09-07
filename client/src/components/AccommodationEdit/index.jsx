@@ -36,7 +36,7 @@ export default function AccommodationEdit({ accommodation, onSave, onDelete }) {
         contactEmail: contactEmailRef.current.value.trim() || null,
         contactPhone: contactPhoneRef.current.value.trim() || null,
         rating: parseInt(ratingRef.current?.value) || null,
-        imageURL: selectedImageURL || accommodation?.imageURL || null
+        imageURL: selectedImageURL || null
       }
       const response = accommodation 
         ? await updateAccommodation(accommodation.id, accommodationData)
@@ -55,103 +55,101 @@ export default function AccommodationEdit({ accommodation, onSave, onDelete }) {
   }
 
   return (
-    <div className='form col'>
+    <form onSubmit={save} className='col'>
       <h1>{`${accommodation ? 'Edit': 'Create'} Accommodation`}</h1>
-      <form onSubmit={save} className='col'>
-        <>
-          <p className='subtitle'>Name *</p>
-          <input 
-            ref={nameRef}
-            type='text' 
-            required 
-            placeholder='The Grand Viridian Resort'
-            defaultValue={accommodation?.name}
-          />
-        </>
-        <>
-          <p className='subtitle'>Description *</p>
-          <textarea 
-            ref={descriptionRef}
-            required 
-            rows='3' 
-            placeholder='An upscale resort surrounded by verdant landscapes—where nature meets luxury.'
-            defaultValue={accommodation?.description}
-          />
-        </>
-        <>
-          <p className='subtitle'>Location *</p>
-          <input 
-            ref={locationRef}
-            type='text' 
-            required 
-            placeholder='273 Ocean Drive'
-            defaultValue={accommodation?.location}
+      <div className='section'>
+        <p className='subtitle'>Name *</p>
+        <input 
+          ref={nameRef}
+          type='text' 
+          required 
+          placeholder='The Grand Viridian Resort'
+          defaultValue={accommodation?.name}
+        />
+      </div>
+      <div className='section'>
+        <p className='subtitle'>Description *</p>
+        <textarea 
+          ref={descriptionRef}
+          required 
+          rows='3' 
+          placeholder='An upscale resort surrounded by verdant landscapes—where nature meets luxury.'
+          defaultValue={accommodation?.description}
+        />
+      </div>
+      <div className='section'>
+        <p className='subtitle'>Location *</p>
+        <input 
+          ref={locationRef}
+          type='text' 
+          required 
+          placeholder='273 Ocean Drive'
+          defaultValue={accommodation?.location}
 
-          />
-        </>
-        <div className='row'>
-          <div className='col'>
-            <p className='subtitle'>Check In *</p>
-            <input 
-              ref={checkInTimeRef}
-              type='time' 
-              required 
-              defaultValue={accommodation?.checkInTime || '16:00'}
-            />
-          </div>
-          <div className='col'>
-            <p className='subtitle'>Check Out *</p>
-            <input 
-              ref={checkOutTimeRef}
-              type='time' 
-              required
-              defaultValue={accommodation?.checkOutTime || '12:00'}
-            />
-          </div>
-        </div>
-        <>
-          <p className='subtitle'>Amenities</p>
+        />
+      </div>
+      <div className='row'>
+        <div className='section'>
+          <p className='subtitle'>Check In *</p>
           <input 
-            ref={amenitiesRef}
-            type='text' 
-            placeholder='Pools, Cabanas, Room Service, Spa Services'
-            defaultValue={accommodation?.amenities?.join(', ')}
+            ref={checkInTimeRef}
+            type='time' 
+            required 
+            defaultValue={accommodation?.checkInTime || '16:00'}
           />
-        </>
-        <>
-          <p className='subtitle'>Rating</p>
-          <select ref={ratingRef} defaultValue={accommodation?.rating}>
-            <option value='1'>★</option> 
-            <option value='2'>★★</option> 
-            <option value='3'>★★★</option> 
-            <option value='4'>★★★★</option> 
-            <option value='5'>★★★★★</option> 
-          </select>
-        </>
-        <div className='row'>
-          <div className='col'>
-            <p className='subtitle'>Contact Email</p>
-            <input ref={contactEmailRef} type='email' defaultValue={accommodation?.contactEmail} />
-          </div>
-          <div className='col'>
-            <p className='subtitle'>Contact Phone</p>
-            <input ref={contactPhoneRef} type='text' defaultValue={accommodation?.contactPhone} />
-          </div>
         </div>
-        <>
-          <p className='subtitle'>Image</p>
-          <ImageSearch 
-            onSelect={selectImage}
-            selectedImageURL={accommodation?.imageURL}
-            searchPlaceholder="Search for hotels, resorts, luxury..."
-            quickSearchTerms={['ocean villa', 'beach hotel', 'luxury hotel', 'tropical resort']}
+        <div className='section'>
+          <p className='subtitle'>Check Out *</p>
+          <input 
+            ref={checkOutTimeRef}
+            type='time' 
+            required
+            defaultValue={accommodation?.checkOutTime || '12:00'}
           />
-        </>
-        <div className='row'>
-          <Button inverted border onClick={closeModal} text='Cancel'/>
-          <Button type='submit' text='Submit' />
         </div>
-      </form>
-    </div>
+      </div>
+      <div className='section'>
+        <p className='subtitle'>Amenities</p>
+        <input 
+          ref={amenitiesRef}
+          type='text' 
+          placeholder='Pools, Cabanas, Room Service, Spa Services'
+          defaultValue={accommodation?.amenities?.join(', ')}
+        />
+      </div>
+      <div className='section'>
+        <p className='subtitle'>Rating</p>
+        <select ref={ratingRef} defaultValue={accommodation?.rating}>
+          <option value='1'>★</option> 
+          <option value='2'>★★</option> 
+          <option value='3'>★★★</option> 
+          <option value='4'>★★★★</option> 
+          <option value='5'>★★★★★</option> 
+        </select>
+      </div>
+      <div className='row'>
+        <div className='section'>
+          <p className='subtitle'>Contact Email</p>
+          <input ref={contactEmailRef} type='email' defaultValue={accommodation?.contactEmail} />
+        </div>
+        <div className='section'>
+          <p className='subtitle'>Contact Phone</p>
+          <input ref={contactPhoneRef} type='text' defaultValue={accommodation?.contactPhone} />
+        </div>
+      </div>
+      <div className='section'>
+        <p className='subtitle'>Image</p>
+        <ImageSearch 
+          onSelect={selectImage}
+          selectedImageURL={accommodation?.imageURL}
+          searchPlaceholder="Search for hotels, resorts, luxury..."
+          quickSearchTerms={['ocean villa', 'beach hotel', 'luxury hotel', 'tropical resort']}
+        />
+      </div>
+      <div className='row'>
+        <Button inverted border onClick={closeModal} text='Cancel'/>
+        <Button type='submit' text='Submit' />
+      </div>
+    </form>
   )
 }

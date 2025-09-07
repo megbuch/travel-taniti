@@ -27,31 +27,31 @@ export default function SignInForm() {
   }
 
   return (
-    <div className='form col'>
+    <form onSubmit={submit}>
       <h1>Sign In</h1>
       <p>Get access to your itinerary and manage your bookings.</p>
-      <form onSubmit={submit} className='col'>
-        <>
+        <div className='section'>
           <p className='subtitle'>Email</p>
           <input ref={emailRef} type='email' required />
-        </>
-        <>
+        </div>
+        <div className='section'>
           <p className='subtitle'>Password</p>
           <input ref={passwordRef} type='password' required />
-        </>
-        <p className='row'>
-          <span className='subtitle'>Need an account?</span>
-          <span><Button short small backgroundless onClick={()=>openModal(<CreateAccountForm />)} text='Sign Up' /></span>
-        </p>
-        <p className='row'>
-          <span className='subtitle'>Forgot your password?</span>
-          <span><Button short small backgroundless text='Reset Password' /></span>
-        </p>
+        </div>
+        <div className='section'>
+          <p className='row'>
+            <span className='subtitle'>Need an account?</span>
+            <span><Button short small backgroundless onClick={()=>openModal(<CreateAccountForm />)} text='Sign Up' /></span>
+          </p>
+          <p className='row'>
+            <span className='subtitle'>Forgot your password?</span>
+            <span><Button short small backgroundless text='Reset Password' /></span>
+          </p>
+        </div>
         <div className='row'>
           <Button inverted border onClick={closeModal} text='Cancel' />
           <Button type='submit' text='Submit' />
         </div>
       </form>
-    </div>
   )
 }

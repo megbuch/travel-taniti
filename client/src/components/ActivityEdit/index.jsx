@@ -55,7 +55,7 @@ export default function ActivityEdit({ activity, onSave, onDelete }) {
         contactEmail: contactEmailRef.current?.value.trim() || null,
         contactPhone: contactPhoneRef.current?.value.trim() || null,
         rating: parseInt(ratingRef.current?.value) || null,
-        imageURL: selectedImageURL || activity?.imageURL || null,
+        imageURL: selectedImageURL || null,
         companyName: companyNameRef.current?.value.trim() || null,
         durationMinutes: parseInt(durationMinutesRef.current?.value) || null,
         pricePerPerson: pricePerPersonRef.current?.value || null,
@@ -117,161 +117,156 @@ export default function ActivityEdit({ activity, onSave, onDelete }) {
   }
 
   return (
-    <div className='form col'>
+    <form onSubmit={save} className='col'>
       <h1>{`${activity ? 'Edit': 'Create'} Activity`}</h1>
-      <form onSubmit={save} className='col'>
-        <>
-          <p className='subtitle'>Name *</p>
-          <input 
-            ref={nameRef}
-            type='text' 
-            required 
-            placeholder='Jazz Festival'
-            defaultValue={activity?.name}
-          />
-        </>
-        <>
-          <p className='subtitle'>Description *</p>
-          <textarea 
-            ref={descriptionRef}
-            required 
-            rows='3' 
-            placeholder=''
-            defaultValue={activity?.description}
-          />
-        </>
-        <>
-          <p className='subtitle'>Location *</p>
-          <input 
-            ref={locationRef}
-            type='text' 
-            required 
-            placeholder=''
-            defaultValue={activity?.location}
-          />
-        </>
-        <>
-          <p className='subtitle'>Activity Type *</p>
+      <div className='section'>
+        <p className='subtitle'>Name *</p>
+        <input 
+          ref={nameRef}
+          type='text' 
+          required 
+          placeholder='Jazz Festival'
+          defaultValue={activity?.name}
+        />
+      </div>
+      <div className='section'>
+        <p className='subtitle'>Description *</p>
+        <textarea 
+          ref={descriptionRef}
+          required 
+          rows='3' 
+          placeholder=''
+          defaultValue={activity?.description}
+        />
+      </div>
+      <div className='section'>
+        <p className='subtitle'>Location *</p>
+        <input 
+          ref={locationRef}
+          type='text' 
+          required 
+          placeholder=''
+          defaultValue={activity?.location}
+        />
+      </div>
+      <div className='section'>
+        <p className='subtitle'>Activity Type *</p>
+        <div className='row'>
           <div className='row'>
-            <label>
-              <input type='radio'
-                name='activityType'
-                checked={!isRecurring}
-                onChange={() => setIsRecurring(false)}
-              />
-              One-time Event
-            </label>
-            <label>
-              <input
-                type='radio'
-                name='activityType'
-                checked={isRecurring}
-                onChange={() => setIsRecurring(true)}
-              />
-              Recurring Activity
-            </label>
-          </div>
-        </>
-        {!isRecurring ? (
-          <>
-            <p className='subtitle'>Date & Time *</p>
-            <input 
-              ref={oneTimeDateRef}
-              type='datetime-local' 
-              required
-              defaultValue={activity?.oneTimeDate ? formatDateForInput(activity.oneTimeDate) : ''}
+            <input type='radio'
+              name='activityType'
+              checked={!isRecurring}
+              onChange={() => setIsRecurring(false)}
             />
-          </>
-        ) : (
-          <>
-            <div>
-              <p className='subtitle'>Recurring Days of Week *</p>
-              <DaysOfWeekPicker 
-                selectedDays={selectedDays} 
-                onToggleDay={toggleDay} 
-              />
-              <>
-                <p className='subtitle'>Recurring Time *</p>
-                <input 
-                  ref={recurringTimeRef}
-                  type='time'
-                  required={isRecurring}
-                  defaultValue={activity?.recurringTime}
-                />
-              </>
-              <div className='row'>
-                <div className='col'>
-                  <p className='subtitle'>Start Date *</p>
-                  <input 
-                    ref={recurringStartDateRef}
-                    type='date'
-                    required={isRecurring}
-                    defaultValue={activity?.recurringStartDate}
-                  />
-                </div>
-                <div className='col'>
-                  <p className='subtitle'>End Date</p>
-                  <input 
-                    ref={recurringEndDateRef}
-                    type='date'
-                    defaultValue={activity?.recurringEndDate}
-                  />
-                </div>
-              </div>
-            </div>
-          </>
-        )}
-        <>
-          <p className='subtitle'>Max Participants *</p>
-          <input required ref={maxParticipantsRef} type='number' defaultValue={activity?.maxParticipants} />
-        </>
-        <>
-          <p className='subtitle'>Rating</p>
-          <select ref={ratingRef} defaultValue={activity?.rating}>
-            <option value=''>Select rating...</option>
-            <option value='1'>★</option> 
-            <option value='2'>★★</option> 
-            <option value='3'>★★★</option> 
-            <option value='4'>★★★★</option> 
-            <option value='5'>★★★★★</option> 
-          </select>
-        </>
-        <>
-          <p className='subtitle'>Duration Minutes</p>
-          <input ref={durationMinutesRef} type='number' defaultValue={activity?.durationMinutes} />
-        </>
-        <>
-          <p className='subtitle'>Price Per Person</p>
-          <input ref={pricePerPersonRef} type='number' step='0.01' defaultValue={activity?.pricePerPerson} />
-        </>
-        <>
-          <p className='subtitle'>Company Name</p>
-          <input ref={companyNameRef} type='text' defaultValue={activity?.companyName} />
-        </>
-        <div className='row'>
-          <div className='col'>
-            <p className='subtitle'>Email</p>
-            <input ref={contactEmailRef} type='email' defaultValue={activity?.contactEmail} />
+            <p>One-time Event</p>
           </div>
-          <div className='col'>
-            <p className='subtitle'>Phone</p>
-            <input ref={contactPhoneRef} type='text' defaultValue={activity?.contactPhone} />
+          <div className='row'>
+            <input
+              type='radio'
+              name='activityType'
+              checked={isRecurring}
+              onChange={() => setIsRecurring(true)}
+            />
+            <p>Recurring Activity</p>
           </div>
         </div>
-        <>
-          <p className='subtitle'>Image</p>
-          <ImageSearch 
-            onSelect={selectImage}
-            selectedImageURL={activity?.imageURL}
-            searchPlaceholder="Search for activity images..."
-            quickSearchTerms={['activity', 'event', 'recreation', 'entertainment']}
+      </div>
+      {!isRecurring ? (
+        <div className='section'>
+          <p className='subtitle'>Date & Time *</p>
+          <input 
+            ref={oneTimeDateRef}
+            type='datetime-local' 
+            required
+            defaultValue={activity?.oneTimeDate ? formatDateForInput(activity.oneTimeDate) : ''}
           />
-        </>
-        <div className='row'>
-          <Button inverted border onClick={closeModal} text='Cancel'/>
-          <Button type='submit' text='Submit' />
         </div>
-      </form>
-    </div>
+      ) : (
+        <>
+          <div className='section'>
+            <p className='subtitle'>Recurring Days of Week *</p>
+            <DaysOfWeekPicker selectedDays={selectedDays} onToggleDay={toggleDay} />
+          </div>
+          <div className='section'>
+            <p className='subtitle'>Recurring Time *</p>
+            <input 
+              ref={recurringTimeRef}
+              type='time'
+              required={isRecurring}
+              defaultValue={activity?.recurringTime}
+            />
+          </div>
+          <div className='row'>
+            <div className='section'>
+              <p className='subtitle'>Start Date *</p>
+              <input 
+                ref={recurringStartDateRef}
+                type='date'
+                required={isRecurring}
+                defaultValue={activity?.recurringStartDate}
+              />
+            </div>
+            <div className='section'>
+              <p className='subtitle'>End Date</p>
+              <input 
+                ref={recurringEndDateRef}
+                type='date'
+                defaultValue={activity?.recurringEndDate}
+              />
+            </div>
+          </div>
+        </>
+      )}
+      <div className='section'>
+        <p className='subtitle'>Max Participants *</p>
+        <input required ref={maxParticipantsRef} type='number' defaultValue={activity?.maxParticipants} />
+      </div>
+      <div className='section'>
+        <p className='subtitle'>Rating</p>
+        <select ref={ratingRef} defaultValue={activity?.rating}>
+          <option value=''>Select rating...</option>
+          <option value='1'>★</option> 
+          <option value='2'>★★</option> 
+          <option value='3'>★★★</option> 
+          <option value='4'>★★★★</option> 
+          <option value='5'>★★★★★</option> 
+        </select>
+      </div>
+      <div className='section'>
+        <p className='subtitle'>Duration Minutes</p>
+        <input ref={durationMinutesRef} type='number' defaultValue={activity?.durationMinutes} />
+      </div>
+      <div className='section'>
+        <p className='subtitle'>Price Per Person</p>
+        <input ref={pricePerPersonRef} type='number' step='0.01' defaultValue={activity?.pricePerPerson} />
+      </div>
+      <div className='section'>
+        <p className='subtitle'>Company Name</p>
+        <input ref={companyNameRef} type='text' defaultValue={activity?.companyName} />
+      </div>
+      <div className='row'>
+        <div className='col'>
+          <p className='subtitle'>Email</p>
+          <input ref={contactEmailRef} type='email' defaultValue={activity?.contactEmail} />
+        </div>
+        <div className='col'>
+          <p className='subtitle'>Phone</p>
+          <input ref={contactPhoneRef} type='text' defaultValue={activity?.contactPhone} />
+        </div>
+      </div>
+      <div className='section'>
+        <p className='subtitle'>Image</p>
+        <ImageSearch 
+          onSelect={selectImage}
+          selectedImageURL={activity?.imageURL}
+          searchPlaceholder="Search for activity images..."
+          quickSearchTerms={['activity', 'event', 'recreation', 'entertainment']}
+        />
+      </div>
+      <div className='row'>
+        <Button inverted border onClick={closeModal} text='Cancel'/>
+        <Button type='submit' text='Submit' />
+      </div>
+    </form>
   )
 }

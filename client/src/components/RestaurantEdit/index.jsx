@@ -48,7 +48,7 @@ export default function RestaurantEdit({ restaurant, onSave, onDelete }) {
         contactEmail: contactEmailRef.current.value.trim() || null,
         contactPhone: contactPhoneRef.current.value.trim() || null,
         rating: parseInt(ratingRef.current?.value) || null,
-        imageURL: selectedImageURL || restaurant?.imageURL || null,
+        imageURL: selectedImageURL || null,
         cuisineType: cuisineTypeRef.current?.value || null,
         priceRange: priceRangeRef.current?.value || null,
       }
@@ -69,131 +69,128 @@ export default function RestaurantEdit({ restaurant, onSave, onDelete }) {
   }
 
   return (
-    <div className='form col'>
+    <form onSubmit={save} className='col'>
       <h1>{`${restaurant ? 'Edit': 'Create'} Restaurant`}</h1>
-      <form onSubmit={save} className='col'>
-        <>
-          <p className='subtitle'>Name *</p>
-          <input 
-            ref={nameRef}
-            type='text' 
-            required 
-            placeholder='Salt & Stone'
-            defaultValue={restaurant?.name}
-          />
-        </>
-        <>
-          <p className='subtitle'>Description *</p>
-          <textarea 
-            ref={descriptionRef}
-            required 
-            rows='3' 
-            placeholder='An restaurant by the sea, offering an intimate setting.'
-            defaultValue={restaurant?.description}
-          />
-        </>
-        <>
-          <p className='subtitle'>Location *</p>
-          <input 
-            ref={locationRef}
-            type='text' 
-            required 
-            placeholder='100 Neptune Street'
-            defaultValue={restaurant?.location}
+      <div className='section'>
+        <p className='subtitle'>Name *</p>
+        <input 
+          ref={nameRef}
+          type='text' 
+          required 
+          placeholder='Salt & Stone'
+          defaultValue={restaurant?.name}
+        />
+      </div>
+      <div className='section'>
+        <p className='subtitle'>Description *</p>
+        <textarea 
+          ref={descriptionRef}
+          required 
+          rows='3' 
+          placeholder='An restaurant by the sea, offering an intimate setting.'
+          defaultValue={restaurant?.description}
+        />
+      </div>
+      <div className='section'>
+        <p className='subtitle'>Location *</p>
+        <input 
+          ref={locationRef}
+          type='text' 
+          required 
+          placeholder='100 Neptune Street'
+          defaultValue={restaurant?.location}
 
-          />
-        </>
-        <>
-          <p className='subtitle'>Days of Operation *</p>
-          <DaysOfWeekPicker 
-            selectedDays={selectedDays} 
-            onToggleDay={toggleDay} 
-          />
-        </>
-        <div className='row'>
-          <div className='col'>
-            <p className='subtitle'>Open Time *</p>
-            <input 
-              required
-              ref={openTimeRef}
-              type='time' 
-              defaultValue={restaurant?.openTime || '17:00'}
-            />
-          </div>
-          <div className='col'>
-            <p className='subtitle'>Close Time *</p>
-            <input 
-              required
-              ref={closeTimeRef}
-              type='time' 
-              defaultValue={restaurant?.closeTime || '23:00'}
-            />
-          </div>
-        </div>
-        <>
-          <p className='subtitle'>Max Capacity *</p>
+        />
+      </div>
+      <div className='section'>
+        <p className='subtitle'>Days of Operation *</p>
+        <DaysOfWeekPicker 
+          selectedDays={selectedDays} 
+          onToggleDay={toggleDay} 
+        />
+      </div>
+      <div className='row'>
+        <div className='col'>
+          <p className='subtitle'>Open Time *</p>
           <input 
-            ref={maxCapacityRef}
-            type='number' 
-            required 
-            placeholder='35'
-            defaultValue={restaurant?.maxCapacity}
+            required
+            ref={openTimeRef}
+            type='time' 
+            defaultValue={restaurant?.openTime || '17:00'}
           />
-        </>
-        <>
-          <p className='subtitle'>Cuisine Type</p>
+        </div>
+        <div className='col'>
+          <p className='subtitle'>Close Time *</p>
           <input 
-            ref={cuisineTypeRef}
-            type='text' 
-            placeholder='Asian Fusion'
-            defaultValue={restaurant?.cuisineType}
+            required
+            ref={closeTimeRef}
+            type='time' 
+            defaultValue={restaurant?.closeTime || '23:00'}
           />
-        </>
-        <div className='row'>
-          <>
-            <p className='subtitle'>Price Range</p>
-            <select ref={priceRangeRef}>
-              <option value='$'>$</option> 
-              <option value='$$'>$$</option> 
-              <option value='$$$'>$$$</option> 
-            </select>
-          </>
-          <>
-            <p className='subtitle'>Rating</p>
-            <select ref={ratingRef} defaultValue={restaurant?.rating}>
-              <option value='1'>★</option> 
-              <option value='2'>★★</option> 
-              <option value='3'>★★★</option> 
-              <option value='4'>★★★★</option> 
-              <option value='5'>★★★★★</option> 
-            </select>
-          </>
         </div>
-       
-        <div className='row'>
-          <div className='col'>
-            <p className='subtitle'>Email</p>
-            <input ref={contactEmailRef} type='email' defaultValue={restaurant?.contactEmail} />
-          </div>
-          <div className='col'>
-            <p className='subtitle'>Phone</p>
-            <input ref={contactPhoneRef} type='text' defaultValue={restaurant?.contactPhone} />
-          </div>
+      </div>
+      <div className='section'>
+        <p className='subtitle'>Max Capacity *</p>
+        <input 
+          ref={maxCapacityRef}
+          type='number' 
+          required 
+          placeholder='35'
+          defaultValue={restaurant?.maxCapacity}
+        />
+      </div>
+      <div className='section'>
+        <p className='subtitle'>Cuisine Type</p>
+        <input 
+          ref={cuisineTypeRef}
+          type='text' 
+          placeholder='Asian Fusion'
+          defaultValue={restaurant?.cuisineType}
+        />
+      </div>
+      <div className='row'>
+        <div className='section'>
+          <p className='subtitle'>Price Range</p>
+          <select ref={priceRangeRef}>
+            <option value='$'>$</option> 
+            <option value='$$'>$$</option> 
+            <option value='$$$'>$$$</option> 
+          </select>
         </div>
-        <>
-          <p className='subtitle'>Image</p>
-          <ImageSearch 
-            onSelect={selectImage}
-            selectedImageURL={restaurant?.imageURL}
-            searchPlaceholder="Search for restaurants..."
-            quickSearchTerms={['restaurant', 'dining', 'fine dining', 'bar', 'lounge']}
-          />
-        </>
-        <div className='row'>
-          <Button inverted border onClick={closeModal} text='Cancel'/>
-          <Button type='submit' text='Submit' />
+        <div className='section'>
+          <p className='subtitle'>Rating</p>
+          <select ref={ratingRef} defaultValue={restaurant?.rating}>
+            <option value='1'>★</option> 
+            <option value='2'>★★</option> 
+            <option value='3'>★★★</option> 
+            <option value='4'>★★★★</option> 
+            <option value='5'>★★★★★</option> 
+          </select>
         </div>
-      </form>
-    </div>
+      </div>
+      <div className='row'>
+        <div className='section'>
+          <p className='subtitle'>Email</p>
+          <input ref={contactEmailRef} type='email' defaultValue={restaurant?.contactEmail} />
+        </div>
+        <div className='section'>
+          <p className='subtitle'>Phone</p>
+          <input ref={contactPhoneRef} type='text' defaultValue={restaurant?.contactPhone} />
+        </div>
+      </div>
+      <div className='section'>
+        <p className='subtitle'>Image</p>
+        <ImageSearch 
+          onSelect={selectImage}
+          selectedImageURL={restaurant?.imageURL}
+          searchPlaceholder="Search for restaurants..."
+          quickSearchTerms={['restaurant', 'dining', 'fine dining', 'bar', 'lounge']}
+        />
+      </div>
+      <div className='row'>
+        <Button inverted border onClick={closeModal} text='Cancel'/>
+        <Button type='submit' text='Submit' />
+      </div>
+    </form>
   )
 }

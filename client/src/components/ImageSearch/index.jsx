@@ -52,10 +52,9 @@ export default function ImageSearch(props) {
   return (
     <div className='image-search-comp col'>
       {selectedImage ?
-        <div className='selected-image-container col'>
-          <Button inverted text='Select a different image' onClick={()=>setSelectedImage(null)} type='button' />
-
-          <div className='selected-image col'>
+        <div className='col'>
+            <Button small short inverted border text='Select a different image' onClick={()=>setSelectedImage(null)} type='button' />
+          <div className='selected-image'>
             <div>
               <img
                 src={selectedImage.urls.regular}
@@ -66,45 +65,43 @@ export default function ImageSearch(props) {
           </div>
         </div>
       :
-        <>
+        <div className='col'>
           <p>Search for an image via the Unsplash API</p>
-          <>
+          <div className='row'>
+            <input
+              ref={searchInputRef}
+              type='text'
+              placeholder={searchPlaceholder}
+              onKeyDown={handleKeyPress}
+              />
+            <Button short text={isSearching ? 'Searching...' : 'Search'} onClick={()=>searchImages()} disabled={isSearching} type='button' />
+          </div>
+          {quickSearchTerms.length > 0 && (
             <div className='row'>
-              <input
-                ref={searchInputRef}
-                type='text'
-                placeholder={searchPlaceholder}
-                onKeyDown={handleKeyPress}
+              {quickSearchTerms.map((term) => (
+                <Button small short inverted
+                  key={term}
+                  text={term}
+                  onClick={()=>searchImages(term)}
+                  type='button'
                 />
-              <Button short text={isSearching ? 'Searching...' : 'Search'} onClick={searchImages} disabled={isSearching} type='button' />
+              ))}
             </div>
-            {quickSearchTerms.length > 0 && (
-              <div className='row'>
-                {quickSearchTerms.map((term) => (
-                  <Button small short inverted
-                    key={term}
-                    text={term}
-                    onClick={()=>searchImages(term)}
-                    type='button'
-                  />
-                ))}
-              </div>
-            )}
-            {searchResults.length > 0 && (
-              <div className='image-list'>
-                {searchResults.map(image => (
-                  <div key={image.id} onClick={()=>selectImage(image)} className='image-card'>
-                    <img src={image.urls.regular} alt={image.alt_description || 'Search result'}/>
-                    <p className='subtitle'>by {image.user.name}</p>
-                  </div>
-                ))}
-              </div>
-            )}
-            {searchResults.length === 0 && !isSearching && searchInputRef.current?.value && (
-              <p>No images found. Try a different search term.</p>
-            )}
-          </>
-        </>
+          )}
+          {searchResults.length > 0 && (
+            <div className='image-list'>
+              {searchResults.map(image => (
+                <div key={image.id} onClick={()=>selectImage(image)} className='image-card'>
+                  <img src={image.urls.regular} alt={image.alt_description || 'Search result'}/>
+                  <p className='subtitle'>by {image.user.name}</p>
+                </div>
+              ))}
+            </div>
+          )}
+          {searchResults.length === 0 && !isSearching && searchInputRef.current?.value && (
+            <p>No images found. Try a different search term.</p>
+          )}
+        </div>
       }
     </div>
   )

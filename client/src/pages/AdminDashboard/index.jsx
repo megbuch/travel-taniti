@@ -114,8 +114,8 @@ export default function AdminDashboard() {
     fetchData()
   }
 
-  if (!isAuthenticated || !me) return <div>Loading...</div>
-  if (me.role !== 'admin') return <></>
+  // if (!isAuthenticated || !me) window.location.href = '/'
+  // if (me.role !== 'admin') window.location.href = '/'
   return (
     <div className='admin-dashboard-page col'>
       <Navigation />

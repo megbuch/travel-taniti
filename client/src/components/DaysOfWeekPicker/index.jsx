@@ -14,7 +14,7 @@ export default function DaysOfWeekPicker(props) {
   return (
     <div className='days-of-week-picker-comp row'>
       {daysOfWeek.map(day => (
-        <label key={day.value}>
+        <label className='row' key={day.value}>
           <input
             type='checkbox'
             checked={selectedDays.includes(day.value)}

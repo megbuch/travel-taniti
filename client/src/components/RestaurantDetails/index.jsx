@@ -25,12 +25,12 @@ export default function RestaurantDetails({ restaurant, onSave, onDelete }) {
     }
   }
   return (
-    <div className='restaurant-details-comp col details'>
+    <div className='restaurant-details-comp details'>
       {restaurant.imageURL && <img src={restaurant.imageURL} />}
       <div className='content'>
         <div>
           <h1>{restaurant.name}</h1>
-          <p>{renderStars(restaurant.rating)}</p>
+          <p>{restaurant.rating ? renderStars(restaurant.rating) : 'Not enough ratings'}</p>
           <p>{restaurant.priceRange}</p>
         </div>
 
@@ -39,31 +39,41 @@ export default function RestaurantDetails({ restaurant, onSave, onDelete }) {
           <Button short small backgroundless icon={<DeleteForeverIcon />} text='Delete' onClick={handleDelete} />
         </div>
 
-        <p className='emphasized-small'>{restaurant.description}</p>
+        <p>{restaurant.description}</p>
 
         {restaurant.cuisineType &&
-          <div className='col section'>
+          <div className='section'>
             <p className='subtitle'>Cuisine</p>
             <p>{restaurant.cuisineType}</p>
           </div>
         }
 
-        <div className='col section'>
+        <div className='section'>
+          <p className='subtitle'>Hours</p>
+          <p>{`${restaurant.openTime} - ${restaurant.closeTime}`}</p>
+          <p>{restaurant.operatingDays.join(', ')}</p>
+        </div>
+
+        <div className='section'>
           <p className='subtitle'>Max Capacity</p>
           <p>{restaurant.maxCapacity}</p>
         </div>
-
-        <div className='col section'>
-          <p className='subtitle'>Hours</p>
-          <p>{`${restaurant.openTime} - ${restaurant.closeTime}`}</p>
-          {restaurant.operatingDays.map(d => <p>{d}</p>)}
-        </div>
         
-        {(restaurant.contactPhone || restaurant.contactEmail) && 
-          <div className='col section'>
-            <p className='subtitle'>Contact</p>
-            {restaurant.contactEmail && <p>{restaurant.contactEmail}</p>}
-            {restaurant.contactPhone && <p>{restaurant.contactPhone}</p>}
+        <h4>Contact</h4>
+        <div className='section'>
+          <p className='subtitle'>Location</p>
+          <p>{restaurant.location}</p>
+        </div>
+        {restaurant.contactEmail && 
+          <div className='section'>
+            <p className='subtitle'>Contact Email</p>
+            <p>{restaurant.contactEmail}</p>
+          </div>
+        }
+        {restaurant.contactEmail && 
+          <div className='section'>
+            <p className='subtitle'>Contact Phone</p>
+            <p>{restaurant.contactPhone}</p>
           </div>
         }
       </div>
