@@ -7,7 +7,6 @@ export function SessionProvider({ children }) {
   const navigate = useNavigate()
   const [me, setMe] = useState(null)
   const [token, setToken] = useState(null)
-  const [loading, setLoading] = useState(true)
 
   const Role = {
     ADMIN: 'admin',
@@ -16,8 +15,26 @@ export function SessionProvider({ children }) {
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token')
-    if (storedToken) setToken(storedToken)
-    setLoading(false)
+    if (storedToken) {
+      try {
+        const payload = JSON.parse(atob(storedToken.split('.')[1]))
+        if (payload.exp * 1000 <= Date.now()) {
+          localStorage.removeItem('token')
+          return
+        }
+        setToken(storedToken)
+        const userData = {
+          id: payload.userID,
+          email: payload.email,
+          firstName: payload.firstName,
+          lastName: payload.lastName,
+          role: payload.role
+        }
+        setMe(userData)
+      } catch (error) {
+        localStorage.removeItem('token')
+      }
+    }
   }, [])
 
   useEffect(() => {
@@ -28,7 +45,9 @@ export function SessionProvider({ children }) {
   const signIn = (token, me) => {
     setToken(token)
     setMe(me)
-    navigate(me.role == Role.ADMIN ? '/admin-dashboard' : '/traveler-dashboard')
+    navigate(me.role == Role.ADMIN 
+      ? '/admin-dashboard' 
+      : '/traveler-dashboard')
   }
 
   const signOut = () => {
@@ -40,9 +59,8 @@ export function SessionProvider({ children }) {
   const value = {
     signIn,
     signOut,
-    loading,
     me,
-    isAuthenticated: !!token
+    isAuthenticated: !!token && !!me
   }
 
   return (
@@ -54,6 +72,6 @@ export function SessionProvider({ children }) {
 
 export function useSession() {
   const context = useContext(SessionContext)
-  if (!context) return console.log('useSession should be used within a ModalProvider')
+  if (!context) return
   return context
 }

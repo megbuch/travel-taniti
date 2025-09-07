@@ -20,6 +20,12 @@ export default async function sendRequest(url, method = 'GET', payload = null, q
   }
   
   const res = await fetch(url, options);
+  if ([401, 403].includes(res.status)) {
+    localStorage.removeItem('token')
+    window.location.href = '/'
+    throw new Error('Authentication failed')
+  }
+  
   if (res.ok) return res.json()
   throw new Error('Bad Request')
 }

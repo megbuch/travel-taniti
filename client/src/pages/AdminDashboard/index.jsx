@@ -14,7 +14,7 @@ import {
   ActivityDetails,
   ActivityEdit
 } from '../../components'
-import { useModal } from '../../hooks'
+import { useModal, useSession } from '../../hooks'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 const Tab = {
@@ -29,10 +29,16 @@ export default function AdminDashboard() {
   const [currentTab, setCurrentTab] = useState(Tab.USERS)
   const [items, setItems] = useState([])
   const searchRef = useRef()
+  const { me, isAuthenticated } = useSession()
 
   useEffect(() => { fetchData() }, [currentTab])
 
   const fetchData = async (query) => {
+    const token = localStorage.getItem('token')
+    if (!token) {
+      console.log('No token available, skipping fetch')
+      return
+    }
     try {
       switch (currentTab) {
         case Tab.USERS:
@@ -108,6 +114,8 @@ export default function AdminDashboard() {
     fetchData()
   }
 
+  if (!isAuthenticated || !me) return <div>Loading...</div>
+  if (me.role !== 'admin') return <></>
   return (
     <div className='admin-dashboard-page col'>
       <Navigation />

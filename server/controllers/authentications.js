@@ -13,17 +13,15 @@ const createAuthentication = async (req, res) => {
     if (!match) {
       return res.status(400).json({ error: 'Incorrect email or password' })
     }
-    const accessToken = jwt.sign({ userID: user.id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: process.env.ACCESS_TOKEN_EXPIRATION })
-    res.json({ 
-      user: { 
-        id: user.id,
-        email: user.email, 
-        firstName: user.firstName, 
-        lastName: user.lastName,
-        role: user.role
-      }, 
-      accessToken 
-    }) 
+    const userData = { 
+      id: user.id,
+      email: user.email, 
+      firstName: user.firstName, 
+      lastName: user.lastName,
+      role: user.role
+    }
+    const accessToken = jwt.sign(userData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: process.env.ACCESS_TOKEN_EXPIRATION })
+    res.json({ user: userData, accessToken }) 
   } catch (error) {
     console.log(error)
     return res.status(400).json({ error: 'Could not authenticate' })
