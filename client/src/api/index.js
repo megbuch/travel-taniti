@@ -1,6 +1,7 @@
 export { createAuthentication } from './authentications'
 export { getUsers, createUser } from './users'
-export { getAccommodations, createAccommodation, updateAccommodation, deleteAccommodation } from './accommodations'
+export { getAccommodations, getAccommodation, createAccommodation, updateAccommodation, deleteAccommodation } from './accommodations'
+export { createRoomType, deleteRoomType } from './roomTypes'
 export { getRestaurants, createRestaurant, updateRestaurant, deleteRestaurant } from './restaurants'
 export { getActivities, createActivity, updateActivity, deleteActivity } from './activities'
 export { searchForImages } from './unsplash'

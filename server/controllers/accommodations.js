@@ -22,6 +22,22 @@ const getAccommodations = async (req, res) => {
   }
 }
 
+const getAccommodation = async (req, res) => {
+  try {
+    const { id } = req.params
+    const accommodation = await Accommodation.findByPk(id)
+    if (!accommodation) {
+      return res.status(404).json({ error: 'Accommodation not found' })
+    }
+    accommodation.dataValues.roomTypes = await RoomType.findAll({ 
+      where: { accommodationID: accommodation.id } 
+    })
+    res.status(200).json({ accommodation })
+  } catch (error) {
+    handleError(res, error, 'Could not fetch accommodations')
+  }
+}
+
 const createAccommodation = async (req, res) => {
   try {
     const accommodation = await Accommodation.create(req.body)
@@ -60,6 +76,7 @@ const deleteAccommodation = async (req, res) => {
 
 module.exports = {
   getAccommodations,
+  getAccommodation,
   createAccommodation,
   updateAccommodation,
   deleteAccommodation

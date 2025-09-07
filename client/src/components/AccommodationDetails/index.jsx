@@ -1,13 +1,11 @@
 import { toast } from 'react-toastify'
 import { deleteAccommodation } from '../../api';
 import { useModal } from '../../hooks';
-import { Button, AccommodationEdit } from '..'
+import { Button, AccommodationEdit, RoomTypeDetails } from '..'
 import StarIcon from '@mui/icons-material/Star';
-import EditSquareIcon from '@mui/icons-material/EditSquare';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import './styles.scss'
 
-export default function AccommodationDetails({ accommodation, onSave, onDelete }) {
+export default function AccommodationDetails({ accommodation, onSave, onDelete, onRefresh }) {
   const { openModal, closeModal } = useModal() 
   
   const renderStars = count => {
@@ -35,7 +33,7 @@ export default function AccommodationDetails({ accommodation, onSave, onDelete }
         </div>
 
         <div className='actions row'>
-          <Button short small text='Edit' onClick={()=>openModal(<AccommodationEdit accommodation={accommodation} onSave={onSave} onDelete={onDelete} />)} />
+          <Button short small text='Edit' onClick={()=>openModal(<AccommodationEdit accommodation={accommodation} onSave={onSave} onDelete={onDelete} onRefresh={onRefresh} />)} />
           <Button short small text='Delete' onClick={handleDelete} />
         </div>
 
@@ -64,7 +62,7 @@ export default function AccommodationDetails({ accommodation, onSave, onDelete }
         {accommodation.roomTypes && 
           <div className='section'>
             <p className='subtitle'>Room Types</p>
-            {accommodation.roomTypes?.map(rt => <p>{rt.name}</p>)}
+            {accommodation.roomTypes?.map(rt => <RoomTypeDetails key={rt.id} roomType={rt} onDelete={onRefresh} />)}
           </div>
         }
 

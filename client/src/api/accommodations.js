@@ -6,6 +6,10 @@ export const getAccommodations = async (query) => {
   return sendRequest(BASE_URL, 'GET', null, query);
 }
 
+export const getAccommodation = async (accommodationID) => {
+  return sendRequest(`${BASE_URL}/${accommodationID}`, 'GET');
+}
+
 export const createAccommodation = async (accommodationData) => {
   return sendRequest(BASE_URL, 'POST', accommodationData)
 }

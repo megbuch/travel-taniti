@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react'
-import { getUsers, getAccommodations, getRestaurants, getActivities } from '../../api'
+import { getUsers, getAccommodations, getAccommodation, getRestaurants, getActivities } from '../../api'
 import { toast } from 'react-toastify'
 import { 
   Navigation, 
@@ -76,7 +76,7 @@ export default function AdminDashboard() {
     const handleDelete = () => onDelete(item)
     switch (currentTab) {
       case Tab.USERS: openModal(<UserDetails user={item} />); break
-      case Tab.ACCOMMODATIONS: openModal(<AccommodationDetails accommodation={item} onSave={handleSave} onDelete={handleDelete} />); break
+      case Tab.ACCOMMODATIONS: openModal(<AccommodationDetails accommodation={item} onSave={handleSave} onDelete={handleDelete} onRefresh={()=>onRefreshAccommodation(item)} />); break
       case Tab.RESTAURANTS: openModal(<RestaurantDetails restaurant={item} onSave={handleSave} onDelete={handleDelete} />); break
       case Tab.ACTIVITIES: openModal(<ActivityDetails activity={item} onSave={handleSave} onDelete={handleDelete} />); break
     }
@@ -102,6 +102,25 @@ export default function AdminDashboard() {
       } 
       return [...prev, item]
     })
+  }
+
+  const onRefreshAccommodation = async (accommodation) => {
+    try {
+      const response = await getAccommodation(accommodation.id)
+      const refreshedAccommodation = response?.accommodation
+      if (refreshedAccommodation) {
+        setItems(prev => {
+          const existingIndex = prev.findIndex(i => i.id === accommodation.id)
+          if (existingIndex >= 0) { 
+            return prev.map(i => i.id === accommodation.id ? refreshedAccommodation : i)
+          }
+          return prev
+        })
+        onView(refreshedAccommodation)
+      }
+    } catch (error) {
+      console.log('Could not refresh accommodation:', error)
+    }
   }
 
   const search = () => {
