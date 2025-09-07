@@ -77,7 +77,7 @@ const accommodations = [
     contactEmail: 'info@seasidevillas.com',
     contactPhone: '+690-555-0103',
     rating: 4,
-    imageURL: 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4',
+    imageURL: 'https://images.unsplash.com/photo-1584132967334-10e028bd69f7',
     amenities: ['Adult Only', 'Private Villas', 'Direct Beach Access', 'Ocean Views', 'Traditional Architecture', 'Romantic Setting'],
     checkInTime: '15:00:00',
     checkOutTime: '11:00:00'
@@ -89,7 +89,7 @@ const accommodations = [
     contactEmail: 'hello@harbourhotel.com',
     contactPhone: '+690-555-0104',
     rating: 3,
-    imageURL: 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa',
+    imageURL: 'https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9',
     amenities: ['Harbor Views', 'Rooftop Bar', 'City Center', 'Modern Design', 'Concierge', 'Business Center'],
     checkInTime: '15:00:00',
     checkOutTime: '12:00:00'

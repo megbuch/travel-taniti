@@ -1,6 +1,5 @@
 .featured-card {
-  max-width: 500px;
-  width: 100%;
+  max-width: 300px;
   padding: var(--pad);
   background-color: var(--color-surface);
   border-radius: 4px;
@@ -8,7 +7,9 @@
 
   img {
     width: 100%;
-    border-radius: 4px;
-    margin-bottom: var(--pad-sm);
+    height: 200px;
+    object-fit: cover;
+    border-radius: var(--corner-radius);
+    position: relative;
   }
 }

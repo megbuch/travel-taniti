@@ -3,8 +3,6 @@ import { deleteActivity } from '../../api';
 import { useModal } from '../../hooks';
 import { Button, ActivityEdit } from '..'
 import StarIcon from '@mui/icons-material/Star';
-import EditSquareIcon from '@mui/icons-material/EditSquare';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import './styles.scss'
 
 export default function ActivityDetails({ activity, onSave, onDelete }) {

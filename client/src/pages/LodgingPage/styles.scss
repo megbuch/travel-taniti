@@ -4,8 +4,9 @@
   margin: auto;
   
   .page-container {
-    .featured-hotels-container {
+    .hotels-container {
       gap: var(--pad-lg);
+      flex-wrap: wrap;
 
       @media only screen and (min-width: '800px') {
         flex-direction: row;

@@ -1,48 +1,30 @@
+import { useEffect, useState } from 'react'
 import {
   Navigation, 
   Banner, 
   CallToAction,
-  FeaturedCard, 
+  ServiceCard, 
   Footer,
 } from '../../components'
-import { 
-  scallopsImage,
-  yellowLeafGrillSquare,
-  pinnacoveImageSquare,
-  seaAndStoneImageSquare 
-} from '../../global'
+import { getRestaurants } from '../../api'
+import { scallopsImage } from '../../global'
 import './styles.scss'
 
 export default function DiningPage() {
+  const [restaurants, setRestaurants] = useState([])
+
   const bannerData = { 
     altText: 'Scallops at Sea & Stone', 
     description: 'Scallops at Sea & Stone',
     image: scallopsImage 
   }
 
-  const featuredRestaurants = [
-    {
-      name: 'Sea & Stone',
-      rating: '⭐⭐⭐⭐⭐',
-      description: 'Upscale Pan-Asian fusion dining featuring fresh seafood and local ingredients. Rooftop cocktail bar.',
-      address: '45 Maera Avenue | Merriton Landing',
-      image: seaAndStoneImageSquare
-    },
-    {
-      name: 'Yellow Leaf Grill',
-      rating: '⭐⭐⭐⭐⭐',
-      description: 'Family-owned grill serving traditional Tanitian fish and rice recipes.',
-      address: '110 Yellow Leaf Circle | Yellow Leaf Bay',
-      image: yellowLeafGrillSquare
-    },
-    {
-      name: 'Pinnacove',
-      rating: '⭐⭐⭐⭐⭐',
-      description: 'American dining with scenic views, known for beachfront dining. Popular happy hour spot.',
-      address: '92 Luana Way | Yellow Leaf Bay',
-      image: pinnacoveImageSquare
-    },
-  ]
+  useEffect(() => { fetchRestaurants() }, [])
+
+  const fetchRestaurants = async () => {
+    const response = await getRestaurants()
+    setRestaurants(response?.restaurants)
+  }
   
   return (
     <div className='dining-page col'>
@@ -61,8 +43,8 @@ export default function DiningPage() {
         <div className='text-section'>
           <h2>Featured Restaurants</h2>
           <p>Discover some of our most popular restaurants.</p>
-          <div className='featured-hotels-container col'>
-            {featuredRestaurants.map((restaurant, index) => <FeaturedCard key={index} data={restaurant} />)}
+          <div className='restaurants-container col'>
+            {restaurants.map((restaurant, index) => <ServiceCard key={index} data={restaurant} />)}
           </div>
         </div>
         <CallToAction />

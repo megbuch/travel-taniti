@@ -1,48 +1,29 @@
+import { useEffect, useState } from 'react'
 import {
   Navigation, 
   Banner, 
   CallToAction, 
-  FeaturedCard, 
+  ServiceCard, 
   Footer,
 } from '../../components'
-import { 
-  leilaniRoyalImage, 
-  leilaniRoyalImageSquare, 
-  yellowLeafBayGrandImageSquare,
-  seasideImageSquare
-} from '../../global'
+import { leilaniRoyalImage } from '../../global'
+import { getAccommodations } from '../../api'
 import './styles.scss'
 
 export default function LodgingPage() {
+  const [accommodations, setAccommodations] = useState([])
   const bannerData = { 
     altText: 'Junior Suite at Leilani Royal Resort', 
     description: 'Junior Suite at Leilani Royal Resort',
     image: leilaniRoyalImage
   }
 
-  const featuredHotels = [
-    {
-      name: 'Leilani Royal Resort',
-      rating: '⭐⭐⭐⭐',
-      description: 'Our premier four-star resort offers spacious suites, spa services, and direct access to Merriton Landing for dining and entertainment.',
-      address: '120 Paragon Way | Merriton Landing',
-      image: leilaniRoyalImageSquare
-    },
-    {
-      name: 'Yellow Leaf Bay Grand Resort',
-      rating: '⭐⭐⭐',
-      description: 'Surrounded by rainforest overlooking Yellow Leaf Bay, this resort offers a natural paradise with hiking trails and traditional Tanitian villas.',
-      address: '570 Bay Circle | Yellow Leaf Bay',
-      image: yellowLeafBayGrandImageSquare
-    },
-    {
-      name: 'Seaside Villas',
-      rating: '⭐⭐⭐',
-      description: 'Private beachfront villas offer a romantic, adult-only escape. Each villa features ocean views, direct beach access, and authentic Tanitian architecture.',
-      address: '821 Pacific Drive | Taniti Sandbar',
-      image: seasideImageSquare
-    },
-  ]
+  useEffect(() => { fetchAccommodations() }, [])
+  
+  const fetchAccommodations = async () => {
+    const response = await getAccommodations()
+    setAccommodations(response?.accommodations?.sort((a,b) => a.name.localeCompare(b.name)))
+  }
 
   return (
     <div className='lodging-page col'>
@@ -62,8 +43,8 @@ export default function LodgingPage() {
         <div className='text-section'>
           <h2>Featured Accommodations</h2>
           <p>Discover some of our most popular places to stay.</p>
-          <div className='featured-hotels-container col'>
-            {featuredHotels.map((hotel, index) => <FeaturedCard key={index} data={hotel} />)}
+          <div className='hotels-container col'>
+            {accommodations.map((accommodation, index) => <ServiceCard key={index} data={accommodation} />)}
           </div>
         </div>
         <CallToAction />

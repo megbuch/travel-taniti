@@ -1,7 +1,9 @@
+import { useEffect, useState } from 'react'
 import {
   Navigation, 
   Banner, 
   CallToAction, 
+  ServiceCard,
   Footer,
 } from '../../components'
 import { 
@@ -10,13 +12,23 @@ import {
   weddingImageSquare,
   volcanoImageSquare
 } from '../../global'
+import { getActivities } from '../../api'
 import './styles.scss'
 
 export default function ActivitiesPage() {
+  const [activities, setActivities] = useState([])
+
   const bannerData = { 
     altText: 'Dolphin Encounter at Blue Lagoon', 
     description: 'Dolphin Encounter at Blue Lagoon',
     image: dolphinImage 
+  }
+
+  useEffect(() => { fetchActivities() }, [])
+
+  const fetchActivities = async () => {
+    const response = await getActivities()
+    setActivities(response?.activities)
   }
 
   return (
@@ -63,6 +75,13 @@ export default function ActivitiesPage() {
             </p>
           </div>
           <img src={volcanoImageSquare} alt='Active volcano' />
+        </div>
+        <div className='text-section'>
+          <h2>Featured Activities</h2>
+          <p>Discover some of our most popular activities.</p>
+          <div className='activities-container col'>
+            {activities.map((activity, index) => <ServiceCard key={index} data={activity} />)}
+          </div>
         </div>
         <CallToAction />
       </div>

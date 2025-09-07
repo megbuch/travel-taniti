@@ -13,7 +13,7 @@ export default function ContactForm() {
   }
 
   return (
-    <div className='form col'>
+    <form onSubmit={submit} className='col'>
       <h1>Get in Touch</h1>
       <p>Let our experts help you plan your dream vacation!</p>
       <p className='subtitle'>A Taniti travel agent will contact you by email or phone within 24-48 hours.</p>
@@ -24,32 +24,30 @@ export default function ContactForm() {
         📞 &nbsp; (772) 891-9700<br />
         📧 &nbsp; inquiries@traveltaniti.com
       </p>
-      <form onSubmit={submit} className='col'>
-        <>
-          <p className='subtitle'>First Name *</p>
-          <input type='text' required/>
-        </>
-        <>
-          <p className='subtitle'>Last Name *</p>
-          <input type='text' required/>
-        </>
-        <>
-          <p className='subtitle'>Email *</p>
-          <input type='email' required/>
-        </>
-        <>
-          <p className='subtitle'>Phone </p>
-          <input type='text' />
-        </>
-        <>
-          <p className='subtitle'>Message *</p>
-          <textarea required type='text' rows='4' />
-        </>
-        <div className='row button-row'>
-          <Button inverted onClick={closeModal} text='Cancel'/>
-          <Button type='submit' text='Submit' />
-        </div>
-      </form>
-    </div>
+      <div className='section'>
+        <p className='subtitle'>First Name *</p>
+        <input type='text' required/>
+      </div>
+      <div className='section'>
+        <p className='subtitle'>Last Name *</p>
+        <input type='text' required/>
+      </div>
+      <div className='section'>
+        <p className='subtitle'>Email *</p>
+        <input type='email' required/>
+      </div>
+      <div className='section'>
+        <p className='subtitle'>Phone </p>
+        <input type='text' />
+      </div>
+      <div className='section'>
+        <p className='subtitle'>Message *</p>
+        <textarea required type='text' rows='4' />
+      </div>
+      <div className='row button-row'>
+        <Button inverted onClick={closeModal} text='Cancel'/>
+        <Button type='submit' text='Submit' />
+      </div>
+    </form>
   )
 }

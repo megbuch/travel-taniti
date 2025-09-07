@@ -22,4 +22,15 @@
       border-radius: 4px;
     }
   }
+
+  .page-container {
+    .activities-container {
+      gap: var(--pad-lg);
+      flex-wrap: wrap;
+
+      @media only screen and (min-width: '800px') {
+        flex-direction: row;
+      }
+    }
+  }
 }

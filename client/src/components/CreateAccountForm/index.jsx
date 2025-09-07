@@ -36,35 +36,33 @@ export default function CreateAccountForm() {
   }
 
   return (
-    <div className='form col'>
+    <form onSubmit={submit} className='col'>
       <h1>Create an Account</h1>
       <p>Access your itinerary and manage your bookings.</p>
-      <form onSubmit={submit} className='col'>
-        <>
-          <p className='subtitle'>First Name *</p>
-          <input ref={firstNameRef} type='text' required/>
-        </>
-        <>
-          <p className='subtitle'>Last Name *</p>
-          <input ref={lastNameRef} type='text' required/>
-        </>
-        <>
-          <p className='subtitle'>Email *</p>
-          <input ref={emailRef} type='email' required/>
-        </>
-        <>
-          <p className='subtitle'>Password *</p>
-          <input ref={passwordRef} type='password' minLength='8' required />
-        </>
-        <>
-          <p className='subtitle'>Confirm Password *</p>
-          <input ref={confirmPasswordRef} type='password' minLength='8' required />
-        </>
-        <div className='row button-row'>
-          <Button inverted border onClick={closeModal} text='Cancel' />
-          <Button type='submit' text='Submit' />
-        </div>
-      </form>
-    </div>
+      <div className='section'>
+        <p className='subtitle'>First Name *</p>
+        <input ref={firstNameRef} type='text' required/>
+      </div>
+      <div className='section'>
+        <p className='subtitle'>Last Name *</p>
+        <input ref={lastNameRef} type='text' required/>
+      </div>
+      <div className='section'>
+        <p className='subtitle'>Email *</p>
+        <input ref={emailRef} type='email' required/>
+      </div>
+      <div className='section'>
+        <p className='subtitle'>Password *</p>
+        <input ref={passwordRef} type='password' minLength='8' required />
+      </div>
+      <div className='section'>
+        <p className='subtitle'>Confirm Password *</p>
+        <input ref={confirmPasswordRef} type='password' minLength='8' required />
+      </div>
+      <div className='row button-row'>
+        <Button inverted border onClick={closeModal} text='Cancel' />
+        <Button type='submit' text='Submit' />
+      </div>
+    </form>
   )
 }
