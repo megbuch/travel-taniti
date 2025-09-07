@@ -293,7 +293,7 @@ const restaurants = [
     imageURL: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5',
     cuisineType: 'Pacific Fusion',
     priceRange: '$$$',
-    operatingDays: ['wednesday', 'thursday', 'friday', 'saturday', 'sunday'],
+    operatingDays: ['Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
     openTime: '17:00:00',
     closeTime: '23:00:00',
     maxCapacity: 80
@@ -308,7 +308,7 @@ const restaurants = [
     imageURL: 'https://images.unsplash.com/photo-1579584425555-c3ce17fd4351',
     cuisineType: 'Japanese-Polynesian',
     priceRange: '$$',
-    operatingDays: ['tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'],
+    operatingDays: ['Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
     openTime: '18:00:00',
     closeTime: '22:00:00',
     maxCapacity: 60
@@ -323,7 +323,7 @@ const restaurants = [
     imageURL: 'https://images.unsplash.com/photo-1694087450396-f6b1031b37d7',
     cuisineType: 'Island Breakfast',
     priceRange: '$',
-    operatingDays: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'],
+    operatingDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
     openTime: '06:00:00',
     closeTime: '14:00:00',
     maxCapacity: 50
@@ -338,7 +338,7 @@ const restaurants = [
     imageURL: 'https://images.unsplash.com/photo-1585937421612-70a008356fbe',
     cuisineType: 'Traditional Tanitian',
     priceRange: '$$',
-    operatingDays: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'],
+    operatingDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
     openTime: '11:30:00',
     closeTime: '22:00:00',
     maxCapacity: 70
@@ -353,7 +353,7 @@ const restaurants = [
     imageURL: 'https://images.unsplash.com/photo-1736040891921-849833b78339',
     cuisineType: 'Tropical BBQ',
     priceRange: '$$',
-    operatingDays: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'],
+    operatingDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],    
     openTime: '16:00:00',
     closeTime: '01:00:00',
     maxCapacity: 120
@@ -368,7 +368,7 @@ const restaurants = [
     imageURL: 'https://images.unsplash.com/photo-1676664778856-b48a7d87d831',
     cuisineType: 'Contemporary Pacific',
     priceRange: '$$$',
-    operatingDays: ['wednesday', 'thursday', 'friday', 'saturday', 'sunday'],
+    operatingDays: ['Thursday', 'Friday', 'Saturday', 'Sunday'],
     openTime: '17:00:00',
     closeTime: '23:00:00',
     maxCapacity: 80
@@ -390,7 +390,7 @@ const activities = [
     maxParticipants: 12,
     isRecurring: true,
     oneTimeDate: null,
-    recurringDays: ['tuesday', 'thursday', 'saturday'],
+    recurringDays: ['Tuesday', 'Thursday', 'Saturday'],
     recurringTime: '06:00:00',
     recurringStartDate: '2024-01-01',
     recurringEndDate: '2024-12-31'
@@ -409,7 +409,7 @@ const activities = [
     maxParticipants: 6,
     isRecurring: true,
     oneTimeDate: null,
-    recurringDays: ['monday', 'wednesday', 'friday', 'sunday'],
+    recurringDays: ['Monday', 'Wednesday', 'Friday', 'Sunday'],
     recurringTime: '09:00:00',
     recurringStartDate: '2024-01-01',
     recurringEndDate: '2024-12-31'
@@ -428,7 +428,7 @@ const activities = [
     maxParticipants: 200,
     isRecurring: true,
     oneTimeDate: null,
-    recurringDays: ['friday', 'saturday'],
+    recurringDays: ['Friday', 'Saturday'],
     recurringTime: '19:00:00',
     recurringStartDate: '2024-01-01',
     recurringEndDate: '2024-12-31'
@@ -447,7 +447,7 @@ const activities = [
     maxParticipants: 16,
     isRecurring: true,
     oneTimeDate: null,
-    recurringDays: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'],
+    recurringDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
     recurringTime: '08:00:00',
     recurringStartDate: '2024-01-01',
     recurringEndDate: '2024-12-31'
@@ -466,7 +466,7 @@ const activities = [
     maxParticipants: 14,
     isRecurring: true,
     oneTimeDate: null,
-    recurringDays: ['tuesday', 'thursday', 'saturday'],
+    recurringDays: ['Tuesday', 'Thursday'],
     recurringTime: '15:00:00',
     recurringStartDate: '2024-01-01',
     recurringEndDate: '2024-12-31'
@@ -485,7 +485,7 @@ const activities = [
     maxParticipants: 8,
     isRecurring: true,
     oneTimeDate: null,
-    recurringDays: ['monday', 'wednesday', 'friday', 'sunday'],
+    recurringDays: ['Monday', 'Wednesday', 'Friday', 'Sunday'],
     recurringTime: '10:00:00',
     recurringStartDate: '2024-01-01',
     recurringEndDate: '2024-12-31'
@@ -504,7 +504,7 @@ const activities = [
     maxParticipants: 20,
     isRecurring: true,
     oneTimeDate: null,
-    recurringDays: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'],
+    recurringDays: ['Thursday', 'Friday'],
     recurringTime: '17:00:00',
     recurringStartDate: '2024-01-01',
     recurringEndDate: '2024-12-31'
@@ -523,7 +523,7 @@ const activities = [
     maxParticipants: 25,
     isRecurring: true,
     oneTimeDate: null,
-    recurringDays: ['friday', 'saturday'],
+    recurringDays: ['Friday', 'Saturday'],
     recurringTime: '21:00:00',
     recurringStartDate: '2024-01-01',
     recurringEndDate: '2024-12-31'

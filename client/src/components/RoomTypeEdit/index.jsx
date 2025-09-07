@@ -21,7 +21,7 @@ export default function RoomTypeEdit({ accommodation, onSave, onCancel }) {
         availableRooms: totalRoomsRef.current.value,
         maxGuests: maxGuestsRef.current.value,
         amenities: amenitiesRef.current?.value 
-          ? amenitiesRef.current.value.split(',').map(a => a.trim().toLowerCase()) 
+          ? amenitiesRef.current.value.split(',').map(a => a.trim()) 
           : [],
       }
       await createRoomType(roomTypeData)

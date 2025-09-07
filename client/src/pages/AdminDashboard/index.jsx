@@ -16,6 +16,7 @@ import {
 } from '../../components'
 import { useModal, useSession } from '../../hooks'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import './styles.scss'
 
 const Tab = {
   USERS: 'Users',
@@ -44,25 +45,25 @@ export default function AdminDashboard() {
         case Tab.USERS:
           {
             const response = await getUsers(query)
-            setItems(response?.users)
+            setItems(response?.users?.sort((a,b) => a.lastName.localeCompare(b.lastName)))
           }
           break
         case Tab.ACCOMMODATIONS:
           {
             const response = await getAccommodations(query)
-            setItems(response?.accommodations)
+            setItems(response?.accommodations?.sort((a,b) => a.name.localeCompare(b.name)))
           }
           break
         case Tab.RESTAURANTS:
           {
             const response = await getRestaurants(query)
-            setItems(response?.restaurants)
+            setItems(response?.restaurants?.sort((a,b) => a.name.localeCompare(b.name)))
           }
           break
         case Tab.ACTIVITIES:
           {
             const response = await getActivities(query)
-            setItems(response?.activities)
+            setItems(response?.activities?.sort((a,b) => a.name.localeCompare(b.name)))
           }
           break
       }
@@ -140,23 +141,25 @@ export default function AdminDashboard() {
       <Navigation />
       <div className='page-container'>
         <h1>Admin Dashboard</h1>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, earum nesciunt. Adipisci dolorum, quas voluptate laboriosam doloribus, delectus rerum excepturi non modi et fugit sequi! Veniam eius eos consectetur quod.</p>
         <div className='row'>
           <Button inverted={currentTab != Tab.USERS} text='Users' onClick={()=>setCurrentTab(Tab.USERS)}/>
           <Button inverted={currentTab != Tab.ACCOMMODATIONS} text='Accommodations' onClick={()=>setCurrentTab(Tab.ACCOMMODATIONS)}/>
           <Button inverted={currentTab != Tab.RESTAURANTS} text='Restaurants' onClick={()=>setCurrentTab(Tab.RESTAURANTS)}/>
           <Button inverted={currentTab != Tab.ACTIVITIES} text='Activities' onClick={()=>setCurrentTab(Tab.ACTIVITIES)}/>
         </div>
-        <div className='row'>
-          <h2>{currentTab}</h2>
-          {currentTab !== Tab.USERS && <Button backgroundless icon={<AddCircleOutlineIcon />} onClick={onCreate} />}
+        <div className='content'>
+          <div className='row'>
+            <h2>{currentTab}</h2>
+            {currentTab !== Tab.USERS && <Button backgroundless icon={<AddCircleOutlineIcon />} onClick={onCreate} />}
+          </div>
+          <div className='row'>
+            <input type='text' placeholder={`Search ${currentTab}..`} ref={searchRef} />
+            <Button small short text='Search' onClick={search} />
+            <Button small short inverted border text='Clear Filter' onClick={clearFilter} />
+          </div>
+          <p>{`Showing ${items.length} results`}</p>
+          <List items={items} onView={onView} />
         </div>
-        <div className='row'>
-          <input type='text' placeholder={`Search ${currentTab}..`} ref={searchRef} />
-          <Button small short text='Search' onClick={search} />
-          <Button small short inverted border text='Clear Filter' onClick={clearFilter} />
-        </div>
-        <List items={items} onView={onView} />
       </div>
       <Footer />
     </div>

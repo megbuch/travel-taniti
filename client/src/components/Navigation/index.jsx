@@ -34,7 +34,7 @@ export default function Navigation() {
         {isAuthenticated ? 
           <div className='row'>
             <Button backgroundless icon={<DashboardIcon />} onClick={()=>navigate('/traveler-dashboard')} />
-            <Button small text='Sign Out' onClick={signOut} />
+            <Button text='Sign Out' onClick={signOut} />
           </div>
         : 
           <>

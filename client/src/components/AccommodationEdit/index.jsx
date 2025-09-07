@@ -31,7 +31,7 @@ export default function AccommodationEdit({ accommodation, onSave, onDelete, onR
         checkInTime: checkInTimeRef.current.value,
         checkOutTime: checkOutTimeRef.current.value,
         amenities: amenitiesRef.current?.value 
-          ? amenitiesRef.current.value.split(',').map(a => a.trim().toLowerCase()) 
+          ? amenitiesRef.current.value.split(',').map(a => a.trim()) 
           : [],
         contactEmail: contactEmailRef.current.value.trim() || null,
         contactPhone: contactPhoneRef.current.value.trim() || null,

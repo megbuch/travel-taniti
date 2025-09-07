@@ -47,7 +47,7 @@ export default function ActivityDetails({ activity, onSave, onDelete }) {
           {activity.isRecurring 
             ? 
             <>
-              <p>{`${activity.recurringStartDate} - ${activity.recurringEndDate}`}</p>
+              <p>{`${new Date(activity.recurringStartDate).toLocaleDateString()} - ${new Date(activity.recurringEndDate).toLocaleDateString()}`}</p>
               <p>{`${activity.recurringTime} every ${activity.recurringDays.join(', ')}`}</p>
             </>
             : <p>{activity.oneTimeDate}</p>
@@ -99,6 +99,7 @@ export default function ActivityDetails({ activity, onSave, onDelete }) {
           </div>
         }
       </div>
+      <p className='subtitle'>{`Created ${new Date(activity.createdAt).toLocaleDateString()}`}</p>
     </div>
   )
 }

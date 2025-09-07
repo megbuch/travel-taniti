@@ -68,14 +68,14 @@ export default function AccommodationDetails({ accommodation, onSave, onDelete, 
           </div>
         }
         <div className='row'>
-          <h3>Room Types</h3>
+          <h4>Room Types</h4>
           {!showRoomTypeForm && <Button small short backgroundless icon={<AddCircleOutlineIcon />} onClick={()=>setShowRoomTypeForm(true)} />}
         </div>
         {showRoomTypeForm && <RoomTypeEdit accommodation={accommodation} onSave={saveRoomType} onCancel={()=>setShowRoomTypeForm(false)} />}
         <div className='section'>
           {accommodation.roomTypes?.map(rt => <RoomTypeDetails key={rt.id} roomType={rt} onDelete={onRefresh} />)}
         </div>
-        <h3>Contact</h3>
+        <h4>Contact</h4>
         <div className='section'>
           <p className='subtitle'>Location</p>
           <p>{accommodation.location}</p>
@@ -93,6 +93,7 @@ export default function AccommodationDetails({ accommodation, onSave, onDelete, 
           </div>
         }
       </div>
+      <p className='subtitle'>{`Created ${new Date(accommodation.createdAt).toLocaleDateString()}`}</p>
     </div>
   )
 }

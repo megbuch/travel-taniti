@@ -78,6 +78,7 @@ export default function RestaurantDetails({ restaurant, onSave, onDelete }) {
           </div>
         }
       </div>
+      <p className='subtitle'>{`Created ${new Date(restaurant.createdAt).toLocaleDateString()}`}</p>
     </div>
   )
 }
