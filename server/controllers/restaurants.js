@@ -42,7 +42,7 @@ const updateRestaurant = async (req, res) => {
 const deleteRestaurant = async (req, res) => {
   try {
     const { id } = req.params
-    const deletedCount = await Restaurant.destroy({ where: { id } })
+    const deletedCount = await Restaurant.destroy({ where: { id: id } })
     if (deletedCount === 0) {
       return res.status(404).json({ error: 'Restaurant not found' })
     }

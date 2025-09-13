@@ -11,6 +11,7 @@ app.use('/api/roomTypes', require('./routes/roomTypes'))
 app.use('/api/accommodations', require('./routes/accommodations'))
 app.use('/api/restaurants', require('./routes/restaurants'))
 app.use('/api/activities', require('./routes/activities'))
+app.use('/api/bookings', require('./routes/bookings'))
 app.use('/api/unsplash', require('./routes/unsplash'))
 
 const port = process.env.PORT || 3001

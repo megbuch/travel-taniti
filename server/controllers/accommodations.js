@@ -64,7 +64,7 @@ const updateAccommodation = async (req, res) => {
 const deleteAccommodation = async (req, res) => {
   try {
     const { id } = req.params
-    const deletedCount = await Accommodation.destroy({ where: { id } })
+    const deletedCount = await Accommodation.destroy({ where: { id: id } })
     if (deletedCount === 0) {
       return res.status(404).json({ error: 'Accommodation not found' })
     }

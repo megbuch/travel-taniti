@@ -13,7 +13,7 @@ const createRoomType = async (req, res) => {
 const deleteRoomType = async (req, res) => {
   try {
     const { id } = req.params
-    const deletedCount = await RoomType.destroy({ where: { id } })
+    const deletedCount = await RoomType.destroy({ where: { id: id } })
     if (deletedCount === 0) {
       return res.status(404).json({ error: 'Room type not found' })
     }

@@ -8,7 +8,7 @@ class Activity extends Service {}
 const schema = {
   ...serviceSchema,
   companyName: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING
   },
   durationMinutes: {
     type: DataTypes.INTEGER,
@@ -26,24 +26,19 @@ const schema = {
     defaultValue: false
   },
   oneTimeDate: {
-    type: DataTypes.DATE,
-    allowNull: true
+    type: DataTypes.DATE
   },
   recurringDays: {
-    type: DataTypes.ARRAY(DataTypes.STRING),
-    allowNull: true
+    type: DataTypes.ARRAY(DataTypes.STRING)
   },
   recurringTime: {
-    type: DataTypes.TIME,
-    allowNull: true
+    type: DataTypes.TIME
   },
   recurringStartDate: {
-    type: DataTypes.DATEONLY,
-    allowNull: true
+    type: DataTypes.DATEONLY
   },
   recurringEndDate: {
-    type: DataTypes.DATEONLY,
-    allowNull: true
+    type: DataTypes.DATEONLY
   }
 }
 
