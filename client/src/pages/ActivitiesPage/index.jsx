@@ -5,6 +5,7 @@ import {
   CallToAction, 
   ServiceCard,
   Footer,
+  ActivityDetails
 } from '../../components'
 import { 
   dolphinImage,
@@ -12,10 +13,12 @@ import {
   weddingImageSquare,
   volcanoImageSquare
 } from '../../global'
+import { useModal } from '../../hooks'
 import { getActivities } from '../../api'
 import './styles.scss'
 
 export default function ActivitiesPage() {
+  const { openModal } = useModal()
   const [activities, setActivities] = useState([])
 
   const bannerData = { 
@@ -79,8 +82,12 @@ export default function ActivitiesPage() {
         <div className='text-section'>
           <h2>Featured Activities</h2>
           <p>Discover some of our most popular activities.</p>
-          <div className='activities-container col'>
-            {activities.map((activity, index) => <ServiceCard key={index} data={activity} />)}
+          <div className='activities-container'>
+            {activities.map((activity, index) => <ServiceCard 
+              key={index} 
+              data={activity}
+              onView={()=>openModal(<ActivityDetails activity={activity} />)} />
+            )}
           </div>
         </div>
         <CallToAction />

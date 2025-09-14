@@ -1,12 +1,13 @@
 import { toast } from 'react-toastify'
 import { deleteActivity } from '../../api';
-import { useModal } from '../../hooks';
+import { useModal, useSession } from '../../hooks';
 import { Button, ActivityEdit } from '..'
 import StarIcon from '@mui/icons-material/Star';
 import './styles.scss'
 
 export default function ActivityDetails({ activity, onSave, onDelete }) {
   const { openModal, closeModal } = useModal() 
+  const { me } = useSession()
   
   const renderStars = count => {
     return [...Array(count)].map((_, i) => <StarIcon key={i} />)
@@ -33,10 +34,12 @@ export default function ActivityDetails({ activity, onSave, onDelete }) {
           <p>{activity.rating ? renderStars(activity.rating) : 'Not enough ratings'}</p>
         </div>
 
-        <div className='actions row'>
-          <Button short small text='Edit' onClick={()=>openModal(<ActivityEdit activity={activity} onSave={onSave} onDelete={onDelete} />)} />
-          <Button short small text='Delete' onClick={handleDelete} />
-        </div>
+        {me?.role == 'admin' && 
+          <div className='actions row'>
+            <Button short small text='Edit' onClick={()=>openModal(<ActivityEdit activity={activity} onSave={onSave} onDelete={onDelete} />)} />
+            <Button short small text='Delete' onClick={handleDelete} />
+          </div>
+        }
 
         <p>{activity.description}</p>
 
@@ -59,7 +62,7 @@ export default function ActivityDetails({ activity, onSave, onDelete }) {
           </div>
         }
 
-        {activity.maxParticipants && 
+        {me?.role == 'admin' && activity.maxParticipants && 
           <div className='section'>
             <p className='subtitle'>Max Participants</p>
             <p>{activity.maxParticipants}</p>
@@ -97,7 +100,7 @@ export default function ActivityDetails({ activity, onSave, onDelete }) {
           </div>
         }
       </div>
-      <p className='subtitle'>{`Created ${new Date(activity.createdAt).toLocaleDateString()}`}</p>
+      {me?.role == 'admin' && <p className='subtitle'>{`Created ${new Date(activity.createdAt).toLocaleDateString()}`}</p>}
     </div>
   )
 }

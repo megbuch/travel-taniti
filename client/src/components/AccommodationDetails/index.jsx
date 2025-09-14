@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { toast } from 'react-toastify'
 import { deleteAccommodation } from '../../api';
-import { useModal } from '../../hooks';
+import { useModal, useSession } from '../../hooks';
 import { Button, AccommodationEdit, RoomTypeDetails, RoomTypeEdit } from '..'
 import StarIcon from '@mui/icons-material/Star';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -9,6 +9,7 @@ import './styles.scss'
 
 export default function AccommodationDetails({ accommodation, onSave, onDelete, onRefresh }) {
   const { openModal, closeModal } = useModal() 
+  const { me } = useSession()
   const [showRoomTypeForm, setShowRoomTypeForm] = useState(false)
 
   const renderStars = count => {
@@ -41,10 +42,12 @@ export default function AccommodationDetails({ accommodation, onSave, onDelete, 
           <p>{accommodation.rating ? renderStars(accommodation.rating) : 'Not enough ratings'}</p>
         </div>
 
-        <div className='actions row'>
-          <Button short small text='Edit' onClick={()=>openModal(<AccommodationEdit accommodation={accommodation} onSave={onSave} onDelete={onDelete} onRefresh={onRefresh} />)} />
-          <Button short small text='Delete' onClick={handleDelete} />
-        </div>
+        {me?.role === 'admin' && 
+          <div className='actions row'>
+            <Button short small text='Edit' onClick={()=>openModal(<AccommodationEdit accommodation={accommodation} onSave={onSave} onDelete={onDelete} onRefresh={onRefresh} />)} />
+            <Button short small text='Delete' onClick={handleDelete} />
+          </div>
+        }
 
         <p>{accommodation.description}</p>
 
@@ -69,9 +72,9 @@ export default function AccommodationDetails({ accommodation, onSave, onDelete, 
         }
         <div className='row'>
           <h4>Room Types</h4>
-          {!showRoomTypeForm && <Button small short backgroundless icon={<AddCircleOutlineIcon />} onClick={()=>setShowRoomTypeForm(true)} />}
+          {me?.role === 'admin' && !showRoomTypeForm && <Button small short backgroundless icon={<AddCircleOutlineIcon />} onClick={()=>setShowRoomTypeForm(true)} />}
         </div>
-        {showRoomTypeForm && <RoomTypeEdit accommodation={accommodation} onSave={saveRoomType} onCancel={()=>setShowRoomTypeForm(false)} />}
+        {me?.role === 'admin' && showRoomTypeForm && <RoomTypeEdit accommodation={accommodation} onSave={saveRoomType} onCancel={()=>setShowRoomTypeForm(false)} />}
         <div className='section'>
           {accommodation.roomTypes?.map(rt => <RoomTypeDetails key={rt.id} roomType={rt} onDelete={onRefresh} />)}
         </div>
@@ -93,7 +96,7 @@ export default function AccommodationDetails({ accommodation, onSave, onDelete, 
           </div>
         }
       </div>
-      <p className='subtitle'>{`Created ${new Date(accommodation.createdAt).toLocaleDateString()}`}</p>
+      {me?.role == 'admin' && <p className='subtitle'>{`Created ${new Date(accommodation.createdAt).toLocaleDateString()}`}</p>}
     </div>
   )
 }

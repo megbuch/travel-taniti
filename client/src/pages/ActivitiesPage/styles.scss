@@ -25,11 +25,15 @@
 
   .page-container {
     .activities-container {
-      gap: var(--pad-lg);
-      flex-wrap: wrap;
+      columns: 3;
+      column-gap: var(--pad-lg);
 
-      @media only screen and (min-width: '800px') {
-        flex-direction: row;
+      @media only screen and (max-width: 800px) {
+        columns: 1;
+      }
+      
+      @media only screen and (min-width: 800px) and (max-width: 1200px) {
+        columns: 2;
       }
     }
   }

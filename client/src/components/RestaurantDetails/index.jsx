@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify'
 import { deleteRestaurant } from '../../api';
-import { useModal } from '../../hooks';
+import { useModal, useSession } from '../../hooks';
 import { Button, RestaurantEdit } from '..'
 import StarIcon from '@mui/icons-material/Star';
 import EditSquareIcon from '@mui/icons-material/EditSquare';
@@ -9,6 +9,7 @@ import './styles.scss'
 
 export default function RestaurantDetails({ restaurant, onSave, onDelete }) {
   const { openModal, closeModal } = useModal() 
+  const { me } = useSession()
   
   const renderStars = count => {
     return [...Array(count)].map((_, i) => <StarIcon key={i} />)
@@ -25,6 +26,7 @@ export default function RestaurantDetails({ restaurant, onSave, onDelete }) {
       toast.error('Could not delete restaurant')
     }
   }
+
   return (
     <div className='restaurant-details-comp details'>
       {restaurant.imageURL && <img src={restaurant.imageURL} />}
@@ -35,10 +37,12 @@ export default function RestaurantDetails({ restaurant, onSave, onDelete }) {
           <p>{restaurant.priceRange}</p>
         </div>
 
-        <div className='actions row'>
-          <Button short small backgroundless icon={<EditSquareIcon />} text='Edit' onClick={()=>openModal(<RestaurantEdit restaurant={restaurant} onSave={onSave} onDelete={onDelete} />)} />
-          <Button short small backgroundless icon={<DeleteForeverIcon />} text='Delete' onClick={handleDelete} />
-        </div>
+        {me?.role === 'admin' && 
+          <div className='actions row'>
+            <Button short small backgroundless icon={<EditSquareIcon />} text='Edit' onClick={()=>openModal(<RestaurantEdit restaurant={restaurant} onSave={onSave} onDelete={onDelete} />)} />
+            <Button short small backgroundless icon={<DeleteForeverIcon />} text='Delete' onClick={handleDelete} />
+          </div>
+        }
 
         <p>{restaurant.description}</p>
 
@@ -55,10 +59,12 @@ export default function RestaurantDetails({ restaurant, onSave, onDelete }) {
           <p>{restaurant.operatingDays.join(', ')}</p>
         </div>
 
-        <div className='section'>
-          <p className='subtitle'>Max Capacity</p>
-          <p>{restaurant.maxCapacity}</p>
-        </div>
+        {me?.role === 'admin' && 
+          <div className='section'>
+            <p className='subtitle'>Max Capacity</p>
+            <p>{restaurant.maxCapacity}</p>
+          </div>
+        }
         
         <h4>Contact</h4>
         <div className='section'>
@@ -78,7 +84,7 @@ export default function RestaurantDetails({ restaurant, onSave, onDelete }) {
           </div>
         }
       </div>
-      <p className='subtitle'>{`Created ${new Date(restaurant.createdAt).toLocaleDateString()}`}</p>
+      {me?.role === 'admin' && <p className='subtitle'>{`Created ${new Date(restaurant.createdAt).toLocaleDateString()}`}</p>}
     </div>
   )
 }

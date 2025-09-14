@@ -35,6 +35,7 @@ const schema = {
     allowNull: false,
     validate: { min: 0 }
   },
+  // todo: Is this even necessary? -->
   availableRooms: {
     type: DataTypes.INTEGER,
     allowNull: false,

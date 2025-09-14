@@ -5,12 +5,15 @@ import {
   CallToAction, 
   ServiceCard, 
   Footer,
+  AccommodationDetails,
 } from '../../components'
 import { leilaniRoyalImage } from '../../global'
 import { getAccommodations } from '../../api'
+import { useModal } from '../../hooks'
 import './styles.scss'
 
 export default function LodgingPage() {
+  const { openModal } = useModal()
   const [accommodations, setAccommodations] = useState([])
   const bannerData = { 
     altText: 'Junior Suite at Leilani Royal Resort', 
@@ -25,6 +28,9 @@ export default function LodgingPage() {
     setAccommodations(response?.accommodations?.sort((a,b) => a.name.localeCompare(b.name)))
   }
 
+  const onView = () => {
+    openModal(<AccommodationDetails accommodation={data} />)
+  }
   return (
     <div className='lodging-page col'>
       <Navigation />
@@ -43,8 +49,12 @@ export default function LodgingPage() {
         <div className='text-section'>
           <h2>Featured Accommodations</h2>
           <p>Discover some of our most popular places to stay.</p>
-          <div className='hotels-container col'>
-            {accommodations.map((accommodation, index) => <ServiceCard key={index} data={accommodation} />)}
+          <div className='hotels-container'>
+            {accommodations.map((accommodation, index) => <ServiceCard 
+              key={index} 
+              data={accommodation} 
+              onView={()=>openModal(<AccommodationDetails accommodation={accommodation} />)} />
+            )}
           </div>
         </div>
         <CallToAction />

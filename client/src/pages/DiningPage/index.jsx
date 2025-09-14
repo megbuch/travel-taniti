@@ -5,12 +5,15 @@ import {
   CallToAction,
   ServiceCard, 
   Footer,
+  RestaurantDetails,
 } from '../../components'
-import { getRestaurants } from '../../api'
 import { scallopsImage } from '../../global'
+import { getRestaurants } from '../../api'
+import { useModal } from '../../hooks'
 import './styles.scss'
 
 export default function DiningPage() {
+  const { openModal } = useModal()
   const [restaurants, setRestaurants] = useState([])
 
   const bannerData = { 
@@ -43,8 +46,12 @@ export default function DiningPage() {
         <div className='text-section'>
           <h2>Featured Restaurants</h2>
           <p>Discover some of our most popular restaurants.</p>
-          <div className='restaurants-container col'>
-            {restaurants.map((restaurant, index) => <ServiceCard key={index} data={restaurant} />)}
+          <div className='restaurants-container'>
+            {restaurants.map((restaurant, index) => <ServiceCard 
+              key={index} 
+              data={restaurant} 
+              onView={()=>openModal(<RestaurantDetails restaurant={restaurant} />)} />
+            )}
           </div>
         </div>
         <CallToAction />

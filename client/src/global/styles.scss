@@ -11,7 +11,7 @@
   --color-neutral-dark:  rgb(241, 229, 214);
   --color-transparent-red: rgba(189, 42, 23, 0.25);
   --color-transparent-dark: rgba(0, 0, 0, 0.4);
-  --color-shadow: rgba(0, 0, 0, 0.4);
+  --color-shadow: rgba(0, 0, 0, 0.24);
   
   --box-shadow: 0px 1px 20px var(--color-shadow);
 
@@ -156,7 +156,7 @@ body {
     padding: var(--pad-lg);
     border-radius: 4px;
     background-color: var(--color-surface);
-    box-shadow: 0px 1px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--box-shadow);
   
     .content {
       display: flex;

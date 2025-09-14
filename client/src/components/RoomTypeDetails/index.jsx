@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Button } from '..'
 import { deleteRoomType } from '../../api'
+import { useSession } from '../../hooks'
 import { toast } from 'react-toastify'
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -9,6 +10,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import './styles.scss'
 
 export default function RoomTypeDetails({ roomType, onDelete }) {
+  const { me } = useSession()
   const [isExpanded, setIsExpanded] = useState(false)
   const [showFullAmenities, setShowFullAmenities] = useState(false)
   const defaultAmenitiesCount = 5
@@ -29,7 +31,7 @@ export default function RoomTypeDetails({ roomType, onDelete }) {
       <div className='top-row'>
         <p className='emphasized-small'>{roomType.name}</p>
         <div className='row'>
-          {isExpanded && <Button small short backgroundless icon={<DeleteIcon />} onClick={handleDelete} />}
+          {me?.role === 'admin' && isExpanded && <Button small short backgroundless icon={<DeleteIcon />} onClick={handleDelete} />}
           <Button 
             backgroundless 
             short
@@ -49,10 +51,12 @@ export default function RoomTypeDetails({ roomType, onDelete }) {
               <p className='subtitle'>Available Rooms</p>
               <p>{roomType.availableRooms}</p>
             </div>
-            <div className='section'>
-              <p className='subtitle'>Total Rooms</p>
-              <p>{roomType.totalRooms}</p>
-            </div>
+            {me?.role === 'admin' && 
+              <div className='section'>
+                <p className='subtitle'>Total Rooms</p>
+                <p>{roomType.totalRooms}</p>
+              </div>   
+            }
           </div>
           {roomType.amenities?.length > 0 && 
             <div className='section'>
