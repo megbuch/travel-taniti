@@ -16,6 +16,10 @@
 
     .availability-list {
       gap: var(--pad-sm);
+
+      .availability-list-item {
+        justify-content: space-between;
+      }
     }
   }
 }

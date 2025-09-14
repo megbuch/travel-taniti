@@ -65,8 +65,8 @@ const getRestaurantAvailability = async (req, res) => {
       return res.status(404).json({ error: 'Restaurant not found' })
     }
     const [year, month, day] = date.split('-').map(Number)
-    const requestedDate = new Date(year, month - 1, day)
-    const dayOfWeek = requestedDate.toLocaleDateString('en-US', { weekday: 'long' })
+    const targetDate = new Date(year, month - 1, day)
+    const dayOfWeek = targetDate.toLocaleDateString('en-US', { weekday: 'long' })
     if (!restaurant.operatingDays.includes(dayOfWeek)) {
       return res.status(200).json({ availableSlots: [] })
     }
@@ -74,24 +74,20 @@ const getRestaurantAvailability = async (req, res) => {
       where: {
         bookingType: 'restaurant',
         bookableID: id,
-        startDate: { [Op.between]: [new Date(`${date}T00:00:00`), new Date(`${date}T23:59:59`)] },
+        startDate: date,
         status: 'confirmed'
       }
     })
     const timeSlots = generateTimeSlots(restaurant.openTime, restaurant.closeTime)
     const availableSlots = []
-    for (const slot of timeSlots) {
-      const slotStart = new Date(`${date}T${slot}:00`)
-      const slotEnd = new Date(slotStart.getTime() + (60 * 60 * 1000)) // 1 hour later
-      const slotBookings = existingBookings.filter(booking => {
-        const bookingStart = new Date(booking.startDate)
-        const bookingEnd = new Date(booking.endDate)
-        return (bookingStart < slotEnd && bookingEnd > slotStart)
-      })
-      const totalBooked = slotBookings.reduce((sum, booking) => sum + booking.quantity, 0)
+    for (const time of timeSlots) {
+      const slotBookings = existingBookings.filter(
+        booking => booking.startTime === `${time}:00`
+      )
+      const totalBooked = slotBookings.reduce((sum, b) => sum + b.quantity, 0)
       const remainingCount = restaurant.maxCapacity - totalBooked
       if (remainingCount > 0) {
-        availableSlots.push({ time: slot, available: remainingCount })
+        availableSlots.push({ time, available: remainingCount })
       }
     }
     res.status(200).json({ availableSlots })

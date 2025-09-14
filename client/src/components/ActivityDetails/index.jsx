@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify'
-import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
 import { deleteActivity, getActivityAvailability } from '../../api';
 import { useModal, useSession } from '../../hooks';
-import { Button, ActivityEdit } from '..'
+import { Button, ActivityEdit, SignInForm, BookingEdit } from '..'
 import StarIcon from '@mui/icons-material/Star';
 import './styles.scss'
 
@@ -14,6 +12,14 @@ export default function ActivityDetails({ activity, onSave, onDelete }) {
   const [date, setDate] = useState(new Date().toISOString().split('T')[0])
   const [availableSlots, setAvailableSlots] = useState()
   
+  useEffect(() => {
+    const getAvailability = async () => {
+      const response = await getActivityAvailability(activity.id, { date: date })
+      setAvailableSlots(response?.availableSlots)
+    }
+    getAvailability()
+  }, [date])
+
   const renderStars = count => {
     return [...Array(count)].map((_, i) => <StarIcon key={i} />)
   }
@@ -30,13 +36,14 @@ export default function ActivityDetails({ activity, onSave, onDelete }) {
     }
   }
 
-  useEffect(() => {
-    const getAvailability = async () => {
-      const response = await getActivityAvailability(activity.id, { date: date })
-      setAvailableSlots(response?.availableSlots)
-    }
-    getAvailability()
-  }, [date])
+  const createBooking = option => {
+    openModal(<BookingEdit 
+      service={activity} 
+      startDate={date} 
+      endDate={date} 
+      option={option}
+      onBack={()=>openModal(<ActivityDetails activity={activity} onSave={onSave} onDelete={onDelete} />)} />)
+  }
 
   return (
     <div className='activity-details-comp details'>
@@ -121,15 +128,19 @@ export default function ActivityDetails({ activity, onSave, onDelete }) {
             {availableSlots?.length > 0 ? 
               <ul className='availability-list col'>
                 {availableSlots.map(slot => (
-                  <li>
-                    <p>{slot.time}</p>
-                    <p className='subtitle'>{`${slot.available} Available`}</p>
+                  <li className='availability-list-item row'>
+                    <div>
+                      <p>{slot.time}</p>
+                      <p className='subtitle'>{`${slot.available} Available`}</p>
+                    </div>
+                    {me && <Button small short text='Book now' onClick={()=>createBooking(slot)} />}
                   </li>
                 ))}
               </ul>
               :
               <p className='subtitle'>No available time slots on this date.</p>
             }
+            {!me && <Button small short text='Sign in to book' onClick={()=>openModal(<SignInForm redirectAfterLogin={false} />)} />}
           </>
         }
       </div>

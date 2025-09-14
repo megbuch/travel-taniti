@@ -41,12 +41,15 @@ const schema = {
     defaultValue: 'confirmed'
   },
   startDate: {
-    type: DataTypes.DATE,
+    type: DataTypes.DATEONLY,
     allowNull: false
   },
   endDate: {
-    type: DataTypes.DATE,
+    type: DataTypes.DATEONLY,
     allowNull: false
+  },
+  startTime: {
+    type: DataTypes.TIME,
   }
 }
 

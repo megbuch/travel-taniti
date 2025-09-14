@@ -4,4 +4,5 @@ export { getAccommodations, getAccommodation, createAccommodation, updateAccommo
 export { createRoomType, deleteRoomType } from './roomTypes'
 export { getRestaurants, createRestaurant, updateRestaurant, deleteRestaurant, getRestaurantAvailability } from './restaurants'
 export { getActivities, createActivity, updateActivity, deleteActivity, getActivityAvailability } from './activities'
+export { createBooking } from './bookings'
 export { searchForImages } from './unsplash'

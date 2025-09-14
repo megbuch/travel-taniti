@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify'
 import { deleteRestaurant, getRestaurantAvailability } from '../../api';
 import { useModal, useSession } from '../../hooks';
-import { Button, RestaurantEdit } from '..'
+import { Button, RestaurantEdit, SignInForm, BookingEdit } from '..'
 import StarIcon from '@mui/icons-material/Star';
 import EditSquareIcon from '@mui/icons-material/EditSquare';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -14,6 +14,14 @@ export default function RestaurantDetails({ restaurant, onSave, onDelete }) {
   const [date, setDate] = useState(new Date().toISOString().split('T')[0])
   const [availableSlots, setAvailableSlots] = useState()
   
+  useEffect(() => {
+    const getAvailability = async () => {
+      const response = await getRestaurantAvailability(restaurant.id, { date: date })
+      setAvailableSlots(response?.availableSlots)
+    }
+    getAvailability()
+  }, [date])
+
   const renderStars = count => {
     return [...Array(count)].map((_, i) => <StarIcon key={i} />)
   }
@@ -30,13 +38,14 @@ export default function RestaurantDetails({ restaurant, onSave, onDelete }) {
     }
   }
 
-  useEffect(() => {
-    const getAvailability = async () => {
-      const response = await getRestaurantAvailability(restaurant.id, { date: date })
-      setAvailableSlots(response?.availableSlots)
-    }
-    getAvailability()
-  }, [date])
+  const createBooking = option => {
+    openModal(<BookingEdit 
+      service={restaurant} 
+      startDate={date} 
+      endDate={date} 
+      option={option}
+      onBack={()=>openModal(<RestaurantDetails restaurant={restaurant} onSave={onSave} onDelete={onDelete} />)} />)
+  }
 
   return (
     <div className='restaurant-details-comp details'>
@@ -103,15 +112,19 @@ export default function RestaurantDetails({ restaurant, onSave, onDelete }) {
             {availableSlots?.length > 0 ? 
               <ul className='availability-list col'>
                 {availableSlots.map(slot => (
-                  <li>
-                    <p>{slot.time}</p>
-                    <p className='subtitle'>{`${slot.available} Available`}</p>
+                  <li className='availability-list-item row'>
+                    <div>
+                      <p>{slot.time}</p>
+                      <p className='subtitle'>{`${slot.available} Available`}</p>
+                    </div>
+                    {me && <Button small short text='Book now' onClick={()=>createBooking(slot)} />}
                   </li>
                 ))}
               </ul>
               :
               <p className='subtitle'>No available time slots on this date.</p>
             }
+            {!me && <Button small short text='Sign in to book' onClick={()=>openModal(<SignInForm redirectAfterLogin={false} />)} />}
           </>
         }
       </div>

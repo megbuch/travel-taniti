@@ -1,11 +1,13 @@
 import { useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { useModal, useSession } from '../../hooks'
 import { CreateAccountForm, Button } from '../'
 import { createAuthentication } from '../../api/'
 import './styles.scss'
 
-export default function SignInForm() {
+export default function SignInForm({ redirectAfterLogin = true }) {
+  const navigate = useNavigate()
   const { openModal, closeModal } = useModal()
   const { signIn } = useSession()
   const emailRef = useRef()
@@ -20,7 +22,13 @@ export default function SignInForm() {
       }
       const response = await createAuthentication(userData)
       signIn(response.accessToken, response.user)
+      if (redirectAfterLogin) {
+        navigate(response.user.role == 'admin'
+          ? '/admin-dashboard' 
+          : '/traveler-dashboard')
+      }
       closeModal()
+      toast.success('Signed in')
     } catch (error) {
       toast.error('Could not sign in')
     }

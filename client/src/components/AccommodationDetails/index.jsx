@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
 import { deleteAccommodation, getAccommodationAvailability } from '../../api';
 import { useModal, useSession } from '../../hooks';
-import { Button, AccommodationEdit, RoomTypeDetails, RoomTypeEdit } from '..'
+import { Button, AccommodationEdit, RoomTypeDetails, RoomTypeEdit, SignInForm, BookingEdit } from '..'
 import StarIcon from '@mui/icons-material/Star';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import './styles.scss'
@@ -18,6 +18,15 @@ export default function AccommodationDetails({ accommodation, onSave, onDelete, 
     return date.toISOString().split('T')[0]
   })  
   const [availableRooms, setAvailableRooms] = useState()
+
+  useEffect(() => {
+    if (!startDate || !endDate) return
+    const getAvailability = async () => {
+      const response = await getAccommodationAvailability(accommodation.id, { startDate, endDate })
+      setAvailableRooms(response?.availableRoomTypes)
+    }
+    getAvailability()
+  }, [startDate, endDate])
 
   const renderStars = count => {
     return [...Array(count)].map((_, i) => <StarIcon key={i} />)
@@ -39,17 +48,16 @@ export default function AccommodationDetails({ accommodation, onSave, onDelete, 
     onRefresh()
     setShowRoomTypeForm(false)
   }
-
-  useEffect(() => {
-    if (!startDate || !endDate) return
-    const getAvailability = async () => {
-      const response = await getAccommodationAvailability(accommodation.id, { startDate, endDate })
-      setAvailableRooms(response?.availableRoomTypes)
-    }
-    getAvailability()
-  }, [startDate, endDate])
   
-
+  const createBooking = option => {
+    openModal(<BookingEdit 
+      service={accommodation} 
+      startDate={startDate} 
+      endDate={endDate} 
+      option={option}
+      onBack={()=>openModal(<AccommodationDetails accommodation={accommodation} onSave={onSave} onDelete={onDelete} onRefresh={onRefresh} />)} />)
+  }
+  
   return (
     <div className='accommodation-details-comp col details'>
       {accommodation.imageURL && <img src={accommodation.imageURL} />}
@@ -124,17 +132,21 @@ export default function AccommodationDetails({ accommodation, onSave, onDelete, 
             {availableRooms?.length > 0 ? 
               <ul className='availability-list col'>
                 {availableRooms.map(room => (
-                  <li>
-                    <p>{room.roomType.name}</p>
-                    <p className='subtitle'>{`$${room.roomType.pricePerNight} per night`}</p>
-                    <p className='subtitle'>{`Sleeps ${room.roomType.maxGuests}`}</p>
-                    <p className='subtitle'>{`${room.available} Available`}</p>
+                  <li className='availability-list-item row'>
+                    <div>
+                      <p>{room.roomType.name}</p>
+                      <p className='subtitle'>{`$${room.roomType.pricePerNight} per night`}</p>
+                      <p className='subtitle'>{`Sleeps ${room.roomType.maxGuests}`}</p>
+                      <p className='subtitle'>{`${room.available} Available`}</p>
+                    </div>
+                    {me && <Button small short text='Book now' onClick={()=>createBooking(room)} />}
                   </li>
                 ))}
               </ul>
               :
               <p className='subtitle'>No available rooms for this date range.</p>
             }
+            {!me && <Button small short text='Sign in to book' onClick={()=>openModal(<SignInForm redirectAfterLogin={false} />)} />}
           </>
         }
       </div>

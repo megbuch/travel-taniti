@@ -76,18 +76,6 @@ const createBooking = async (req, res) => {
     if ('status' in req.body) {
       return res.status(400).json({ error: 'Status cannot be specified' })
     }
-    const existingBooking = await Booking.findOne({
-      where: {
-        userID: req.user.id,
-        bookableID: req.body.bookableID,
-        bookingType: req.body.bookingType
-      }
-    })
-    if (existingBooking) {
-      return res.status(409).json({ 
-        error: 'There is already an existing booking for this service' 
-      })
-    }
     const data = { ...req.body, userID: req.user.id }
     const booking = await Booking.create(data)
     let bookableDetails = null

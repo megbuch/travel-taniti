@@ -37,16 +37,15 @@ const createUser = async (req, res) => {
       firstName,
       lastName
     })
-    const accessToken = jwt.sign({ userID: user.id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: process.env.ACCESS_TOKEN_EXPIRATION })
-    res.status(201).json({ 
-      user: {
-        id: user.id,
-        email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName
-      }, 
-      accessToken 
-    })
+    const userData = { 
+      id: user.id,
+      email: user.email, 
+      firstName: user.firstName, 
+      lastName: user.lastName,
+      role: user.role
+    }
+    const accessToken = jwt.sign(userData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: process.env.ACCESS_TOKEN_EXPIRATION })
+    res.status(201).json({ user: userData, accessToken })
   } catch (error) {
     handleError(res, error, 'Could not create user')
   }
