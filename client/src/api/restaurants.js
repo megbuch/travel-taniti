@@ -17,3 +17,7 @@ export const updateRestaurant = async (restaurantID, restaurantData) => {
 export const deleteRestaurant = async (restaurantID) => {
   return sendRequest(`${BASE_URL}/${restaurantID}`, 'DELETE')
 }
+
+export const getRestaurantAvailability = async (restaurantID, query) => {
+  return sendRequest(`${BASE_URL}/${restaurantID}/availability`, 'GET', null, query)
+}

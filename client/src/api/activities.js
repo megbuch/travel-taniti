@@ -17,3 +17,7 @@ export const updateActivity = async (activityID, activityData) => {
 export const deleteActivity = async (activityID) => {
   return sendRequest(`${BASE_URL}/${activityID}`, 'DELETE')
 }
+
+export const getActivityAvailability = async (activityID, query) => {
+  return sendRequest(`${BASE_URL}/${activityID}/availability`, 'GET', null, query)
+}

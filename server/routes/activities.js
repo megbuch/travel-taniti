@@ -7,5 +7,6 @@ router.get('/', activitiesController.getActivities)
 router.post('/', authenticateToken, requireAdmin, activitiesController.createActivity)
 router.put('/:id', authenticateToken, requireAdmin, activitiesController.updateActivity)
 router.delete('/:id', authenticateToken, requireAdmin, activitiesController.deleteActivity)
+router.get('/:id/availability', activitiesController.getActivityAvailability)
 
 module.exports = router

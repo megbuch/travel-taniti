@@ -21,3 +21,7 @@ export const updateAccommodation = async (accommodationID, accommodationData) =>
 export const deleteAccommodation = async (accommodationID) => {
   return sendRequest(`${BASE_URL}/${accommodationID}`, 'DELETE')
 }
+
+export const getAccommodationAvailability = async (accommodationID, query) => {
+  return sendRequest(`${BASE_URL}/${accommodationID}/availability`, 'GET', null, query)
+}

@@ -18,5 +18,9 @@
       top: 0;
       right: 0;
     }
+
+    .availability-list {
+      gap: var(--pad-sm);
+    }
   }
 }

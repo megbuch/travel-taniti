@@ -65,33 +65,3 @@ const options = {
 
 Activity.init(schema, options)
 module.exports = Activity
-
-const getAvailableDates = (fromDate, toDate) => {
-  if (!this.isRecurring) {
-    const activityDate = new Date(this.oneTimeDate)
-    if (activityDate >= fromDate && activityDate <= toDate) {
-      return [activityDate]
-    }
-    return []
-  }
-  
-  const availableDates = []
-  const current = new Date(Math.max(fromDate, new Date(this.recurringStartDate)))
-  const end = this.recurringEndDate ? 
-    new Date(Math.min(toDate, new Date(this.recurringEndDate))) : 
-    toDate
-  
-  while (current <= end) {
-    const dayName = current.toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase()
-    if (this.recurringDays.includes(dayName)) {
-      const [hours, minutes] = this.recurringTime.split(':')
-      const dateTime = new Date(current)
-      dateTime.setHours(parseInt(hours), parseInt(minutes), 0, 0)
-      availableDates.push(new Date(dateTime))
-    }
-    current.setDate(current.getDate() + 1)
-  }
-  
-  return availableDates
-}
-Activity.prototype.getAvailableDates = getAvailableDates

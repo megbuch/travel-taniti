@@ -1,4 +1,5 @@
 const Restaurant = require('../models/restaurant')
+const Booking = require('../models/booking')
 const { Op } = require('sequelize')
 const { handleError } = require('../utils/errorHandler')
 
@@ -52,9 +53,69 @@ const deleteRestaurant = async (req, res) => {
   }
 }
 
+const getRestaurantAvailability = async (req, res) => {
+  try {
+    const { id } = req.params
+    const { date } = req.query
+    if (!date) {
+      return res.status(400).json({ error: 'Date parameter is required' })
+    }
+    const restaurant = await Restaurant.findByPk(id)
+    if (!restaurant) {
+      return res.status(404).json({ error: 'Restaurant not found' })
+    }
+    const [year, month, day] = date.split('-').map(Number)
+    const requestedDate = new Date(year, month - 1, day)
+    const dayOfWeek = requestedDate.toLocaleDateString('en-US', { weekday: 'long' })
+    if (!restaurant.operatingDays.includes(dayOfWeek)) {
+      return res.status(200).json({ availableSlots: [] })
+    }
+    const existingBookings = await Booking.findAll({
+      where: {
+        bookingType: 'restaurant',
+        bookableID: id,
+        startDate: { [Op.between]: [new Date(`${date}T00:00:00`), new Date(`${date}T23:59:59`)] },
+        status: 'confirmed'
+      }
+    })
+    const timeSlots = generateTimeSlots(restaurant.openTime, restaurant.closeTime)
+    const availableSlots = []
+    for (const slot of timeSlots) {
+      const slotStart = new Date(`${date}T${slot}:00`)
+      const slotEnd = new Date(slotStart.getTime() + (60 * 60 * 1000)) // 1 hour later
+      const slotBookings = existingBookings.filter(booking => {
+        const bookingStart = new Date(booking.startDate)
+        const bookingEnd = new Date(booking.endDate)
+        return (bookingStart < slotEnd && bookingEnd > slotStart)
+      })
+      const totalBooked = slotBookings.reduce((sum, booking) => sum + booking.quantity, 0)
+      const remainingCount = restaurant.maxCapacity - totalBooked
+      if (remainingCount > 0) {
+        availableSlots.push({ time: slot, available: remainingCount })
+      }
+    }
+    res.status(200).json({ availableSlots })
+  } catch (error) {
+    handleError(res, error, 'Could not fetch restaurant availability')
+  }
+}
+
+const generateTimeSlots = (openTime, closeTime) => {
+  const slots = []
+  const open = new Date(`1970-01-01T${openTime}`)
+  const close = new Date(`1970-01-01T${closeTime}`)
+  let current = new Date(open)
+  while (current < close) {
+    slots.push(current.toTimeString().slice(0, 5))
+    current.setHours(current.getHours() + 1)
+  }
+  return slots
+}
+
 module.exports = {
   getRestaurants,
   createRestaurant,
   updateRestaurant,
-  deleteRestaurant
+  deleteRestaurant,
+  getRestaurantAvailability
 }

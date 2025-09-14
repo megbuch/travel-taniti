@@ -7,5 +7,6 @@ router.get('/', restaurantsController.getRestaurants)
 router.post('/', authenticateToken, requireAdmin, restaurantsController.createRestaurant)
 router.put('/:id', authenticateToken, requireAdmin, restaurantsController.updateRestaurant)
 router.delete('/:id', authenticateToken, requireAdmin, restaurantsController.deleteRestaurant)
+router.get('/:id/availability', restaurantsController.getRestaurantAvailability)
 
 module.exports = router

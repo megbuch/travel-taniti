@@ -392,8 +392,8 @@ const activities = [
     oneTimeDate: null,
     recurringDays: ['Tuesday', 'Thursday', 'Saturday'],
     recurringTime: '06:00:00',
-    recurringStartDate: '2024-01-01',
-    recurringEndDate: '2024-12-31'
+    recurringStartDate: '2025-01-01',
+    recurringEndDate: '2026-12-31'
   },
   {
     name: 'Island Helicopter Tour',
@@ -411,8 +411,8 @@ const activities = [
     oneTimeDate: null,
     recurringDays: ['Monday', 'Wednesday', 'Friday', 'Sunday'],
     recurringTime: '09:00:00',
-    recurringStartDate: '2024-01-01',
-    recurringEndDate: '2024-12-31'
+    recurringStartDate: '2025-01-01',
+    recurringEndDate: '2026-12-31'
   },
   {
     name: 'Traditional Island Dance Show',
@@ -430,8 +430,8 @@ const activities = [
     oneTimeDate: null,
     recurringDays: ['Friday', 'Saturday'],
     recurringTime: '19:00:00',
-    recurringStartDate: '2024-01-01',
-    recurringEndDate: '2024-12-31'
+    recurringStartDate: '2025-01-01',
+    recurringEndDate: '2026-12-31'
   },
   {
     name: 'Snorkeling & Coral Reef Adventure',
@@ -449,8 +449,8 @@ const activities = [
     oneTimeDate: null,
     recurringDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
     recurringTime: '08:00:00',
-    recurringStartDate: '2024-01-01',
-    recurringEndDate: '2024-12-31'
+    recurringStartDate: '2025-01-01',
+    recurringEndDate: '2026-12-31'
   },
   {
     name: 'Taniti Cooking Class: Island Cuisine',
@@ -468,8 +468,8 @@ const activities = [
     oneTimeDate: null,
     recurringDays: ['Tuesday', 'Thursday'],
     recurringTime: '15:00:00',
-    recurringStartDate: '2024-01-01',
-    recurringEndDate: '2024-12-31'
+    recurringStartDate: '2025-01-01',
+    recurringEndDate: '2026-12-31'
   },
   {
     name: 'Rainforest Canopy Zipline',
@@ -487,8 +487,8 @@ const activities = [
     oneTimeDate: null,
     recurringDays: ['Monday', 'Wednesday', 'Friday', 'Sunday'],
     recurringTime: '10:00:00',
-    recurringStartDate: '2024-01-01',
-    recurringEndDate: '2024-12-31'
+    recurringStartDate: '2025-01-01',
+    recurringEndDate: '2026-12-31'
   },
   {
     name: 'Sunset Sailing & Dolphin Watching',
@@ -506,8 +506,8 @@ const activities = [
     oneTimeDate: null,
     recurringDays: ['Thursday', 'Friday'],
     recurringTime: '17:00:00',
-    recurringStartDate: '2024-01-01',
-    recurringEndDate: '2024-12-31'
+    recurringStartDate: '2025-01-01',
+    recurringEndDate: '2026-12-31'
   },
   {
     name: 'Sunset Dinner Cruise',
@@ -525,8 +525,8 @@ const activities = [
     oneTimeDate: null,
     recurringDays: ['Friday', 'Saturday'],
     recurringTime: '21:00:00',
-    recurringStartDate: '2024-01-01',
-    recurringEndDate: '2024-12-31'
+    recurringStartDate: '2025-01-01',
+    recurringEndDate: '2026-12-31'
   }
 ]
 

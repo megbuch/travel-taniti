@@ -1,5 +1,8 @@
+import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify'
-import { deleteActivity } from '../../api';
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
+import { deleteActivity, getActivityAvailability } from '../../api';
 import { useModal, useSession } from '../../hooks';
 import { Button, ActivityEdit } from '..'
 import StarIcon from '@mui/icons-material/Star';
@@ -8,6 +11,8 @@ import './styles.scss'
 export default function ActivityDetails({ activity, onSave, onDelete }) {
   const { openModal, closeModal } = useModal() 
   const { me } = useSession()
+  const [date, setDate] = useState(new Date().toISOString().split('T')[0])
+  const [availableSlots, setAvailableSlots] = useState()
   
   const renderStars = count => {
     return [...Array(count)].map((_, i) => <StarIcon key={i} />)
@@ -24,6 +29,14 @@ export default function ActivityDetails({ activity, onSave, onDelete }) {
       toast.error('Could not delete activity')
     }
   }
+
+  useEffect(() => {
+    const getAvailability = async () => {
+      const response = await getActivityAvailability(activity.id, { date: date })
+      setAvailableSlots(response?.availableSlots)
+    }
+    getAvailability()
+  }, [date])
 
   return (
     <div className='activity-details-comp details'>
@@ -98,6 +111,26 @@ export default function ActivityDetails({ activity, onSave, onDelete }) {
             <p className='subtitle'>Contact Phone</p>
             <p>{activity.contactPhone}</p>
           </div>
+        }
+
+        {me?.role !== 'admin' && 
+          <>
+            <div className='divider'></div>
+            <h3>Check Availability</h3>
+            <input type='date' value={date} onChange={e=>setDate(e.target.value)} />
+            {availableSlots?.length > 0 ? 
+              <ul className='availability-list col'>
+                {availableSlots.map(slot => (
+                  <li>
+                    <p>{slot.time}</p>
+                    <p className='subtitle'>{`${slot.available} Available`}</p>
+                  </li>
+                ))}
+              </ul>
+              :
+              <p className='subtitle'>No available time slots on this date.</p>
+            }
+          </>
         }
       </div>
       {me?.role == 'admin' && <p className='subtitle'>{`Created ${new Date(activity.createdAt).toLocaleDateString()}`}</p>}

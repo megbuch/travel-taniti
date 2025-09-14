@@ -13,5 +13,9 @@
       top: var(--pad-xl);
       right: var(--pad-xl);
     }
+
+    .availability-list {
+      gap: var(--pad-sm);
+    }
   }
 }

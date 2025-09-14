@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { searchForImages } from '../../api'
 import { Button } from '../../components'
 import './styles.scss'
@@ -10,16 +10,25 @@ export default function ImageSearch(props) {
     searchPlaceholder = "Search for images...", 
     quickSearchTerms = [] 
   } = props
-  const [selectedImage, setSelectedImage] = useState(() => {
-    if (!selectedImageURL) return null
-    if (typeof selectedImageURL === 'object' && selectedImageURL.urls) {
-      return selectedImageURL
-    }
-    return { urls: { regular: selectedImageURL } }
-  })
+  const [selectedImage, setSelectedImage] = useState(null)
   const [searchResults, setSearchResults] = useState([])
   const [isSearching, setIsSearching] = useState(false)
   const searchInputRef = useRef()
+
+  useEffect(() => {
+    if (!selectedImageURL) {
+      setSelectedImage(null)
+      return
+    }
+    let imageObject
+    if (typeof selectedImageURL === 'object' && selectedImageURL.urls) {
+      imageObject = selectedImageURL
+    } else {
+      imageObject = { urls: { regular: selectedImageURL } }
+    }
+    setSelectedImage(imageObject)
+    if (onSelect) onSelect(imageObject)
+  }, [selectedImageURL, onSelect])
 
   const selectImage = image => {
     searchInputRef.current.value = ''

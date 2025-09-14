@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
-import { deleteAccommodation } from '../../api';
+import { deleteAccommodation, getAccommodationAvailability } from '../../api';
 import { useModal, useSession } from '../../hooks';
 import { Button, AccommodationEdit, RoomTypeDetails, RoomTypeEdit } from '..'
 import StarIcon from '@mui/icons-material/Star';
@@ -11,6 +11,13 @@ export default function AccommodationDetails({ accommodation, onSave, onDelete, 
   const { openModal, closeModal } = useModal() 
   const { me } = useSession()
   const [showRoomTypeForm, setShowRoomTypeForm] = useState(false)
+  const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0])
+  const [endDate, setEndDate] = useState(() => {
+    const date = new Date()
+    date.setDate(date.getDate() + 7)
+    return date.toISOString().split('T')[0]
+  })  
+  const [availableRooms, setAvailableRooms] = useState()
 
   const renderStars = count => {
     return [...Array(count)].map((_, i) => <StarIcon key={i} />)
@@ -32,6 +39,16 @@ export default function AccommodationDetails({ accommodation, onSave, onDelete, 
     onRefresh()
     setShowRoomTypeForm(false)
   }
+
+  useEffect(() => {
+    if (!startDate || !endDate) return
+    const getAvailability = async () => {
+      const response = await getAccommodationAvailability(accommodation.id, { startDate, endDate })
+      setAvailableRooms(response?.availableRoomTypes)
+    }
+    getAvailability()
+  }, [startDate, endDate])
+  
 
   return (
     <div className='accommodation-details-comp col details'>
@@ -94,6 +111,31 @@ export default function AccommodationDetails({ accommodation, onSave, onDelete, 
             <p className='subtitle'>Contact Phone</p>
             <p>{accommodation.contactPhone}</p>
           </div>
+        }
+
+        {me?.role !== 'admin' && 
+          <>  
+            <div className='divider'></div>
+            <h3>Check Availability</h3>
+            <div className='row'>
+              <input type='date' value={startDate} onChange={e=>setStartDate(e.target.value)} />
+              <input type='date' value={endDate} onChange={e=>setEndDate(e.target.value)} />
+            </div>
+            {availableRooms?.length > 0 ? 
+              <ul className='availability-list col'>
+                {availableRooms.map(room => (
+                  <li>
+                    <p>{room.roomType.name}</p>
+                    <p className='subtitle'>{`$${room.roomType.pricePerNight} per night`}</p>
+                    <p className='subtitle'>{`Sleeps ${room.roomType.maxGuests}`}</p>
+                    <p className='subtitle'>{`${room.available} Available`}</p>
+                  </li>
+                ))}
+              </ul>
+              :
+              <p className='subtitle'>No available rooms for this date range.</p>
+            }
+          </>
         }
       </div>
       {me?.role == 'admin' && <p className='subtitle'>{`Created ${new Date(accommodation.createdAt).toLocaleDateString()}`}</p>}

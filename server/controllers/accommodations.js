@@ -1,5 +1,6 @@
 const Accommodation = require('../models/accommodation')
 const RoomType = require('../models/roomType')
+const Booking = require('../models/booking')
 const { Op } = require('sequelize')
 const { handleError } = require('../utils/errorHandler')
 
@@ -74,10 +75,54 @@ const deleteAccommodation = async (req, res) => {
   }
 }
 
+const getAccommodationAvailability = async (req, res) => {
+  try {
+    const { id } = req.params
+    const { startDate, endDate } = req.query
+    if (!startDate || !endDate) {
+      return res.status(400).json({ error: 'Start date and end date are required' })
+    }
+    const start = new Date(startDate)
+    const end = new Date(endDate)
+    if (start >= end) {
+      return res.status(400).json({ error: 'End date must be after start date' })
+    }
+    const accommodation = await Accommodation.findByPk(id)
+    if (!accommodation) {
+      return res.status(404).json({ error: 'Accommodation not found' })
+    }
+    const existingBookings = await Booking.findAll({
+      where: {
+        bookingType: 'accommodation',
+        bookableID: id,
+        status: 'confirmed',
+        [Op.and]: [
+          { startDate: { [Op.lt]: end } },
+          { endDate: { [Op.gt]: start } }
+        ]
+      }
+    })
+    const roomTypes = await RoomType.findAll({ where: { accommodationID: id } })
+    const availableRoomTypes = []
+    for (const roomType of roomTypes) {
+      const roomTypeBookings = existingBookings.filter(booking => booking.roomTypeID === roomType.id)
+      const totalBooked = roomTypeBookings.reduce((sum, booking) => sum + booking.quantity, 0)
+      const remainingCount = roomType.totalRooms - totalBooked
+      if (remainingCount > 0) {
+        availableRoomTypes.push({ roomType, available: remainingCount })
+      }
+    }
+    res.status(200).json({ availableRoomTypes })
+  } catch (error) {
+    handleError(res, error, 'Could not fetch accommodation availability')
+  }
+}
+
 module.exports = {
   getAccommodations,
   getAccommodation,
   createAccommodation,
   updateAccommodation,
-  deleteAccommodation
+  deleteAccommodation,
+  getAccommodationAvailability
 }

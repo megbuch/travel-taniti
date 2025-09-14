@@ -35,19 +35,6 @@ const schema = {
     allowNull: false,
     validate: { min: 0 }
   },
-  // todo: Is this even necessary? -->
-  availableRooms: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    validate: {
-      min: 0,
-      notExceedTotal(value) {
-        if (value > this.totalRooms) {
-          throw new Error('Available rooms cannot exceed total rooms')
-        }
-      }
-    }
-  },
   amenities: {
     type: DataTypes.ARRAY(DataTypes.STRING),
   },

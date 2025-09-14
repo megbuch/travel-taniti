@@ -42,22 +42,13 @@ export default function RoomTypeDetails({ roomType, onDelete }) {
       {isExpanded && 
         <div className='content'>
           <p>{`$${roomType.pricePerNight} per night`}</p>
-          <div className='section'>
-            <p className='subtitle'>Max Guests</p>
-            <p>{roomType.maxGuests}</p>
-          </div>
-          <div className='row'>
+          <p>{`Sleeps ${roomType.maxGuests}`}</p>
+          {me?.role === 'admin' && 
             <div className='section'>
-              <p className='subtitle'>Available Rooms</p>
-              <p>{roomType.availableRooms}</p>
-            </div>
-            {me?.role === 'admin' && 
-              <div className='section'>
-                <p className='subtitle'>Total Rooms</p>
-                <p>{roomType.totalRooms}</p>
-              </div>   
-            }
-          </div>
+              <p className='subtitle'>Total Rooms</p>
+              <p>{roomType.totalRooms}</p>
+            </div>   
+          }
           {roomType.amenities?.length > 0 && 
             <div className='section'>
               <p className='subtitle'>Amenities</p>

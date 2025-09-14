@@ -21,7 +21,7 @@
   --pad-lg: 24px;
   --pad-xl: 36px;
 
-  --title: 80px;
+  --title: 56px;
   --body-lg: 20px;
   --body: 16px;
   --body-sm: 12px;
@@ -50,7 +50,7 @@ body {
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Merriweather', Georgia, 'Times New Roman', Times, serif;
   }
-  
+
   p, a {
     font-size: var(--body);
   }
@@ -111,7 +111,7 @@ body {
   .page-container {
     display: flex;
     flex-direction: column;
-    padding: calc(var(--navigation-height) + var(--pad-xl)) var(--pad-xl);
+    padding: calc(var(--navigation-height) + var(--pad)) var(--pad);
     gap: var(--page-gap);
     width: 95vw;
 
@@ -169,5 +169,13 @@ body {
       flex-direction: column;
       gap: var(--pad-xs); 
     }
+  }
+
+  .divider {
+    height: 2px;
+    width: 100%;
+    background: var(--color-secondary);
+    margin: var(--pad) 0;
+    border-radius: 50%;
   }
 }

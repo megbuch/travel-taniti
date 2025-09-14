@@ -8,5 +8,6 @@ router.get('/:id', accommodationsController.getAccommodation)
 router.post('/', authenticateToken, requireAdmin, accommodationsController.createAccommodation)
 router.put('/:id', authenticateToken, requireAdmin, accommodationsController.updateAccommodation)
 router.delete('/:id', authenticateToken, requireAdmin, accommodationsController.deleteAccommodation)
+router.get('/:id/availability', accommodationsController.getAccommodationAvailability)
 
 module.exports = router
