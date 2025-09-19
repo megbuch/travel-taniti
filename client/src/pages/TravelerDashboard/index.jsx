@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
 import { getBookings } from '../../api/bookings'
-import { Navigation, Button } from '../../components'
+import { Navigation, Button, BookingDetails } from '../../components'
+import { useModal } from '../../hooks';
 import InfoIcon from '@mui/icons-material/Info';
 import './styles.scss'
 
 export default function TravelerDashboard() {
+  const { openModal } = useModal()
   const [bookings, setBookings] = useState([])
 
   useEffect(() => { fetchBookings() }, [])
@@ -43,6 +45,10 @@ export default function TravelerDashboard() {
     })
   }
 
+  const onViewBooking = booking => {
+    openModal(<BookingDetails booking={booking} />)
+  }
+
   return (
     <div className='traveler-dashboard-page col'>
       <Navigation />
@@ -56,7 +62,7 @@ export default function TravelerDashboard() {
               <div className='date-grouping col' key={date}>
                 <h2>{formatDate(date)}</h2>
                 <div className='bookings-list col'>
-                  {bookings.map(booking => <BookingCell key={booking.id} booking={booking} />)}
+                  {bookings.map(booking => <BookingCell key={booking.id} booking={booking} onView={onViewBooking} />)}
                 </div>
               </div>
             )
@@ -67,7 +73,7 @@ export default function TravelerDashboard() {
   )
 }
 
-const BookingCell = ({ booking }) => {
+const BookingCell = ({ booking, onView }) => {
   let name = booking.bookableDetails?.name
   if (booking.roomTypeDetails) name += `, ${booking.roomTypeDetails.name}`
 
@@ -77,7 +83,7 @@ const BookingCell = ({ booking }) => {
         <p>{name}</p>
         <p className='subtitle'>{booking.startTime || booking.bookableDetails.checkInTime}</p>
       </div>
-      <Button backgroundless small icon={<InfoIcon />} />
+      <Button backgroundless small icon={<InfoIcon onClick={()=>onView(booking)} />} />
     </div>
   )
 }

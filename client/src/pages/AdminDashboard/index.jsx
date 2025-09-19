@@ -2,7 +2,6 @@ import { useEffect, useState, useRef } from 'react'
 import { getUsers, getAccommodations, getAccommodation, getRestaurants, getActivities } from '../../api'
 import { 
   Navigation, 
-  List, 
   Button, 
   Footer, 
   UserDetails, 
@@ -15,6 +14,7 @@ import {
 } from '../../components'
 import { useModal, useSession } from '../../hooks'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import InfoIcon from '@mui/icons-material/Info';
 import './styles.scss'
 
 const Tab = {
@@ -152,10 +152,24 @@ export default function AdminDashboard() {
             <Button small short inverted border text='Clear Filter' onClick={clearFilter} />
           </div>
           <p>{`Showing ${items.length} results`}</p>
-          <List items={items} onView={onView} />
+          <div className='items-list col'>
+            {items.map(item => <ItemCell key={item.id} item={item} onView={()=>onView(item)} />)}
+          </div>
         </div>
       </div>
       <Footer />
+    </div>
+  )
+}
+
+const ItemCell = ({ item, onView }) => {
+  return (
+    <div className='item-cell row'>
+      <div>
+        <p>{item.name || `${item.firstName} ${item.lastName}`}</p>
+        <p className='subtitle'>{item.location || item.email}</p>
+      </div>
+      <Button backgroundless small icon={<InfoIcon onClick={onView} />} />
     </div>
   )
 }

@@ -1,5 +1,16 @@
 .admin-dashboard-page {
   .content {
     gap: var(--pad);
+
+    .items-list {
+      gap: var(--pad-xs);
+
+      .item-cell {
+        justify-content: space-between;
+        padding: var(--pad-xs) var(--pad-sm);
+        background-color: var(--color-neutral);
+        border-radius: var(--corner-radius);
+      }
+    }
   }
 }

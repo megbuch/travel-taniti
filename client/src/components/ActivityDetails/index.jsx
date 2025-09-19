@@ -92,7 +92,7 @@ export default function ActivityDetails({ activity, onSave, onDelete }) {
         {activity.pricePerPerson && 
           <div className='section'>
             <p className='subtitle'>Price Per Person</p>
-            <p>{activity.pricePerPerson}</p>
+            <p>{`$${activity.pricePerPerson}`}</p>
           </div>
         }
 

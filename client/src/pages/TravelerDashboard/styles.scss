@@ -7,12 +7,12 @@
     }
     
     .bookings-list { 
-      gap: var(--pad);
+      gap: var(--pad-xs);
 
       .booking-cell {
         justify-content: space-between;
+        padding: var(--pad-xs) var(--pad-sm);
         background-color: var(--color-neutral);
-        padding: var(--pad-sm);
         border-radius: var(--corner-radius);
       }
     }
