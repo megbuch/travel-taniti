@@ -1,13 +1,16 @@
 const Booking = require('../models/booking')
+const RoomType = require('../models/roomType')
 const Accommodation = require('../models/accommodation')
 const Restaurant = require('../models/restaurant')
 const Activity = require('../models/activity')
+const { Op } = require('sequelize')
 const { handleError } = require('../utils/errorHandler')
 
 const getBookings = async (req, res) => {
   try {
     await updateCompletedBookings(req.user.id)
     const bookings = await Booking.findAll({ where: { userID: req.user.id } })
+    const roomTypeIDs = []
     const accommodationIDs = []
     const restaurantIDs = []
     const activityIDs = []
@@ -23,20 +26,26 @@ const getBookings = async (req, res) => {
           activityIDs.push(booking.bookableID)
           break
       }
+      if (booking.roomTypeID) {
+        roomTypeIDs.push(booking.roomTypeID)
+      }
     })
-    const [accommodations, restaurants, activities] = await Promise.all([
+    const [roomTypes, accommodations, restaurants, activities] = await Promise.all([
+      roomTypeIDs.length ? RoomType.findAll({ where: { id: roomTypeIDs } }) : [],
       accommodationIDs.length ? Accommodation.findAll({ where: { id: accommodationIDs } }) : [],
       restaurantIDs.length ? Restaurant.findAll({ where: { id: restaurantIDs } }) : [],
       activityIDs.length ? Activity.findAll({ where: { id: activityIDs } }) : []
     ])
     const lookups = {
+      roomType: Object.fromEntries(roomTypes.map(rt => [rt.id, rt])),
       accommodation: Object.fromEntries(accommodations.map(a => [a.id, a])),
       restaurant: Object.fromEntries(restaurants.map(r => [r.id, r])),
       activity: Object.fromEntries(activities.map(a => [a.id, a]))
     }
     const bookingsWithDetails = bookings.map(booking => ({
       ...booking.toJSON(),
-      bookableDetails: lookups[booking.bookingType]?.[booking.bookableID]
+      bookableDetails: lookups[booking.bookingType]?.[booking.bookableID],
+      roomTypeDetails: booking.roomTypeID ? lookups.roomType?.[booking.roomTypeID] : null
     }))
     res.status(200).json({ bookings: bookingsWithDetails })
   } catch (error) {

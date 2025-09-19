@@ -1,0 +1,20 @@
+.traveler-dashboard-page {
+  .content {
+    gap: var(--pad-xl);
+
+    .date-grouping {
+      gap: var(--pad);
+    }
+    
+    .bookings-list { 
+      gap: var(--pad);
+
+      .booking-cell {
+        justify-content: space-between;
+        background-color: var(--color-neutral);
+        padding: var(--pad-sm);
+        border-radius: var(--corner-radius);
+      }
+    }
+  }
+}

@@ -23,8 +23,11 @@ export default function BookingEdit(props) {
   const isRestaurant = !!service.maxCapacity && !!option.time
 
   const save = async (e) => {
-    // todo: allow quantity input
-    // validate that the quantity does not exceed what is available
+    // todo: 
+    // 1. allow quantity input
+    // 2. validate that the quantity does not exceed what is available
+    // 3. back end should show no available slots for historical dates
+    
     e.preventDefault()
     try {
       const bookingData = {

@@ -1,6 +1,5 @@
 import { useEffect, useState, useRef } from 'react'
 import { getUsers, getAccommodations, getAccommodation, getRestaurants, getActivities } from '../../api'
-import { toast } from 'react-toastify'
 import { 
   Navigation, 
   List, 
@@ -30,16 +29,11 @@ export default function AdminDashboard() {
   const [currentTab, setCurrentTab] = useState(Tab.USERS)
   const [items, setItems] = useState([])
   const searchRef = useRef()
-  const { me, isAuthenticated } = useSession()
+  // const { me, isAuthenticated } = useSession()
 
   useEffect(() => { fetchData() }, [currentTab])
 
   const fetchData = async (query) => {
-    const token = localStorage.getItem('token')
-    if (!token) {
-      console.log('No token available, skipping fetch')
-      return
-    }
     try {
       switch (currentTab) {
         case Tab.USERS:
@@ -147,7 +141,7 @@ export default function AdminDashboard() {
           <Button inverted={currentTab != Tab.RESTAURANTS} text='Restaurants' onClick={()=>setCurrentTab(Tab.RESTAURANTS)}/>
           <Button inverted={currentTab != Tab.ACTIVITIES} text='Activities' onClick={()=>setCurrentTab(Tab.ACTIVITIES)}/>
         </div>
-        <div className='content'>
+        <div className='content col'>
           <div className='row'>
             <h2>{currentTab}</h2>
             {currentTab !== Tab.USERS && <Button backgroundless icon={<AddCircleOutlineIcon />} onClick={onCreate} />}
