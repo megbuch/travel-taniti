@@ -60,10 +60,20 @@ const getActivityAvailability = async (req, res) => {
     if (!date) {
       return res.status(400).json({ error: 'Date parameter is required' })
     }
+
     const activity = await Activity.findByPk(id)
     if (!activity) {
       return res.status(404).json({ error: 'Activity not found' })
     }
+
+    const today = new Date()
+    const todayString = today.getFullYear() + '-' + 
+      String(today.getMonth() + 1).padStart(2, '0') + '-' + 
+      String(today.getDate()).padStart(2, '0')
+    if (date < todayString) {
+      return res.status(200).json({ availableSlots: [] })
+    }
+
     const [year, month, day] = date.split('-').map(Number)
     const targetDate = new Date(year, month - 1, day)
     const dayOfWeek = targetDate.toLocaleDateString('en-US', { weekday: 'long' })
@@ -102,6 +112,7 @@ const getActivityAvailability = async (req, res) => {
     if (!isActivityAvailable) {
       return res.status(200).json({ availableSlots: [] })
     }
+
     const existingBookings = await Booking.findAll({
       where: {
         bookingType: 'activity',

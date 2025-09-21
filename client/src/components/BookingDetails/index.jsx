@@ -4,9 +4,6 @@ import { Button, AccommodationDetails, RestaurantDetails, ActivityDetails } from
 export default function BookingDetails({ booking, onBookingSuccess }) {
   const { openModal } = useModal()
 
-  // todo: 
-  // 2. the bookings list does not update if we make a booking through the traveler dashboard
-
   const onViewService = () => {
     console.log(booking)
     switch (booking.bookingType) {
@@ -24,16 +21,11 @@ export default function BookingDetails({ booking, onBookingSuccess }) {
 
   const calculateTotalCost = () => {
     if (booking.bookingType === 'accommodation') {
-      const pricePerNight = booking.roomTypeDetails.pricePerNight
-      if (!pricePerNight || !booking.endDate || !booking.startDate) return null
-      const start = new Date(booking.startDate)
-      const end = new Date(booking.endDate)
-      const nights = Math.ceil((end - start) / (1000 * 60 * 60 * 24))
-      return pricePerNight * nights
+      return booking.roomTypeDetails.pricePerNight * calculateNumberOfNights()
     }
-    const pricePerPerson = booking.bookableDetails?.pricePerPerson
-    const guests = booking.numberOfGuests || 1
-    return pricePerPerson ? pricePerPerson * guests : null
+    if (booking.bookingType === 'activity') {
+      return booking.bookableDetails.pricePerPerson * booking.quantity
+    }
   }
 
   return (
@@ -113,7 +105,7 @@ export default function BookingDetails({ booking, onBookingSuccess }) {
 
       {['accommodation', 'activity'].includes(booking.bookingType) &&
         <div className='section'>
-          <p className='subtitle'>{`Total Cost (${booking.quantity} ${booking.quantity == 1 ? 'Guest' : 'Guests'})`}</p>
+          <p className='subtitle'>Total Cost</p>
           <p>{`$${calculateTotalCost()?.toFixed(2)}`}</p>
         </div>
       }

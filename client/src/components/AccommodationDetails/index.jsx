@@ -22,8 +22,13 @@ export default function AccommodationDetails({ accommodation, onSave, onDelete, 
   useEffect(() => {
     if (!startDate || !endDate) return
     const getAvailability = async () => {
-      const response = await getAccommodationAvailability(accommodation.id, { startDate, endDate })
-      setAvailableRooms(response?.availableRoomTypes)
+      try {
+        const response = await getAccommodationAvailability(accommodation.id, { startDate, endDate })
+        setAvailableRooms(response?.availableRoomTypes)
+      } catch (error) {
+        console.log(error)
+        setAvailableRooms([]) // Clear rooms
+      }
     }
     getAvailability()
   }, [startDate, endDate])

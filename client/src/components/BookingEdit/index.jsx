@@ -18,33 +18,42 @@ export default function BookingEdit(props) {
   const { me } = useSession()
   const { closeModal } = useModal()
   const [bookingComplete, setBookingComplete] = useState(false)
+  const [guestCount, setGuestCount] = useState(1)
   const hasDateRange = startDate !== endDate
   const isAccommodation = !!service.checkInTime && !!service.checkOutTime && !!option?.roomType
   const isActivity = !!service.maxParticipants && !!option.time
   const isRestaurant = !!service.maxCapacity && !!option.time
+  
+  const calculateNumberOfNights = () => {
+    const start = new Date(booking?.startDate || startDate)
+    const end = new Date(booking?.endDate || endDate)
+    return Math.ceil((end - start) / (1000 * 60 * 60 * 24))
+  }
 
-  const save = async (e) => {
-    // todo: 
-    // 1. allow quantity input
-    // 2. validate that the quantity does not exceed what is available
-    // 3. back end should show no available slots for historical dates
-    
+  const calculateTotalCost = () => {
+    console.log(service)
+    if (isAccommodation) return option.roomType.pricePerNight * calculateNumberOfNights()
+    if (isActivity) return service.pricePerPerson * guestCount
+    return 0
+  }
+  const totalCost = `$${calculateTotalCost()?.toFixed(2)}`
+
+  const save = async (e) => {    
     e.preventDefault()
     try {
       const bookingData = {
         bookingType: getServiceTypeString().toLowerCase(),
         bookableID: service.id,
         roomTypeID: isAccommodation ? option.roomType.id : null,
-        quantity: 1,
+        quantity: guestCount,
         startDate: startDate,
         endDate: endDate,
         startTime: (isActivity || isRestaurant) ? option.time : null
       }
-      const response = await createBooking(bookingData)
-      console.log(response)
+      await createBooking(bookingData)
       toast.success(`Successfully booked ${getServiceTypeString().toLowerCase()}: ${service.name}`)
       setBookingComplete(true)
-      onBookingSuccess()
+      onBookingSuccess?.()
     } catch (error) {
       console.log('Could not create booking: ', error)
       toast.error('Could not create booking')
@@ -81,7 +90,7 @@ export default function BookingEdit(props) {
       </div>
       {hasDateRange ? 
           <div className='section'>
-            <p className='subtitle'>Date Range</p>
+            <p className='subtitle'>Dates</p>
             <p>{`${startDate} - ${endDate}`}</p>
           </div>
         : 
@@ -90,12 +99,6 @@ export default function BookingEdit(props) {
             <p>{startDate}</p>
           </div>
       }
-      {(isActivity || isRestaurant) && 
-        <div className='section'>
-          <p className='subtitle'>Time</p>
-          <p>{option.time}</p>
-        </div>
-      }
       {isAccommodation && 
         <>
           <div className='section'>
@@ -103,11 +106,36 @@ export default function BookingEdit(props) {
             <p>{option.roomType.name}</p>
           </div>
           <div className='section'>
+            <p className='subtitle'>Nights</p>
+            <p>{calculateNumberOfNights()}</p>
+          </div>
+          <div className='section'>
             <p className='subtitle'>Price Per Night</p>
             <p>{`$${option.roomType.pricePerNight}`}</p>
           </div>
         </>
       }
+      {(isActivity || isRestaurant) && 
+        <div className='section'>
+          <p className='subtitle'>Time</p>
+          <p>{option.time}</p>
+        </div>
+      }
+      <div className='section'>
+        <p className='subtitle'>Number of Guests</p>
+        <input 
+          required 
+          type='number' 
+          min={1} 
+          max={isAccommodation ? option.roomType.maxGuests : option.available} 
+          defaultValue={1} 
+          onChange={e=>setGuestCount(e.target.value)} 
+        />
+      </div>
+      <div className='section'>
+        <p className='subtitle'>Total Cost</p>
+        <p>{totalCost}</p>
+      </div>
       <div className='row'>
         <Button type='button' inverted border onClick={onBack} text='Back' />
         <Button type='submit' text='Book Now' />

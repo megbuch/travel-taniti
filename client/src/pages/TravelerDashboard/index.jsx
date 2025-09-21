@@ -9,7 +9,7 @@ export default function TravelerDashboard() {
   const { openModal } = useModal()
   const [bookings, setBookings] = useState([])
 
-  useEffect(() => fetchBookings(), [])
+  useEffect(() => { fetchBookings() }, [])
 
   const fetchBookings = async () => {
     const response = await getBookings()

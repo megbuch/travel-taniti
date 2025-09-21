@@ -82,15 +82,27 @@ const getAccommodationAvailability = async (req, res) => {
     if (!startDate || !endDate) {
       return res.status(400).json({ error: 'Start date and end date are required' })
     }
-    const start = new Date(startDate)
-    const end = new Date(endDate)
+
+    const [startYear, startMonth, startDay] = startDate.split('-').map(Number)
+    const [endYear, endMonth, endDay] = endDate.split('-').map(Number)
+    const start = new Date(startYear, startMonth - 1, startDay)
+    const end = new Date(endYear, endMonth - 1, endDay)
     if (start >= end) {
       return res.status(400).json({ error: 'End date must be after start date' })
     }
+
+    const today = new Date()
+    const todayDateOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate())
+    const startDateOnly = new Date(start.getFullYear(), start.getMonth(), start.getDate())
+    if (startDateOnly < todayDateOnly) {
+      return res.status(200).json({ availableRoomTypes: [] })
+    }
+
     const accommodation = await Accommodation.findByPk(id)
     if (!accommodation) {
       return res.status(404).json({ error: 'Accommodation not found' })
     }
+    
     const existingBookings = await Booking.findAll({
       where: {
         bookingType: 'accommodation',
