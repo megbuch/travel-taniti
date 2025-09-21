@@ -3,17 +3,23 @@ const RoomType = require('../models/roomType')
 const Accommodation = require('../models/accommodation')
 const Restaurant = require('../models/restaurant')
 const Activity = require('../models/activity')
+const User = require('../models/user')
 const { Op } = require('sequelize')
 const { handleError } = require('../utils/errorHandler')
 
 const getBookings = async (req, res) => {
   try {
-    await updateCompletedBookings(req.user.id)
-    const bookings = await Booking.findAll({ where: { userID: req.user.id } })
+    const isAdmin = req.user.role === 'admin'
+    if (!isAdmin) {
+      await updateCompletedBookings(req.user.id)
+    }
+    const whereClause = isAdmin ? {} : { userID: req.user.id }
+    const bookings = await Booking.findAll({ where: whereClause })
     const roomTypeIDs = []
     const accommodationIDs = []
     const restaurantIDs = []
     const activityIDs = []
+    const userIDs = []
     bookings.forEach(booking => {
       switch (booking.bookingType) {
         case 'accommodation':
@@ -29,23 +35,29 @@ const getBookings = async (req, res) => {
       if (booking.roomTypeID) {
         roomTypeIDs.push(booking.roomTypeID)
       }
+      if (isAdmin && !userIDs.includes(booking.userID)) {
+        userIDs.push(booking.userID)
+      }
     })
-    const [roomTypes, accommodations, restaurants, activities] = await Promise.all([
+    const [roomTypes, accommodations, restaurants, activities, users] = await Promise.all([
       roomTypeIDs.length ? RoomType.findAll({ where: { id: roomTypeIDs } }) : [],
       accommodationIDs.length ? Accommodation.findAll({ where: { id: accommodationIDs } }) : [],
       restaurantIDs.length ? Restaurant.findAll({ where: { id: restaurantIDs } }) : [],
-      activityIDs.length ? Activity.findAll({ where: { id: activityIDs } }) : []
+      activityIDs.length ? Activity.findAll({ where: { id: activityIDs } }) : [],
+      isAdmin && userIDs.length ? User.findAll({ where: { id: userIDs } }) : []
     ])
     const lookups = {
       roomType: Object.fromEntries(roomTypes.map(rt => [rt.id, rt])),
       accommodation: Object.fromEntries(accommodations.map(a => [a.id, a])),
       restaurant: Object.fromEntries(restaurants.map(r => [r.id, r])),
-      activity: Object.fromEntries(activities.map(a => [a.id, a]))
+      activity: Object.fromEntries(activities.map(a => [a.id, a])),
+      user: isAdmin ? Object.fromEntries(users.map(u => [u.id, u])) : {}
     }
     const bookingsWithDetails = bookings.map(booking => ({
       ...booking.toJSON(),
       bookableDetails: lookups[booking.bookingType]?.[booking.bookableID],
-      roomTypeDetails: booking.roomTypeID ? lookups.roomType?.[booking.roomTypeID] : null
+      roomTypeDetails: booking.roomTypeID ? lookups.roomType?.[booking.roomTypeID] : null,
+      ...(isAdmin && { userDetails: lookups.user?.[booking.userID] })
     }))
     res.status(200).json({ bookings: bookingsWithDetails })
   } catch (error) {
@@ -131,7 +143,7 @@ const updateBooking = async (req, res) => {
 const deleteBooking = async (req, res) => {
   try {
     const { id } = req.params
-    const deletedCount = await Booking.destroy({ where: { id: id, userID: user.id } })
+    const deletedCount = await Booking.destroy({ where: { id: id } })
     if (deletedCount === 0)  {
       return res.status(404).json({ error: 'Booking not found' })
     }

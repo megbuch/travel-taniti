@@ -1,8 +1,12 @@
-import { useModal } from '../../hooks'
+import { toast } from 'react-toastify'
+import { useModal, useSession } from '../../hooks'
 import { Button, AccommodationDetails, RestaurantDetails, ActivityDetails } from '..'
+import { updateBooking, deleteBooking } from '../../api'
 
-export default function BookingDetails({ booking, onBookingSuccess }) {
-  const { openModal } = useModal()
+export default function BookingDetails({ booking, onBookingSuccess, onRequestCancellation, onDelete }) {
+  const { openModal, closeModal } = useModal()
+  const { me } = useSession()
+  const hasDateRange = booking?.startDate && booking?.endDate && (booking.startDate !== booking.endDate)
 
   const onViewService = () => {
     console.log(booking)
@@ -28,6 +32,33 @@ export default function BookingDetails({ booking, onBookingSuccess }) {
     }
   }
 
+  const requestCancellation = async () => {
+    try {
+      const bookingData = {
+        status: 'pendingCancellation',
+      }
+      await updateBooking(booking.id, bookingData)
+      onRequestCancellation()
+      toast.success('Cancellation requested')
+      closeModal()
+    } catch (error) {
+      console.log('Could not update booking: ', error)
+      toast.error('Could not request cancellation')
+    }
+  }
+
+  const handleDelete = async () => {
+    try {
+      await deleteBooking(booking.id)
+      onDelete()
+      toast.success('Booking deleted')
+      closeModal()
+    } catch (error) {
+      console.log('Could not delete booking: ', error)
+      toast.error('Could not delete booking')
+    }
+  }
+
   return (
     <div className='booking-details-comp details'>
       <h1>{booking.bookableDetails.name}</h1>
@@ -36,23 +67,16 @@ export default function BookingDetails({ booking, onBookingSuccess }) {
         <p>{booking.quantity}</p>
       </div>
 
-      {booking.startDate === booking.endDate 
-        ?
+      {hasDateRange ? 
+          <div className='section'>
+            <p className='subtitle'>Dates</p>
+            <p>{`${booking.startDate} - ${booking.endDate}`}</p>
+          </div>
+        : 
           <div className='section'>
             <p className='subtitle'>Date</p>
             <p>{booking.startDate}</p>
           </div>
-        :
-        <>
-          <div className='section'>
-            <p className='subtitle'>Start Date</p>
-            <p>{booking.startDate}</p>
-          </div>
-          <div className='section'>
-            <p className='subtitle'>End Date</p>
-            <p>{booking.endDate}</p>
-          </div>
-        </>
       }
       
       {booking?.startTime && 
@@ -68,7 +92,6 @@ export default function BookingDetails({ booking, onBookingSuccess }) {
           <p>{booking.endTime}</p>
         </div>
       }
-
 
       {booking.bookingType == 'accommodation' && booking.roomTypeDetails && 
         <>
@@ -110,7 +133,28 @@ export default function BookingDetails({ booking, onBookingSuccess }) {
         </div>
       }
 
-      <Button text={`View ${booking.bookingType}`} onClick={onViewService} />
+      {me?.role == 'admin' && booking.userDetails && 
+        <>
+          <div className='section'>
+            <p className='subtitle'>Name</p>
+            <p>{`${booking.userDetails.firstName} ${booking.userDetails.lastName}`}</p>
+          </div>
+          <div className='section'>
+            <p className='subtitle'>Email</p>
+            <p>{booking.userDetails.email}</p>
+          </div>
+          <div className='section'>
+            <p className='subtitle'>Status</p>
+            <p>{booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}</p>
+          </div>
+        </>
+      }
+
+      <div className='section'>
+        <Button text={`View ${booking.bookingType.charAt(0).toUpperCase() + booking.bookingType.slice(1)}`} onClick={onViewService} />
+        {me?.role === 'traveler' && <Button text='Request Cancellation' onClick={requestCancellation} />}
+        {me?.role === 'admin' && <Button text='Delete' onClick={handleDelete} />}
+      </div>
     </div>
   )
 }

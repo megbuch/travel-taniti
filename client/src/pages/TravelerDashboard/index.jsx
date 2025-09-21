@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getBookings } from '../../api/bookings'
+import { getBookings } from '../../api'
 import { Navigation, Button, BookingDetails } from '../../components'
 import { useModal } from '../../hooks';
 import InfoIcon from '@mui/icons-material/Info';
@@ -9,14 +9,20 @@ export default function TravelerDashboard() {
   const { openModal } = useModal()
   const [bookings, setBookings] = useState([])
 
+  // todo: 
+  // 1. fix bug - completed bookings have 'confirmed' status
+  // 2. fix bug - you can book something for today using a past time slot
+  // 3. separate 'completed bookings' list or just don't show them
+  
   useEffect(() => { fetchBookings() }, [])
 
   const fetchBookings = async () => {
     const response = await getBookings()
-    const sortedBookings = response?.bookings?.sort((a, b) => {
+    const futureBookings = response?.bookings?.filter(booking => booking.status !== 'completed')
+    const sortedBookings = futureBookings?.sort((a, b) => {
       return new Date(a.startDate) - new Date(b.startDate)
     })
-    setBookings(sortedBookings)
+    setBookings(sortedBookings || [])
   }
 
   const dates = []
@@ -48,10 +54,14 @@ export default function TravelerDashboard() {
   }
 
   const onViewBooking = booking => {
-    openModal(<BookingDetails booking={booking} onBookingSuccess={onBookingSuccess} />)
+    const onBookingSuccess = async () => await fetchBookings()
+    const onRequestCancellation = async () => await fetchBookings()
+    openModal(<BookingDetails 
+      booking={booking} 
+      onBookingSuccess={onBookingSuccess} 
+      onRequestCancellation={onRequestCancellation} />)
   }
 
-  const onBookingSuccess = async () => await fetchBookings()
 
   return (
     <div className='traveler-dashboard-page col'>
@@ -87,7 +97,10 @@ const BookingCell = ({ booking, onView }) => {
         <p>{name}</p>
         <p className='subtitle'>{booking.startTime || booking.bookableDetails.checkInTime}</p>
       </div>
-      <Button backgroundless small icon={<InfoIcon onClick={()=>onView(booking)} />} />
+      <div className='row'>
+        {booking.status == 'pendingCancellation' && <p className='subtitle'>Cancellation Requested</p>}
+        <Button backgroundless small icon={<InfoIcon onClick={()=>onView(booking)} />} />
+      </div>
     </div>
   )
 }

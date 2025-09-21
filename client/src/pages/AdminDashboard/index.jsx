@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react'
-import { getUsers, getAccommodations, getAccommodation, getRestaurants, getActivities } from '../../api'
+import { getUsers, getAccommodations, getAccommodation, getRestaurants, getActivities, getBookings } from '../../api'
 import { 
   Navigation, 
   Button, 
@@ -10,7 +10,8 @@ import {
   RestaurantDetails, 
   RestaurantEdit,
   ActivityDetails,
-  ActivityEdit
+  ActivityEdit,
+  BookingDetails
 } from '../../components'
 import { useModal, useSession } from '../../hooks'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -21,7 +22,8 @@ const Tab = {
   USERS: 'Users',
   ACCOMMODATIONS: 'Accommodations',
   RESTAURANTS: 'Restaurants',
-  ACTIVITIES: 'Activities'
+  ACTIVITIES: 'Activities',
+  BOOKINGS: 'Bookings',
 }
 
 export default function AdminDashboard() {
@@ -60,6 +62,15 @@ export default function AdminDashboard() {
             setItems(response?.activities?.sort((a,b) => a.name.localeCompare(b.name)))
           }
           break
+        case Tab.BOOKINGS:
+          {
+            // todo: make queryable?
+            const response = await getBookings()
+            setItems(response?.bookings?.sort((a, b) => {
+              return new Date(a.startDate) - new Date(b.startDate)
+            }))
+          }
+          break
       }
     } catch (error) {
       console.log(`Could not fetch data for ${currentTab}: `, error)
@@ -74,6 +85,7 @@ export default function AdminDashboard() {
       case Tab.ACCOMMODATIONS: openModal(<AccommodationDetails accommodation={item} onSave={handleSave} onDelete={handleDelete} onRefresh={()=>onRefreshAccommodation(item)} />); break
       case Tab.RESTAURANTS: openModal(<RestaurantDetails restaurant={item} onSave={handleSave} onDelete={handleDelete} />); break
       case Tab.ACTIVITIES: openModal(<ActivityDetails activity={item} onSave={handleSave} onDelete={handleDelete} />); break
+      case Tab.BOOKINGS: openModal(<BookingDetails booking={item} onDelete={handleDelete} />); break
     }
   }
 
@@ -140,6 +152,7 @@ export default function AdminDashboard() {
           <Button inverted={currentTab != Tab.ACCOMMODATIONS} text='Accommodations' onClick={()=>setCurrentTab(Tab.ACCOMMODATIONS)}/>
           <Button inverted={currentTab != Tab.RESTAURANTS} text='Restaurants' onClick={()=>setCurrentTab(Tab.RESTAURANTS)}/>
           <Button inverted={currentTab != Tab.ACTIVITIES} text='Activities' onClick={()=>setCurrentTab(Tab.ACTIVITIES)}/>
+          <Button inverted={currentTab != Tab.BOOKINGS} text='Bookings' onClick={()=>setCurrentTab(Tab.BOOKINGS)}/>
         </div>
         <div className='content col'>
           <div className='row'>
@@ -166,7 +179,7 @@ const ItemCell = ({ item, onView }) => {
   return (
     <div className='item-cell row'>
       <div>
-        <p>{item.name || `${item.firstName} ${item.lastName}`}</p>
+        <p>{item?.name || item?.bookableDetails?.name || `${item?.firstName} ${item?.lastName}` || ''}</p>
         <p className='subtitle'>{item.location || item.email}</p>
       </div>
       <Button backgroundless small icon={<InfoIcon onClick={onView} />} />
