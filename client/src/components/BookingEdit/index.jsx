@@ -11,6 +11,7 @@ export default function BookingEdit(props) {
     startDate, 
     endDate, 
     option,
+    onBookingSuccess,
     onBack
   } = props
   const navigate = useNavigate()
@@ -43,6 +44,7 @@ export default function BookingEdit(props) {
       console.log(response)
       toast.success(`Successfully booked ${getServiceTypeString().toLowerCase()}: ${service.name}`)
       setBookingComplete(true)
+      onBookingSuccess()
     } catch (error) {
       console.log('Could not create booking: ', error)
       toast.error('Could not create booking')
@@ -66,7 +68,7 @@ export default function BookingEdit(props) {
       <div className='col details'>
         <h1>{`${booking ? 'Edit': 'Create'} Booking`}</h1>
         <p>{`Your ${getServiceTypeString().toLowerCase()} has been booked!`}</p>
-        <Button text='Go to Dashboard' onClick={goToDashboard} />
+        {window.location.pathname !== '/traveler-dashboard' && <Button text='Go to Dashboard' onClick={goToDashboard} />}
       </div>
     )
   }

@@ -1,17 +1,18 @@
 import { useModal } from '../../hooks'
 import { Button, AccommodationDetails, RestaurantDetails, ActivityDetails } from '..'
 
-export default function BookingDetails({ booking }) {
+export default function BookingDetails({ booking, onBookingSuccess }) {
   const { openModal } = useModal()
 
-  // todo: fix bug - the date showing in the booking details is different than is displayed in the booking list
+  // todo: 
+  // 2. the bookings list does not update if we make a booking through the traveler dashboard
 
   const onViewService = () => {
     console.log(booking)
     switch (booking.bookingType) {
-      case 'accommodation': openModal(<AccommodationDetails accommodation={booking.bookableDetails} />); break
-      case 'restaurant': openModal(<RestaurantDetails restaurant={booking.bookableDetails} />); break
-      case 'activity': openModal(<ActivityDetails activity={booking.bookableDetails} />); break
+      case 'accommodation': openModal(<AccommodationDetails accommodation={booking.bookableDetails} onBookingSuccess={onBookingSuccess} />); break
+      case 'restaurant': openModal(<RestaurantDetails restaurant={booking.bookableDetails} onBookingSuccess={onBookingSuccess} />); break
+      case 'activity': openModal(<ActivityDetails activity={booking.bookableDetails} onBookingSuccess={onBookingSuccess} />); break
     }
   }
 
@@ -116,7 +117,7 @@ export default function BookingDetails({ booking }) {
           <p>{`$${calculateTotalCost()?.toFixed(2)}`}</p>
         </div>
       }
-      
+
       <Button text={`View ${booking.bookingType}`} onClick={onViewService} />
     </div>
   )

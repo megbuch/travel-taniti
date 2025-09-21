@@ -6,7 +6,7 @@ import { Button, ActivityEdit, SignInForm, BookingEdit } from '..'
 import StarIcon from '@mui/icons-material/Star';
 import './styles.scss'
 
-export default function ActivityDetails({ activity, onSave, onDelete }) {
+export default function ActivityDetails({ activity, onSave, onDelete, onBookingSuccess }) {
   const { openModal, closeModal } = useModal() 
   const { me } = useSession()
   const [date, setDate] = useState(new Date().toISOString().split('T')[0])
@@ -42,7 +42,8 @@ export default function ActivityDetails({ activity, onSave, onDelete }) {
       startDate={date} 
       endDate={date} 
       option={option}
-      onBack={()=>openModal(<ActivityDetails activity={activity} onSave={onSave} onDelete={onDelete} />)} />)
+      onBookingSuccess={onBookingSuccess}
+      onBack={()=>openModal(<ActivityDetails activity={activity} onSave={onSave} onDelete={onDelete} onBookingSuccess={onBookingSuccess} />)} />)
   }
 
   return (

@@ -8,7 +8,7 @@ import EditSquareIcon from '@mui/icons-material/EditSquare';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import './styles.scss'
 
-export default function RestaurantDetails({ restaurant, onSave, onDelete }) {
+export default function RestaurantDetails({ restaurant, onSave, onDelete, onBookingSuccess }) {
   const { openModal, closeModal } = useModal() 
   const { me } = useSession()
   const [date, setDate] = useState(new Date().toISOString().split('T')[0])
@@ -44,7 +44,8 @@ export default function RestaurantDetails({ restaurant, onSave, onDelete }) {
       startDate={date} 
       endDate={date} 
       option={option}
-      onBack={()=>openModal(<RestaurantDetails restaurant={restaurant} onSave={onSave} onDelete={onDelete} />)} />)
+      onBookingSuccess={onBookingSuccess}
+      onBack={()=>openModal(<RestaurantDetails restaurant={restaurant} onSave={onSave} onDelete={onDelete} onBookingSuccess={onBookingSuccess} />)} />)
   }
 
   return (

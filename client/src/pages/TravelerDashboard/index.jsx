@@ -9,7 +9,7 @@ export default function TravelerDashboard() {
   const { openModal } = useModal()
   const [bookings, setBookings] = useState([])
 
-  useEffect(() => { fetchBookings() }, [])
+  useEffect(() => fetchBookings(), [])
 
   const fetchBookings = async () => {
     const response = await getBookings()
@@ -37,7 +37,9 @@ export default function TravelerDashboard() {
   }
 
   const formatDate = date => {
-    return new Date(date).toLocaleDateString('en-US', { 
+    const [year, month, day] = date.split('-').map(Number)
+    const localDate = new Date(year, month - 1, day)
+    return localDate.toLocaleDateString('en-US', { 
       weekday: 'long', 
       year: 'numeric', 
       month: 'long', 
@@ -46,8 +48,10 @@ export default function TravelerDashboard() {
   }
 
   const onViewBooking = booking => {
-    openModal(<BookingDetails booking={booking} />)
+    openModal(<BookingDetails booking={booking} onBookingSuccess={onBookingSuccess} />)
   }
+
+  const onBookingSuccess = async () => await fetchBookings()
 
   return (
     <div className='traveler-dashboard-page col'>

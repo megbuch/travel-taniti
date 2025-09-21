@@ -7,7 +7,7 @@ import StarIcon from '@mui/icons-material/Star';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import './styles.scss'
 
-export default function AccommodationDetails({ accommodation, onSave, onDelete, onRefresh }) {
+export default function AccommodationDetails({ accommodation, onSave, onDelete, onRefresh, onBookingSuccess }) {
   const { openModal, closeModal } = useModal() 
   const { me } = useSession()
   const [showRoomTypeForm, setShowRoomTypeForm] = useState(false)
@@ -55,7 +55,8 @@ export default function AccommodationDetails({ accommodation, onSave, onDelete, 
       startDate={startDate} 
       endDate={endDate} 
       option={option}
-      onBack={()=>openModal(<AccommodationDetails accommodation={accommodation} onSave={onSave} onDelete={onDelete} onRefresh={onRefresh} />)} />)
+      onBookingSuccess={onBookingSuccess}
+      onBack={()=>openModal(<AccommodationDetails accommodation={accommodation} onSave={onSave} onDelete={onDelete} onRefresh={onRefresh} onBookingSuccess={onBookingSuccess} />)} />)
   }
   
   return (
