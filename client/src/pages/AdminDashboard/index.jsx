@@ -157,7 +157,7 @@ export default function AdminDashboard() {
         <div className='content col'>
           <div className='row'>
             <h2>{currentTab}</h2>
-            {currentTab !== Tab.USERS && <Button backgroundless icon={<AddCircleOutlineIcon />} onClick={onCreate} />}
+            {![Tab.USERS, Tab.BOOKINGS].includes(currentTab) && <Button backgroundless icon={<AddCircleOutlineIcon />} onClick={onCreate} />}
           </div>
           <div className='row'>
             <input type='text' placeholder={`Search ${currentTab}..`} ref={searchRef} />

@@ -7,9 +7,14 @@ import './styles.scss'
 
 export default function Navigation() {
   const navigate = useNavigate()
+  const { me } = useSession()
   const { openModal } = useModal()
   const { isAuthenticated, signOut } = useSession()
 
+  const goToDashboard = () => {
+    navigate(me?.role == 'admin' ? '/admin-dashboard' : '/traveler-dashboard')
+  }
+  
   return (
     <div className='navigation'>
       <ul>
@@ -33,7 +38,7 @@ export default function Navigation() {
         <Button backgroundless icon={<MessageIcon />} onClick={()=>openModal(<ContactForm />)} />
         {isAuthenticated ? 
           <div className='row'>
-            <Button backgroundless icon={<DashboardIcon />} onClick={()=>navigate('/traveler-dashboard')} />
+            <Button backgroundless icon={<DashboardIcon />} onClick={goToDashboard} />
             <Button text='Sign Out' onClick={signOut} />
           </div>
         : 

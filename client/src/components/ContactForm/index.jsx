@@ -1,9 +1,10 @@
 import { toast } from 'react-toastify';
-import { useModal } from '../../hooks'
+import { useModal, useSession } from '../../hooks'
 import { Button } from '../'
 import './styles.scss'
 
 export default function ContactForm() {
+  const { me } = useSession()
   const { closeModal } = useModal();
   
   const submit = e => {
@@ -26,15 +27,15 @@ export default function ContactForm() {
       </p>
       <div className='section'>
         <p className='subtitle'>First Name *</p>
-        <input type='text' required/>
+        <input type='text' required value={me?.firstName} disabled={me} />
       </div>
       <div className='section'>
         <p className='subtitle'>Last Name *</p>
-        <input type='text' required/>
+        <input type='text' required value={me?.lastName} disabled={me} />
       </div>
       <div className='section'>
         <p className='subtitle'>Email *</p>
-        <input type='email' required/>
+        <input type='email' required value={me?.email} disabled={me} />
       </div>
       <div className='section'>
         <p className='subtitle'>Phone </p>

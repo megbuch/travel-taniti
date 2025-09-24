@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from 'react'
+import { createContext, useContext, useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const SessionContext = createContext()
@@ -19,7 +19,7 @@ export function SessionProvider({ children }) {
         }
         setToken(storedToken)
         const userData = {
-          id: payload.userID,
+          id: payload.id,
           email: payload.email,
           firstName: payload.firstName,
           lastName: payload.lastName,
@@ -27,24 +27,22 @@ export function SessionProvider({ children }) {
         }
         setMe(userData)
       } catch (error) {
+        console.log(error)
         localStorage.removeItem('token')
       }
     }
   }, [])
 
-  useEffect(() => {
-    if (token) localStorage.setItem('token', token)
-    else localStorage.removeItem('token')
-  }, [token])
-
   const signIn = (token, me) => {
-    setToken(token)
     setMe(me)
+    setToken(token)
+    localStorage.setItem('token', token)
   }
 
   const signOut = () => {
-    setToken(null)
     setMe(null)
+    setToken(null)
+    localStorage.removeItem('token')
     navigate('/')
   }
 
