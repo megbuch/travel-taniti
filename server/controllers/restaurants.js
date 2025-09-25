@@ -111,6 +111,9 @@ const generateTimeSlots = (openTime, closeTime) => {
   const slots = []
   const open = new Date(`1970-01-01T${openTime}`)
   const close = new Date(`1970-01-01T${closeTime}`)
+  if (close <= open) {
+    close.setDate(close.getDate() + 1)
+  }
   let current = new Date(open)
   while (current < close) {
     slots.push(current.toTimeString().slice(0, 5))
