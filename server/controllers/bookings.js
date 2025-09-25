@@ -154,13 +154,24 @@ const deleteBooking = async (req, res) => {
 }
 
 const updateCompletedBookings = async (userID) => {
+  const today = new Date()
+  const todayString = today.getFullYear() + '-' + 
+    String(today.getMonth() + 1).padStart(2, '0') + '-' + 
+    String(today.getDate()).padStart(2, '0')
+  const currentTime = today.toTimeString().slice(0, 8)
+
   await Booking.update(
     { status: 'completed' },
-    {
-      where: {
+    { where: {
         userID: userID,
         status: 'confirmed',
-        endDate: { [Op.lt]: new Date() }
+        [Op.or]: [
+          { endDate: { [Op.lt]: todayString } },
+          { 
+            endDate: todayString, 
+            startTime: { [Op.lt]: currentTime } 
+          }
+        ]
       }
     }
   )

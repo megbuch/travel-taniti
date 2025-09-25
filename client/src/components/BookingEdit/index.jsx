@@ -31,7 +31,6 @@ export default function BookingEdit(props) {
   }
 
   const calculateTotalCost = () => {
-    console.log(service)
     if (isAccommodation) return option.roomType.pricePerNight * calculateNumberOfNights()
     if (isActivity) return service.pricePerPerson * guestCount
     return 0

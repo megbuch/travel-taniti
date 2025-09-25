@@ -8,32 +8,35 @@ import './styles.scss'
 export default function TravelerDashboard() {
   const { openModal } = useModal()
   const [bookings, setBookings] = useState([])
-
-  // todo: 
-  // 1. fix bug - completed bookings have 'confirmed' status
-  // 2. fix bug - you can book something for today using a past time slot
-  // 3. separate 'completed bookings' list or just don't show them
+  const [filter, setFilter] = useState('confirmed')
+  const filteredBookings = bookings?.filter(booking => {
+    switch (filter) {
+      case 'confirmed': 
+        return booking.status == 'confirmed'
+      case 'pendingCancellation': 
+        return booking.status == 'pendingCancellation'
+      case 'completed': 
+        return booking.status == 'completed'
+    }
+  })
+  const dates = []
+  filteredBookings?.forEach(booking => {
+    if (!dates.includes(booking.startDate)) {
+      dates.push(booking.startDate)
+    }
+  })
   
   useEffect(() => { fetchBookings() }, [])
-
   const fetchBookings = async () => {
     const response = await getBookings()
-    const futureBookings = response?.bookings?.filter(booking => booking.status !== 'completed')
-    const sortedBookings = futureBookings?.sort((a, b) => {
+    const sortedBookings = response?.bookings?.sort((a, b) => {
       return new Date(a.startDate) - new Date(b.startDate)
     })
     setBookings(sortedBookings || [])
   }
 
-  const dates = []
-  bookings.forEach(booking => {
-    if (!dates.includes(booking.startDate)) {
-      dates.push(booking.startDate)
-    }
-  })
-
   const getBookingsForDate = date => {
-    const bookingsForDate = bookings.filter(booking => booking.startDate === date)
+    const bookingsForDate = filteredBookings?.filter(booking => booking.startDate === date)
     bookingsForDate.sort((a, b) => {
       const timeA = a.startTime || a.bookableDetails.checkInTime || '00:00'
       const timeB = b.startTime || b.bookableDetails.checkInTime || '00:00'
@@ -62,7 +65,6 @@ export default function TravelerDashboard() {
       onRequestCancellation={onRequestCancellation} />)
   }
 
-
   return (
     <div className='traveler-dashboard-page col'>
       <Navigation />
@@ -70,6 +72,11 @@ export default function TravelerDashboard() {
         <h1>Your Dashboard</h1>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, earum nesciunt. Adipisci dolorum, quas voluptate laboriosam doloribus, delectus rerum excepturi non modi et fugit sequi! Veniam eius eos consectetur quod.</p>
         <div className='content col'>
+          <select onChange={e=>setFilter(e.target.value)}>
+            <option value='confirmed'>Confirmed</option>
+            <option value='completed'>Completed</option>
+            <option value='pendingCancellation'>Pending Cancellation</option>
+          </select>
           {dates.map(date => {
             const bookings = getBookingsForDate(date)
             return (
@@ -98,7 +105,7 @@ const BookingCell = ({ booking, onView }) => {
         <p className='subtitle'>{booking.startTime || booking.bookableDetails.checkInTime}</p>
       </div>
       <div className='row'>
-        {booking.status == 'pendingCancellation' && <p className='subtitle'>Cancellation Requested</p>}
+        {booking.status != 'confirmed' && <p className='subtitle'>{booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}</p>}
         <Button backgroundless small icon={<InfoIcon onClick={()=>onView(booking)} />} />
       </div>
     </div>
