@@ -13,6 +13,7 @@ const getBookings = async (req, res) => {
     if (!isAdmin) {
       await updateCompletedBookings(req.user.id)
     }
+    const { name } = req.query
     const whereClause = isAdmin ? {} : { userID: req.user.id }
     const bookings = await Booking.findAll({ where: whereClause })
     const roomTypeIDs = []
@@ -53,12 +54,29 @@ const getBookings = async (req, res) => {
       activity: Object.fromEntries(activities.map(a => [a.id, a])),
       user: isAdmin ? Object.fromEntries(users.map(u => [u.id, u])) : {}
     }
-    const bookingsWithDetails = bookings.map(booking => ({
+    let bookingsWithDetails = bookings.map(booking => ({
       ...booking.toJSON(),
       bookableDetails: lookups[booking.bookingType]?.[booking.bookableID],
       roomTypeDetails: booking.roomTypeID ? lookups.roomType?.[booking.roomTypeID] : null,
       ...(isAdmin && { userDetails: lookups.user?.[booking.userID] })
     }))
+    if (name) {
+      bookingsWithDetails = bookingsWithDetails.filter(booking => {
+        const serviceName = booking.bookableDetails?.name?.toLowerCase() || ''
+        let firstName = ''
+        let lastName = ''
+        let fullName = ''
+        if (isAdmin && booking.userDetails) {
+          firstName = booking.userDetails.firstName?.toLowerCase() || ''
+          lastName = booking.userDetails.lastName?.toLowerCase() || ''
+          fullName = `${firstName} ${lastName}`.trim()
+        }
+        return serviceName.includes(name) || 
+          firstName.includes(name) || 
+          lastName.includes(name) || 
+          fullName.includes(name)
+      })
+    }
     res.status(200).json({ bookings: bookingsWithDetails })
   } catch (error) {
     handleError(res, error, 'Could not fetch bookings')

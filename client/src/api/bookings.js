@@ -2,8 +2,8 @@ import sendRequest from './sendRequest'
 
 const BASE_URL = '/api/bookings'
 
-export const getBookings = async () => {
-  return sendRequest(BASE_URL, 'GET')
+export const getBookings = async (query) => {
+  return sendRequest(BASE_URL, 'GET', null, query)
 }
 
 export const createBooking = async (bookingData) => {

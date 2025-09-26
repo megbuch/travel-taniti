@@ -90,9 +90,9 @@ export default function TravelerDashboard() {
         <h1>Your Dashboard</h1>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, earum nesciunt. Adipisci dolorum, quas voluptate laboriosam doloribus, delectus rerum excepturi non modi et fugit sequi! Veniam eius eos consectetur quod.</p>
         <div className='content col'>
-          <select onChange={e=>setFilter(e.target.value)}>
+          <select value={filter} onChange={e=>setFilter(e.target.value)}>
             <option value='all'>All</option>
-            <option selected value='confirmed'>Confirmed</option>
+            <option value='confirmed'>Confirmed</option>
             <option value='completed'>Completed</option>
             <option value='pendingCancellation'>Pending Cancellation</option>
           </select>
