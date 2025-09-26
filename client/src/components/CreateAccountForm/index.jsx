@@ -1,4 +1,5 @@
 import { useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { useModal, useSession } from '../../hooks'
 import { Button } from '../'
@@ -6,6 +7,7 @@ import { createUser } from '../../api/'
 import './styles.scss'
 
 export default function CreateAccountForm() {
+  const navigate = useNavigate()
   const { closeModal } = useModal()
   const { signIn } = useSession()
   const firstNameRef = useRef()
@@ -28,8 +30,9 @@ export default function CreateAccountForm() {
       }
       const response = await createUser(userData)
       signIn(response.accessToken, response.user)
-      toast.success('Your account has been created.')
+      navigate('/traveler-dashboard')
       closeModal()
+      toast.success('Your account has been created.')
     } catch (error) {
       toast.error('Your account could not be created. Please try again.')
     }
@@ -60,7 +63,7 @@ export default function CreateAccountForm() {
         <input ref={confirmPasswordRef} type='password' minLength='8' required />
       </div>
       <div className='row button-row'>
-        <Button inverted border onClick={closeModal} text='Cancel' />
+        <Button type='button' inverted border onClick={closeModal} text='Cancel' />
         <Button type='submit' text='Submit' />
       </div>
     </form>

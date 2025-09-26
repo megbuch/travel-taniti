@@ -79,17 +79,19 @@ export default function ActivitiesPage() {
           </div>
           <img src={volcanoImageSquare} alt='Active volcano' />
         </div>
-        <div className='text-section'>
-          <h2>Featured Activities</h2>
-          <p>Discover some of our most popular activities.</p>
-          <div className='activities-container'>
-            {activities.map((activity, index) => <ServiceCard 
-              key={index} 
-              data={activity}
-              onView={()=>openModal(<ActivityDetails activity={activity} />)} />
-            )}
+        {activities?.length > 0 && 
+          <div className='text-section'>
+            <h2>Featured Activities</h2>
+            <p>Discover some of our most popular activities.</p>
+            <div className='activities-container'>
+              {activities.map((activity, index) => <ServiceCard 
+                key={index} 
+                data={activity}
+                onView={()=>openModal(<ActivityDetails activity={activity} />)} />
+              )}
+            </div>
           </div>
-        </div>
+        }
         <CallToAction />
       </div>
       <Footer />

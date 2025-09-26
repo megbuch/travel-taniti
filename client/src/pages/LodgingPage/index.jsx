@@ -46,17 +46,19 @@ export default function LodgingPage() {
             and regularly inspected by the Tanitian government to ensure your complete satisfaction.
           </p>
         </div>
-        <div className='text-section'>
-          <h2>Featured Accommodations</h2>
-          <p>Discover some of our most popular places to stay.</p>
-          <div className='hotels-container'>
-            {accommodations.map((accommodation, index) => <ServiceCard 
-              key={index} 
-              data={accommodation} 
-              onView={()=>openModal(<AccommodationDetails accommodation={accommodation} />)} />
-            )}
+        {accommodations?.length > 0 && 
+          <div className='text-section'>
+            <h2>Featured Accommodations</h2>
+            <p>Discover some of our most popular places to stay.</p>
+            <div className='hotels-container'>
+              {accommodations.map((accommodation, index) => <ServiceCard 
+                key={index} 
+                data={accommodation} 
+                onView={()=>openModal(<AccommodationDetails accommodation={accommodation} />)} />
+              )}
+            </div>
           </div>
-        </div>
+        }
         <CallToAction />
       </div>
       <Footer />

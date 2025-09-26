@@ -49,15 +49,15 @@ export default function SignInForm({ redirectAfterLogin = true }) {
         <div className='section'>
           <p className='row'>
             <span className='subtitle'>Need an account?</span>
-            <span><Button short small backgroundless onClick={()=>openModal(<CreateAccountForm />)} text='Sign Up' /></span>
+            <span><Button type='button' short small backgroundless onClick={()=>openModal(<CreateAccountForm />)} text='Sign Up' /></span>
           </p>
           <p className='row'>
             <span className='subtitle'>Forgot your password?</span>
-            <span><Button short small backgroundless text='Reset Password' /></span>
+            <span><Button type='button' short small backgroundless text='Reset Password' /></span>
           </p>
         </div>
         <div className='row'>
-          <Button inverted border onClick={closeModal} text='Cancel' />
+          <Button type='button' inverted border onClick={closeModal} text='Cancel' />
           <Button type='submit' text='Submit' />
         </div>
       </form>

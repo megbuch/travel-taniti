@@ -43,17 +43,19 @@ export default function DiningPage() {
             or explore a mix of both at our two Pan-Asian fusion venues.
           </p>
         </div>
-        <div className='text-section'>
-          <h2>Featured Restaurants</h2>
-          <p>Discover some of our most popular restaurants.</p>
-          <div className='restaurants-container'>
-            {restaurants.map((restaurant, index) => <ServiceCard 
-              key={index} 
-              data={restaurant} 
-              onView={()=>openModal(<RestaurantDetails restaurant={restaurant} />)} />
-            )}
+        {restaurants?.length > 0 && 
+          <div className='text-section'>
+            <h2>Featured Restaurants</h2>
+            <p>Discover some of our most popular restaurants.</p>
+            <div className='restaurants-container'>
+              {restaurants.map((restaurant, index) => <ServiceCard 
+                key={index} 
+                data={restaurant} 
+                onView={()=>openModal(<RestaurantDetails restaurant={restaurant} />)} />
+              )}
+            </div>
           </div>
-        </div>
+        }
         <CallToAction />
       </div>
       <Footer />
