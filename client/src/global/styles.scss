@@ -146,11 +146,7 @@ body {
     font-size: var(--body-sm);
     color: rgb(82, 82, 82);
   }
-
-  .capitalize {
-    text-transform: 'capitalize';
-  }
-
+  
   form, .details {
     display: flex;
     flex-direction: column;

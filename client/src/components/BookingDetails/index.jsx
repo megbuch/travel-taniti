@@ -144,7 +144,7 @@ export default function BookingDetails({ booking, onBookingSuccess, onRequestCan
           </div>
           <div className='section'>
             <p className='subtitle'>Status</p>
-            <p className='capitalize'>{booking.status}</p>
+            <p>{booking.status}</p>
           </div>
         </>
       }

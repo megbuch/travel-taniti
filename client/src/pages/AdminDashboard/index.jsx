@@ -63,7 +63,6 @@ export default function AdminDashboard() {
           break
         case Tab.BOOKINGS:
           {
-            // todo: make queryable?
             const response = await getBookings()
             setItems(response?.bookings?.sort((a, b) => {
               return new Date(a.startDate) - new Date(b.startDate)
@@ -173,13 +172,19 @@ export default function AdminDashboard() {
 }
 
 const ItemCell = ({ item, onView }) => {
+  const title = item?.name || item?.bookableDetails?.name || `${item?.firstName} ${item?.lastName}` || ''
+  const subtitle = item.location || item.email || `${item.userDetails.firstName} ${item.userDetails.lastName}` || ''
+  
   return (
     <div className='item-cell row'>
       <div>
-        <p>{item?.name || item?.bookableDetails?.name || `${item?.firstName} ${item?.lastName}` || ''}</p>
-        <p className='subtitle'>{item.location || item.email}</p>
+        <p>{title}</p>
+        <p className='subtitle'>{subtitle}</p>
       </div>
-      <Button backgroundless small icon={<InfoIcon onClick={onView} />} />
+      <div className='row'>
+        {item?.status && <p className='subtitle'>{item?.status}</p>}
+        <Button backgroundless small icon={<InfoIcon onClick={onView} />} />
+      </div>
     </div>
   )
 }

@@ -125,7 +125,7 @@ const BookingCell = ({ booking, onView }) => {
         <p className='subtitle'>{booking.startTime || booking.bookableDetails.checkInTime}</p>
       </div>
       <div className='row'>
-        {booking.status != 'confirmed' && <p className='subtitle'>{booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}</p>}
+        {booking.status != 'confirmed' && <p className='subtitle'>{booking.status}</p>}
         <Button backgroundless small icon={<InfoIcon onClick={()=>onView(booking)} />} />
       </div>
     </div>
