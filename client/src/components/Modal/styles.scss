@@ -23,6 +23,23 @@
     overflow-y: auto;
     box-shadow: var(--box-shadow);
     z-index: 1000;
+
+    &:has(.report-comp) {
+      max-width: 95vw;
+      max-height: 95vh;
+      width: 95vw;
+    }
   }
 }
 
+.hide-from-print {
+  @media print {
+    display: none !important;
+  }
+}
+
+@media print {
+  .modal-container {
+    box-shadow: none !important;
+  } 
+}

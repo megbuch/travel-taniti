@@ -47,7 +47,7 @@ body {
   color: black;
   background: var(--color-background);
 
-  h1, h2, h3, h4, h5, h6 {
+  h1, h2, h3, h4, h5, h6{
     font-family: 'Merriweather', Georgia, 'Times New Roman', Times, serif;
   }
 
@@ -145,6 +145,10 @@ body {
   .subtitle {
     font-size: var(--body-sm);
     color: rgb(82, 82, 82);
+  }
+
+  .capitalize {
+    text-transform: 'capitalize';
   }
 
   form, .details {

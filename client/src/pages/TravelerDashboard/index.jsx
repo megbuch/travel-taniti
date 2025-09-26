@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { getBookings } from '../../api'
-import { Navigation, Button, BookingDetails } from '../../components'
+import { Navigation, Button, BookingDetails, Report } from '../../components'
 import { useModal } from '../../hooks';
 import InfoIcon from '@mui/icons-material/Info';
 import './styles.scss'
@@ -11,6 +11,7 @@ export default function TravelerDashboard() {
   const [filter, setFilter] = useState('confirmed')
   const filteredBookings = bookings?.filter(booking => {
     switch (filter) {
+      case 'all': return booking
       case 'confirmed': 
         return booking.status == 'confirmed'
       case 'pendingCancellation': 
@@ -46,6 +47,7 @@ export default function TravelerDashboard() {
   }
 
   const formatDate = date => {
+    if (!date) return null
     const [year, month, day] = date.split('-').map(Number)
     const localDate = new Date(year, month - 1, day)
     return localDate.toLocaleDateString('en-US', { 
@@ -65,6 +67,22 @@ export default function TravelerDashboard() {
       onRequestCancellation={onRequestCancellation} />)
   }
 
+  const generateItinerary = () => {
+    const data = filteredBookings.map(booking => ({
+      date: booking.startDate,
+      time: booking.startTime || booking.bookableDetails.checkInTime,
+      booking: `${booking.bookableDetails?.name}${booking.roomTypeDetails ? `, ${booking.roomTypeDetails.name}` : ''}`,
+      status: booking.status,
+    }))
+    
+    openModal(<Report 
+      title='Travel Itinerary'
+      startDate={formatDate(dates[0]) || ''}
+      endDate={formatDate(dates[dates.length-1]) || ''}
+      data={data} 
+    />)
+  }
+
   return (
     <div className='traveler-dashboard-page col'>
       <Navigation />
@@ -73,10 +91,12 @@ export default function TravelerDashboard() {
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, earum nesciunt. Adipisci dolorum, quas voluptate laboriosam doloribus, delectus rerum excepturi non modi et fugit sequi! Veniam eius eos consectetur quod.</p>
         <div className='content col'>
           <select onChange={e=>setFilter(e.target.value)}>
-            <option value='confirmed'>Confirmed</option>
+            <option value='all'>All</option>
+            <option selected value='confirmed'>Confirmed</option>
             <option value='completed'>Completed</option>
             <option value='pendingCancellation'>Pending Cancellation</option>
           </select>
+          <Button text='Generate Itinerary' onClick={generateItinerary} />
           {dates.map(date => {
             const bookings = getBookingsForDate(date)
             return (

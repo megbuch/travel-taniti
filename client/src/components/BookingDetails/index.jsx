@@ -103,7 +103,6 @@ export default function BookingDetails({ booking, onBookingSuccess, onRequestCan
             <p className='subtitle'>Check Out</p>
             <p>{booking.bookableDetails.checkOutTime}</p>
           </div>
-          
           <div className='section'>
             <p className='subtitle'>Room</p>
             <p>{booking.roomTypeDetails.name}</p>
@@ -145,14 +144,14 @@ export default function BookingDetails({ booking, onBookingSuccess, onRequestCan
           </div>
           <div className='section'>
             <p className='subtitle'>Status</p>
-            <p>{booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}</p>
+            <p className='capitalize'>{booking.status}</p>
           </div>
         </>
       }
 
       <div className='section'>
-        <Button text={`View ${booking.bookingType.charAt(0).toUpperCase() + booking.bookingType.slice(1)}`} onClick={onViewService} />
-        {me?.role === 'traveler' && <Button text='Request Cancellation' onClick={requestCancellation} />}
+        <Button text='View Service' onClick={onViewService} />
+        {me?.role === 'traveler' && booking.status === 'confirmed' && <Button text='Request Cancellation' onClick={requestCancellation} />}
         {me?.role === 'admin' && <Button text='Delete' onClick={handleDelete} />}
       </div>
     </div>

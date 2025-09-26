@@ -31,7 +31,6 @@ export default function AdminDashboard() {
   const [currentTab, setCurrentTab] = useState(Tab.USERS)
   const [items, setItems] = useState([])
   const searchRef = useRef()
-  // const { me, isAuthenticated } = useSession()
 
   useEffect(() => { fetchData() }, [currentTab])
 
@@ -140,8 +139,6 @@ export default function AdminDashboard() {
     fetchData()
   }
 
-  // if (!isAuthenticated || !me) window.location.href = '/'
-  // if (me.role !== 'admin') window.location.href = '/'
   return (
     <div className='admin-dashboard-page col'>
       <Navigation />
