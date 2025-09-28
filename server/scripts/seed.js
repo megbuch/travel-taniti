@@ -427,12 +427,9 @@ const activities = [
     durationMinutes: 180,
     pricePerPerson: 75.00,
     maxParticipants: 200,
-    isRecurring: true,
-    oneTimeDate: null,
-    recurringDays: ['Friday', 'Saturday'],
-    time: '19:00:00',
-    recurringStartDate: '2025-01-01',
-    recurringEndDate: '2026-12-31'
+    isRecurring: false,
+    oneTimeDate: '2025-10-01',
+    time: '20:00:00',
   },
   {
     name: 'Snorkeling & Coral Reef Adventure',

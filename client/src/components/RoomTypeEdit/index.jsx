@@ -26,7 +26,7 @@ export default function RoomTypeEdit({ accommodation, onSave, onCancel }) {
       }
       await createRoomType(roomTypeData)
       toast.success('Room type created')
-      onSave()
+      onSave?.()
     } catch (error) {
       console.log('Could not create room type: ', error)
       toast.error('Could not create room type')

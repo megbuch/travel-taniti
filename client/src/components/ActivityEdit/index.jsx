@@ -37,7 +37,7 @@ export default function ActivityEdit({ activity, onSave, onDelete }) {
       : [...prev, day]
     )
   }
-  
+
   const save = async (e) => {
     e.preventDefault()
     try {
@@ -103,11 +103,11 @@ export default function ActivityEdit({ activity, onSave, onDelete }) {
 
       if (activity) {
         toast.success('Updated activity')
-        onSave(response?.activity)
+        onSave?.(response?.activity)
         openModal(<ActivityDetails activity={response?.activity} onSave={onSave} onDelete={onDelete} />)
       } else {
         toast.success('Saved activity')
-        onSave(response?.activity)
+        onSave?.(response?.activity)
         closeModal()
       }
     } catch (error) {
