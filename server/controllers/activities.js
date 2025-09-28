@@ -73,38 +73,34 @@ const getActivityAvailability = async (req, res) => {
     if (date < todayString) {
       return res.status(200).json({ availableSlots: [] })
     }
-
-    const [year, month, day] = date.split('-').map(Number)
-    const targetDate = new Date(year, month - 1, day)
-    const dayOfWeek = targetDate.toLocaleDateString('en-US', { weekday: 'long' })
     let isActivityAvailable = false
     let activityTime = null
     if (activity.isRecurring) {
+      const [year, month, day] = date.split('-').map(Number)
+      const targetDate = new Date(Date.UTC(year, month - 1, day))
+      const dayOfWeek = targetDate.toLocaleDateString('en-US', { weekday: 'long', timeZone: 'UTC' })
       const dayMatches = activity.recurringDays?.includes(dayOfWeek)
-      const startDate = activity.recurringStartDate ? new Date(activity.recurringStartDate) : null
-      const endDate = activity.recurringEndDate ? new Date(activity.recurringEndDate) : null
-      const requestedDate = new Date(date)
+      const requestedDateStr = date
+      const startDateStr = activity.recurringStartDate
+      const endDateStr = activity.recurringEndDate
       const dateInRange =
-        (!startDate || requestedDate >= startDate) &&
-        (!endDate || requestedDate <= endDate)
+        (!startDateStr || requestedDateStr >= startDateStr) &&
+        (!endDateStr || requestedDateStr <= endDateStr)
       isActivityAvailable = dayMatches && dateInRange
       if (isActivityAvailable && activity.recurringTime) {
         activityTime = `${activity.recurringTime}:00`
       }
     } else {
       const activityDate = new Date(activity.oneTimeDate)
-      const requestedDate = new Date(date)
-      const activityDateOnly = new Date(
-        activityDate.getFullYear(),
-        activityDate.getMonth(),
-        activityDate.getDate()
+      const activityYear = activityDate.getUTCFullYear()
+      const activityMonth = activityDate.getUTCMonth() 
+      const activityDay = activityDate.getUTCDate()
+      const [requestedYear, requestedMonth, requestedDay] = date.split('-').map(Number)
+      isActivityAvailable = (
+        activityYear === requestedYear &&
+        activityMonth === (requestedMonth - 1) &&
+        activityDay === requestedDay
       )
-      const requestedDateOnly = new Date(
-        requestedDate.getFullYear(),
-        requestedDate.getMonth(),
-        requestedDate.getDate()
-      )
-      isActivityAvailable = activityDateOnly.getTime() === requestedDateOnly.getTime()
       if (isActivityAvailable) {
         activityTime = activityDate.toTimeString().slice(0, 8)
       }
@@ -112,7 +108,6 @@ const getActivityAvailability = async (req, res) => {
     if (!isActivityAvailable) {
       return res.status(200).json({ availableSlots: [] })
     }
-
     const existingBookings = await Booking.findAll({
       where: {
         bookingType: 'activity',
