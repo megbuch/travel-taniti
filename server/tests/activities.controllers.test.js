@@ -4,7 +4,7 @@ const Activity = require('../models/activity')
 const Booking = require('../models/booking')
 const User = require('../models/user')
 
-describe('Activities Controller', () => {
+describe('Activity Controller', () => {
   let user
 
   beforeEach(async () => {
@@ -22,27 +22,6 @@ describe('Activities Controller', () => {
   })
 
   describe('GET /api/activities/:id/availability', () => {
-    test('should return 400 when date parameter is missing', async () => {
-      const activity = await Activity.create({
-        name: 'Test Activity',
-        description: 'Test Description',
-        location: 'Test Location',
-        maxParticipants: 10,
-        isRecurring: false,
-        oneTimeDate: new Date('2025-10-15')
-      })
-      await request(app)
-        .get(`/api/activities/${activity.id}/availability`)
-        .expect(400)
-    })
-
-    test('should return 404 for non-existent activity', async () => {
-      await request(app)
-        .get('/api/activities/0/availability')
-        .query({ date: '2025-10-15' })
-        .expect(404)
-    })
-
     describe('One-time Activities', () => {
       let oneTimeActivity
 
@@ -55,7 +34,8 @@ describe('Activities Controller', () => {
           pricePerPerson: 75.00,
           durationMinutes: 240,
           isRecurring: false,
-          oneTimeDate: new Date('2025-10-15T09:00:00')
+          oneTimeDate: '2025-10-15',
+          time: '22:00:00'
         })
       })
 
@@ -68,9 +48,9 @@ describe('Activities Controller', () => {
         expect(response.body.availableSlots).toBeDefined()
         expect(Array.isArray(response.body.availableSlots)).toBe(true)
         expect(response.body.availableSlots).toHaveLength(1)
-      
+        
         const slot = response.body.availableSlots[0]
-        expect(slot.time).toBe('09:00')
+        expect(slot.time).toBe('22:00:00')
         expect(slot.available).toBe(15)
       })
 
@@ -93,15 +73,17 @@ describe('Activities Controller', () => {
           quantity: 5,
           status: 'confirmed'
         })
+
         const response = await request(app)
           .get(`/api/activities/${oneTimeActivity.id}/availability`)
           .query({ date: '2025-10-15' })
           .expect(200)
+
         const slot = response.body.availableSlots[0]
         expect(slot.available).toBe(10)
       })
 
-      test('should return empty array when fully booked', async () => {
+      test('should not return slot when fully booked', async () => {
         await Booking.create({
           bookingType: 'activity',
           bookableID: oneTimeActivity.id,
@@ -111,6 +93,7 @@ describe('Activities Controller', () => {
           quantity: 15,
           status: 'confirmed'
         })
+
         const response = await request(app)
           .get(`/api/activities/${oneTimeActivity.id}/availability`)
           .query({ date: '2025-10-15' })
@@ -140,13 +123,13 @@ describe('Activities Controller', () => {
           durationMinutes: 90,
           isRecurring: true,
           recurringDays: ['Monday', 'Wednesday', 'Friday'],
-          recurringTime: '18:00',
           recurringStartDate: '2025-10-01',
-          recurringEndDate: '2025-12-31'
+          recurringEndDate: '2025-12-31',
+          time: '18:00',
         })
       })
 
-      test('should return available slots on correct recurring days', async () => {
+      test('should return correct available slots on recurring days', async () => {
         const response = await request(app)
           .get(`/api/activities/${recurringActivity.id}/availability`)
           .query({ date: '2025-10-15' })
@@ -155,7 +138,7 @@ describe('Activities Controller', () => {
         expect(Array.isArray(response.body.availableSlots)).toBe(true)
         expect(response.body.availableSlots).toHaveLength(1)
         const slot = response.body.availableSlots[0]
-        expect(slot.time).toBe('18:00')
+        expect(slot.time).toBe('18:00:00')
         expect(slot.available).toBe(20)
       })
 
@@ -182,6 +165,27 @@ describe('Activities Controller', () => {
           .expect(200)
         expect(response.body.availableSlots).toEqual([])
       })
+    })
+
+    test('should return 400 when date parameter is missing', async () => {
+      const activity = await Activity.create({
+        name: 'Test Activity',
+        description: 'Test Description',
+        location: 'Test Location',
+        maxParticipants: 10,
+        isRecurring: false,
+        oneTimeDate: new Date('2025-10-15')
+      })
+      await request(app)
+        .get(`/api/activities/${activity.id}/availability`)
+        .expect(400)
+    })
+
+    test('should return 404 for non-existent activity', async () => {
+      await request(app)
+        .get('/api/activities/0/availability')
+        .query({ date: '2025-10-15' })
+        .expect(404)
     })
   })
 })

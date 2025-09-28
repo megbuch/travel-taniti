@@ -63,13 +63,12 @@ export default function ActivityDetails({ activity, onSave, onDelete, onBookingS
         <p>{activity.description}</p>
         <div className='section'>
           <p className='subtitle'>When</p>
-          {activity.isRecurring 
-            ? 
+          {activity.isRecurring ? 
             <>
-              <p>{`${new Date(activity.recurringStartDate).toLocaleDateString()} - ${new Date(activity.recurringEndDate).toLocaleDateString()}`}</p>
-              <p>{`${activity.recurringTime} every ${activity.recurringDays.join(', ')}`}</p>
+              <p>{`${formatDateString(activity.recurringStartDate)} - ${formatDateString(activity.recurringEndDate)}`}</p>
+              <p>{`${activity.time} every ${activity.recurringDays.join(', ')}`}</p>
             </>
-            : <p>{activity.oneTimeDate}</p>
+            : <p>{`${formatDateString(activity.oneTimeDate)} ${activity.time}`}</p>
           }
         </div>
         {activity.durationMinutes && 
@@ -118,8 +117,8 @@ export default function ActivityDetails({ activity, onSave, onDelete, onBookingS
         <input type='date' value={date} onChange={e=>setDate(e.target.value)} />
         {availableSlots?.length > 0 ? 
           <ul className='availability-list col'>
-            {availableSlots.map(slot => (
-              <li className='availability-list-item row'>
+            {availableSlots.map((slot, index) => (
+              <li key={index} className='availability-list-item row'>
                 <div>
                   <p>{slot.time}</p>
                   <p className='subtitle'>{`${slot.available} Available`}</p>
@@ -136,4 +135,10 @@ export default function ActivityDetails({ activity, onSave, onDelete, onBookingS
       {me?.role == 'admin' && <p className='subtitle'>{`Created ${new Date(activity.createdAt).toLocaleDateString()}`}</p>}
     </div>
   )
+}
+
+const formatDateString = dateString => {
+  const [year, month, day] = dateString.split('-');
+  const date = new Date(year, month - 1, day);
+  return date.toLocaleDateString();
 }

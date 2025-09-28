@@ -103,8 +103,8 @@ export default function RestaurantDetails({ restaurant, onSave, onDelete, onBook
         <input type='date' value={date} onChange={e=>setDate(e.target.value)} />
         {availableSlots?.length > 0 ? 
           <ul className='availability-list col'>
-            {availableSlots.map(slot => (
-              <li className='availability-list-item row'>
+            {availableSlots.map((slot, index) => (
+              <li key={index} className='availability-list-item row'>
                 <div>
                   <p>{slot.time}</p>
                   <p className='subtitle'>{`${slot.available} Available`}</p>

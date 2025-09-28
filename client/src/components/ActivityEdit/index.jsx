@@ -23,7 +23,7 @@ export default function ActivityEdit({ activity, onSave, onDelete }) {
   const pricePerPersonRef = useRef()
   const maxParticipantsRef = useRef()
   const oneTimeDateRef = useRef()
-  const recurringTimeRef = useRef()
+  const timeRef = useRef()
   const recurringStartDateRef = useRef()
   const recurringEndDateRef = useRef()
 
@@ -37,13 +37,7 @@ export default function ActivityEdit({ activity, onSave, onDelete }) {
       : [...prev, day]
     )
   }
-
-  const formatDateForInput = dateString => {
-    if (!dateString) return ''
-    const date = new Date(dateString)
-    return date.toISOString().slice(0, 16)
-  }
-
+  
   const save = async (e) => {
     e.preventDefault()
     try {
@@ -68,7 +62,7 @@ export default function ActivityEdit({ activity, onSave, onDelete }) {
           toast.error('Please select at least one day for recurring activity')
           return
         }
-        if (!recurringTimeRef.current?.value) {
+        if (!timeRef.current?.value) {
           toast.error('Please select a time for recurring activity')
           return
         }
@@ -79,21 +73,25 @@ export default function ActivityEdit({ activity, onSave, onDelete }) {
         activityData = {
           ...baseActivityData,
           recurringDays: selectedDays,
-          recurringTime: recurringTimeRef.current.value,
+          time: timeRef.current.value,
           recurringStartDate: recurringStartDateRef.current.value,
           recurringEndDate: recurringEndDateRef.current?.value || null,
           oneTimeDate: null
         }
       } else {
         if (!oneTimeDateRef.current?.value) {
-          toast.error('Please select a date and time for one-time activity')
+          toast.error('Please select a date for one-time activity')
+          return
+        }
+        if (!timeRef.current?.value) {
+          toast.error('Please select a time for one-time activity')
           return
         }
         activityData = {
           ...baseActivityData,
-          oneTimeDate: new Date(oneTimeDateRef.current.value),
+          oneTimeDate: oneTimeDateRef.current.value,
+          time: timeRef.current.value,
           recurringDays: null,
-          recurringTime: null,
           recurringStartDate: null,
           recurringEndDate: null
         }
@@ -174,15 +172,26 @@ export default function ActivityEdit({ activity, onSave, onDelete }) {
         </div>
       </div>
       {!isRecurring ? (
-        <div className='section'>
-          <p className='subtitle'>Date & Time *</p>
-          <input 
-            ref={oneTimeDateRef}
-            type='datetime-local' 
-            required
-            defaultValue={activity?.oneTimeDate ? formatDateForInput(activity.oneTimeDate) : ''}
-          />
-        </div>
+        <>
+          <div className='section'>
+            <p className='subtitle'>Date *</p>
+            <input 
+              ref={oneTimeDateRef}
+              type='date'
+              required
+              defaultValue={activity?.oneTimeDate || ''}
+            />
+          </div>
+          <div className='section'>
+            <p className='subtitle'>Time *</p>
+            <input 
+              ref={timeRef}
+              type='time'
+              required
+              defaultValue={activity?.time || ''}
+            />
+          </div>
+        </>
       ) : (
         <>
           <div className='section'>
@@ -192,10 +201,10 @@ export default function ActivityEdit({ activity, onSave, onDelete }) {
           <div className='section'>
             <p className='subtitle'>Recurring Time *</p>
             <input 
-              ref={recurringTimeRef}
+              ref={timeRef}
               type='time'
               required={isRecurring}
-              defaultValue={activity?.recurringTime}
+              defaultValue={activity?.time}
             />
           </div>
           <div className='row'>

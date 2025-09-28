@@ -392,7 +392,7 @@ const activities = [
     isRecurring: true,
     oneTimeDate: null,
     recurringDays: ['Tuesday', 'Thursday', 'Saturday'],
-    recurringTime: '06:00:00',
+    time: '06:00:00',
     recurringStartDate: '2025-01-01',
     recurringEndDate: '2026-12-31'
   },
@@ -411,7 +411,7 @@ const activities = [
     isRecurring: true,
     oneTimeDate: null,
     recurringDays: ['Monday', 'Wednesday', 'Friday', 'Sunday'],
-    recurringTime: '09:00:00',
+    time: '09:00:00',
     recurringStartDate: '2025-01-01',
     recurringEndDate: '2026-12-31'
   },
@@ -430,7 +430,7 @@ const activities = [
     isRecurring: true,
     oneTimeDate: null,
     recurringDays: ['Friday', 'Saturday'],
-    recurringTime: '19:00:00',
+    time: '19:00:00',
     recurringStartDate: '2025-01-01',
     recurringEndDate: '2026-12-31'
   },
@@ -449,7 +449,7 @@ const activities = [
     isRecurring: true,
     oneTimeDate: null,
     recurringDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-    recurringTime: '08:00:00',
+    time: '08:00:00',
     recurringStartDate: '2025-01-01',
     recurringEndDate: '2026-12-31'
   },
@@ -468,7 +468,7 @@ const activities = [
     isRecurring: true,
     oneTimeDate: null,
     recurringDays: ['Tuesday', 'Thursday'],
-    recurringTime: '15:00:00',
+    time: '15:00:00',
     recurringStartDate: '2025-01-01',
     recurringEndDate: '2026-12-31'
   },
@@ -487,7 +487,7 @@ const activities = [
     isRecurring: true,
     oneTimeDate: null,
     recurringDays: ['Monday', 'Wednesday', 'Friday', 'Sunday'],
-    recurringTime: '10:00:00',
+    time: '10:00:00',
     recurringStartDate: '2025-01-01',
     recurringEndDate: '2026-12-31'
   },
@@ -506,7 +506,7 @@ const activities = [
     isRecurring: true,
     oneTimeDate: null,
     recurringDays: ['Thursday', 'Friday'],
-    recurringTime: '17:00:00',
+    time: '17:00:00',
     recurringStartDate: '2025-01-01',
     recurringEndDate: '2026-12-31'
   },
@@ -525,7 +525,7 @@ const activities = [
     isRecurring: true,
     oneTimeDate: null,
     recurringDays: ['Friday', 'Saturday'],
-    recurringTime: '21:00:00',
+    time: '21:00:00',
     recurringStartDate: '2025-01-01',
     recurringEndDate: '2026-12-31'
   }

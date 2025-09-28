@@ -25,14 +25,14 @@ const schema = {
     type: DataTypes.BOOLEAN,
     defaultValue: false
   },
+  time: {
+    type: DataTypes.TIME
+  },
   oneTimeDate: {
-    type: DataTypes.DATE
+    type: DataTypes.DATEONLY
   },
   recurringDays: {
     type: DataTypes.ARRAY(DataTypes.STRING)
-  },
-  recurringTime: {
-    type: DataTypes.TIME
   },
   recurringStartDate: {
     type: DataTypes.DATEONLY
@@ -51,7 +51,7 @@ const options = {
   validate: {
     validActivityType() {
       if (this.isRecurring) {
-        if (!this.recurringDays || !this.recurringTime || !this.recurringStartDate) {
+        if (!this.recurringDays || !this.time || !this.recurringStartDate) {
           throw new Error('Recurring activities must have days, time, and start date')
         }
       } else {

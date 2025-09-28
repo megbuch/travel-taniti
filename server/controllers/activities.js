@@ -60,12 +60,10 @@ const getActivityAvailability = async (req, res) => {
     if (!date) {
       return res.status(400).json({ error: 'Date parameter is required' })
     }
-
     const activity = await Activity.findByPk(id)
     if (!activity) {
       return res.status(404).json({ error: 'Activity not found' })
     }
-
     const today = new Date()
     const todayString = today.getFullYear() + '-' + 
       String(today.getMonth() + 1).padStart(2, '0') + '-' + 
@@ -87,22 +85,14 @@ const getActivityAvailability = async (req, res) => {
         (!startDateStr || requestedDateStr >= startDateStr) &&
         (!endDateStr || requestedDateStr <= endDateStr)
       isActivityAvailable = dayMatches && dateInRange
-      if (isActivityAvailable && activity.recurringTime) {
-        activityTime = `${activity.recurringTime}:00`
+      if (isActivityAvailable && activity.time) {
+        activityTime = activity.time
       }
     } else {
-      const activityDate = new Date(activity.oneTimeDate)
-      const activityYear = activityDate.getUTCFullYear()
-      const activityMonth = activityDate.getUTCMonth() 
-      const activityDay = activityDate.getUTCDate()
-      const [requestedYear, requestedMonth, requestedDay] = date.split('-').map(Number)
-      isActivityAvailable = (
-        activityYear === requestedYear &&
-        activityMonth === (requestedMonth - 1) &&
-        activityDay === requestedDay
-      )
-      if (isActivityAvailable) {
-        activityTime = activityDate.toTimeString().slice(0, 8)
+      const activityDateString = activity.oneTimeDate
+      isActivityAvailable = (activityDateString === date)
+      if (isActivityAvailable && activity.time) {
+        activityTime = activity.time
       }
     }
     if (!isActivityAvailable) {
@@ -120,7 +110,7 @@ const getActivityAvailability = async (req, res) => {
     const remainingCount = activity.maxParticipants - totalBooked
     const availableSlots = []
     if (remainingCount > 0 && activityTime) {
-      availableSlots.push({ time: activityTime.slice(0, 5), available: remainingCount })
+      availableSlots.push({ time: activityTime, available: remainingCount })
     }
     res.status(200).json({ availableSlots })
   } catch (error) {

@@ -35,7 +35,7 @@ export default function BookingEdit(props) {
     if (isActivity) return service.pricePerPerson * guestCount
     return 0
   }
-  const totalCost = `$${calculateTotalCost()?.toFixed(2)}`
+  const totalCost = calculateTotalCost()?.toFixed(2)
 
   const save = async (e) => {    
     e.preventDefault()
@@ -131,10 +131,12 @@ export default function BookingEdit(props) {
           onChange={e=>setGuestCount(e.target.value)} 
         />
       </div>
-      <div className='section'>
-        <p className='subtitle'>Total Cost</p>
-        <p>{totalCost}</p>
-      </div>
+      {totalCost > 0 && 
+        <div className='section'>
+          <p className='subtitle'>Total Cost</p>
+          <p>{`$${totalCost}`}</p>
+        </div>
+      }
       <div className='row'>
         <Button type='button' inverted border onClick={onBack} text='Back' />
         <Button type='submit' text='Book Now' />

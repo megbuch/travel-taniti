@@ -130,8 +130,8 @@ export default function AccommodationDetails({ accommodation, onSave, onDelete, 
         </div>
         {availableRooms?.length > 0 ? 
           <ul className='availability-list col'>
-            {availableRooms.map(room => (
-              <li className='availability-list-item row'>
+            {availableRooms.map((room, index) => (
+              <li key={index} className='availability-list-item row'>
                 <div>
                   <p>{room.roomType.name}</p>
                   <p className='subtitle'>{`$${room.roomType.pricePerNight} per night`}</p>
