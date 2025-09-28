@@ -15,9 +15,9 @@ app.use('/api/activities', require('./routes/activities'))
 app.use('/api/bookings', require('./routes/bookings'))
 app.use('/api/unsplash', require('./routes/unsplash'))
 
-app.use(express.static(path.join(__dirname, '../client/build')))
+app.use(express.static(path.join(__dirname, '../client/dist')))
 app.use((req, res) => {
-  res.sendFile(path.join(__dirname, '../client/build', 'index.html'))
+  res.sendFile(path.join(__dirname, '../client/dist', 'index.html'))
 })
 
 const port = process.env.PORT || 3001
