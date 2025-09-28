@@ -173,8 +173,9 @@ export default function AdminDashboard() {
 }
 
 const ItemCell = ({ item, onView }) => {
+  const time = item?.startTime || item.bookableDetails?.checkInTime || ''
   const title = item?.name || item?.bookableDetails?.name || `${item?.firstName} ${item?.lastName}` || ''
-  const subtitle = item.location || item.email || `${item?.startDate} ${item?.startTime}` || ''
+  const subtitle = item.location || item.email || `${item?.startDate} ${time}` || ''
   const user = item?.userDetails ? `${item.userDetails.firstName} ${item.userDetails.lastName}` : ''
   
   const getStatus = () => {
