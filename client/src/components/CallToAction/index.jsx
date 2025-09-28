@@ -7,7 +7,7 @@ export default function CallToAction() {
 
   return (
     <div className='call-to-action col'>
-      <div className='text-section'>
+      <div className='section'>
         <h2>Get in Touch ✍️</h2>
         <p className='subtitle'>
           Taniti Tourism Main Office<br />

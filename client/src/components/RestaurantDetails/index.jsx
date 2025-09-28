@@ -57,36 +57,30 @@ export default function RestaurantDetails({ restaurant, onSave, onDelete, onBook
           <p>{restaurant.rating ? renderStars(restaurant.rating) : 'Not enough ratings'}</p>
           <p>{restaurant.priceRange}</p>
         </div>
-
         {me?.role === 'admin' && 
           <div className='actions row'>
             <Button short small backgroundless icon={<EditSquareIcon />} text='Edit' onClick={()=>openModal(<RestaurantEdit restaurant={restaurant} onSave={onSave} onDelete={onDelete} />)} />
             <Button short small backgroundless icon={<DeleteForeverIcon />} text='Delete' onClick={handleDelete} />
           </div>
         }
-
         <p>{restaurant.description}</p>
-
         {restaurant.cuisineType &&
           <div className='section'>
             <p className='subtitle'>Cuisine</p>
             <p>{restaurant.cuisineType}</p>
           </div>
         }
-
         <div className='section'>
           <p className='subtitle'>Hours</p>
           <p>{`${restaurant.openTime} - ${restaurant.closeTime}`}</p>
           <p>{restaurant.operatingDays.join(', ')}</p>
         </div>
-
         {me?.role === 'admin' && 
           <div className='section'>
             <p className='subtitle'>Max Capacity</p>
             <p>{restaurant.maxCapacity}</p>
           </div>
         }
-        
         <h4>Contact</h4>
         <div className='section'>
           <p className='subtitle'>Location</p>
@@ -103,33 +97,27 @@ export default function RestaurantDetails({ restaurant, onSave, onDelete, onBook
             <p className='subtitle'>Contact Phone</p>
             <p>{restaurant.contactPhone}</p>
           </div>
+        }    
+        <div className='divider'></div>
+        <h3>Check Availability</h3>
+        <input type='date' value={date} onChange={e=>setDate(e.target.value)} />
+        {availableSlots?.length > 0 ? 
+          <ul className='availability-list col'>
+            {availableSlots.map(slot => (
+              <li className='availability-list-item row'>
+                <div>
+                  <p>{slot.time}</p>
+                  <p className='subtitle'>{`${slot.available} Available`}</p>
+                </div>
+                {me && <Button small short text='Book now' onClick={()=>createBooking(slot)} />}
+              </li>
+            ))}
+          </ul>
+          :
+          <p className='subtitle'>No available time slots on this date.</p>
         }
-
-        {me?.role !== 'admin' && 
-          <>
-            <div className='divider'></div>
-            <h3>Check Availability</h3>
-            <input type='date' value={date} onChange={e=>setDate(e.target.value)} />
-            {availableSlots?.length > 0 ? 
-              <ul className='availability-list col'>
-                {availableSlots.map(slot => (
-                  <li className='availability-list-item row'>
-                    <div>
-                      <p>{slot.time}</p>
-                      <p className='subtitle'>{`${slot.available} Available`}</p>
-                    </div>
-                    {me && <Button small short text='Book now' onClick={()=>createBooking(slot)} />}
-                  </li>
-                ))}
-              </ul>
-              :
-              <p className='subtitle'>No available time slots on this date.</p>
-            }
-            {!me && <Button small short text='Sign in to book' onClick={()=>openModal(<SignInForm redirectAfterLogin={false} />)} />}
-          </>
-        }
+        {!me && <Button small short text='Sign in to book' onClick={()=>openModal(<SignInForm redirectAfterLogin={false} />)} />}
       </div>
-
       {me?.role === 'admin' && <p className='subtitle'>{`Created ${new Date(restaurant.createdAt).toLocaleDateString()}`}</p>}
     </div>
   )

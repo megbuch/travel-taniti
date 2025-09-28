@@ -1,20 +1,14 @@
 .lodging-page {
-  align-items: center;
-  justify-content: center;
-  margin: auto;
-  
-  .page-container {
-    .hotels-container {
-      columns: 3;
-      column-gap: var(--pad-lg);
+  .hotels-container {
+    columns: 3;
+    column-gap: var(--pad-lg);
 
-      @media only screen and (max-width: 800px) {
-        columns: 1;
-      }
-      
-      @media only screen and (min-width: 800px) and (max-width: 1200px) {
-        columns: 2;
-      }
+    @media only screen and (max-width: 800px) {
+      columns: 1;
+    }
+    
+    @media only screen and (min-width: 800px) and (max-width: 1200px) {
+      columns: 2;
     }
   }
 }

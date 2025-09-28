@@ -54,16 +54,13 @@ export default function ActivityDetails({ activity, onSave, onDelete, onBookingS
           <h1>{activity.name}</h1>
           <p>{activity.rating ? renderStars(activity.rating) : 'Not enough ratings'}</p>
         </div>
-
         {me?.role == 'admin' && 
           <div className='actions row'>
             <Button short small text='Edit' onClick={()=>openModal(<ActivityEdit activity={activity} onSave={onSave} onDelete={onDelete} />)} />
             <Button short small text='Delete' onClick={handleDelete} />
           </div>
         }
-
         <p>{activity.description}</p>
-
         <div className='section'>
           <p className='subtitle'>When</p>
           {activity.isRecurring 
@@ -75,28 +72,24 @@ export default function ActivityDetails({ activity, onSave, onDelete, onBookingS
             : <p>{activity.oneTimeDate}</p>
           }
         </div>
-
         {activity.durationMinutes && 
           <div className='section'>
             <p className='subtitle'>Duration</p>
             <p>{activity.durationMinutes} Minutes</p>
           </div>
         }
-
         {me?.role == 'admin' && activity.maxParticipants && 
           <div className='section'>
             <p className='subtitle'>Max Participants</p>
             <p>{activity.maxParticipants}</p>
           </div>
         }
-
         {activity.pricePerPerson && 
           <div className='section'>
             <p className='subtitle'>Price Per Person</p>
             <p>{`$${activity.pricePerPerson}`}</p>
           </div>
         }
-
         <h4>Contact</h4>
         <div className='section'>
           <p className='subtitle'>Location</p>
@@ -120,30 +113,25 @@ export default function ActivityDetails({ activity, onSave, onDelete, onBookingS
             <p>{activity.contactPhone}</p>
           </div>
         }
-
-        {me?.role !== 'admin' && 
-          <>
-            <div className='divider'></div>
-            <h3>Check Availability</h3>
-            <input type='date' value={date} onChange={e=>setDate(e.target.value)} />
-            {availableSlots?.length > 0 ? 
-              <ul className='availability-list col'>
-                {availableSlots.map(slot => (
-                  <li className='availability-list-item row'>
-                    <div>
-                      <p>{slot.time}</p>
-                      <p className='subtitle'>{`${slot.available} Available`}</p>
-                    </div>
-                    {me && <Button small short text='Book now' onClick={()=>createBooking(slot)} />}
-                  </li>
-                ))}
-              </ul>
-              :
-              <p className='subtitle'>No available time slots on this date.</p>
-            }
-            {!me && <Button small short text='Sign in to book' onClick={()=>openModal(<SignInForm redirectAfterLogin={false} />)} />}
-          </>
+        <div className='divider'></div>
+        <h3>Check Availability</h3>
+        <input type='date' value={date} onChange={e=>setDate(e.target.value)} />
+        {availableSlots?.length > 0 ? 
+          <ul className='availability-list col'>
+            {availableSlots.map(slot => (
+              <li className='availability-list-item row'>
+                <div>
+                  <p>{slot.time}</p>
+                  <p className='subtitle'>{`${slot.available} Available`}</p>
+                </div>
+                {me && <Button small short text='Book now' onClick={()=>createBooking(slot)} />}
+              </li>
+            ))}
+          </ul>
+          :
+          <p className='subtitle'>No available time slots on this date.</p>
         }
+        {!me && <Button small short text='Sign in to book' onClick={()=>openModal(<SignInForm redirectAfterLogin={false} />)} />}
       </div>
       {me?.role == 'admin' && <p className='subtitle'>{`Created ${new Date(activity.createdAt).toLocaleDateString()}`}</p>}
     </div>

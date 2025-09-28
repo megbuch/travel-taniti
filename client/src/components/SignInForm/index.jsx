@@ -25,7 +25,7 @@ export default function SignInForm({ redirectAfterLogin = true }) {
       if (redirectAfterLogin) {
         navigate(response.user.role == 'admin'
           ? '/admin-dashboard' 
-          : '/traveler-dashboard')
+          : '/travel-dashboard')
       }
       closeModal()
       toast.success('Signed in')

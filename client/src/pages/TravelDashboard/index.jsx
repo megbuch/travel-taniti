@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
 import { getBookings } from '../../api'
 import { Navigation, Button, BookingDetails, Report } from '../../components'
-import { useModal } from '../../hooks';
+import { useModal, useSession } from '../../hooks';
 import InfoIcon from '@mui/icons-material/Info';
 import './styles.scss'
 
-export default function TravelerDashboard() {
+export default function TravelDashboard() {
   const { openModal } = useModal()
+  const { me } = useSession()
   const [bookings, setBookings] = useState([])
   const [filter, setFilter] = useState('confirmed')
   const filteredBookings = bookings?.filter(booking => {
@@ -84,23 +85,31 @@ export default function TravelerDashboard() {
   }
 
   return (
-    <div className='traveler-dashboard-page col'>
+    <div className='travel-dashboard-page col'>
       <Navigation />
       <div className='page-container'>
-        <h1>Your Dashboard</h1>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, earum nesciunt. Adipisci dolorum, quas voluptate laboriosam doloribus, delectus rerum excepturi non modi et fugit sequi! Veniam eius eos consectetur quod.</p>
-        <div className='content col'>
-          <select value={filter} onChange={e=>setFilter(e.target.value)}>
-            <option value='all'>All</option>
-            <option value='confirmed'>Confirmed</option>
-            <option value='completed'>Completed</option>
-            <option value='pendingCancellation'>Pending Cancellation</option>
-          </select>
-          <Button text='Generate Itinerary' onClick={generateItinerary} />
+        <div className='section'>
+          <h1>Travel Dashboard</h1>
+          <p className='emphasized-small'>{`Welcome, ${me?.firstName} ${me?.lastName}.`}</p>
+        </div>
+        <p>
+          Browse availability and make reservations for restaurants, hotels, and activities throughout our booking platform. 
+          Return here to manage all of your bookings in one place and generate your travel itinerary.
+        </p>
+        <div className='content'>
+          <div className='filter row'>
+            <select value={filter} onChange={e=>setFilter(e.target.value)}>
+              <option value='all'>All</option>
+              <option value='confirmed'>Confirmed</option>
+              <option value='completed'>Completed</option>
+              <option value='pendingCancellation'>Pending Cancellation</option>
+            </select>
+            <Button small short text='Generate Itinerary' onClick={generateItinerary} />
+          </div>
           {dates.map(date => {
             const bookings = getBookingsForDate(date)
             return (
-              <div className='date-grouping col' key={date}>
+              <div className='section col' key={date}>
                 <h2>{formatDate(date)}</h2>
                 <div className='bookings-list col'>
                   {bookings.map(booking => <BookingCell key={booking.id} booking={booking} onView={onViewBooking} />)}
@@ -118,6 +127,12 @@ const BookingCell = ({ booking, onView }) => {
   let name = booking.bookableDetails?.name
   if (booking.roomTypeDetails) name += `, ${booking.roomTypeDetails.name}`
 
+  const getStatus = () => {
+    if (booking.status === 'pendingCancellation') return 'Pending Cancellation'
+    if (booking.status === 'completed') return 'Completed'
+    return 'Confirmed'
+  }
+
   return (
     <div className='booking-cell row'>
       <div>
@@ -125,7 +140,7 @@ const BookingCell = ({ booking, onView }) => {
         <p className='subtitle'>{booking.startTime || booking.bookableDetails.checkInTime}</p>
       </div>
       <div className='row'>
-        {booking.status != 'confirmed' && <p className='subtitle'>{booking.status}</p>}
+        {booking.status && <p className='status'>{getStatus()}</p>}
         <Button backgroundless small icon={<InfoIcon onClick={()=>onView(booking)} />} />
       </div>
     </div>

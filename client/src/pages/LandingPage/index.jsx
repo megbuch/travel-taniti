@@ -62,7 +62,7 @@ export default function LandingPage() {
         onClick={scroll}
       />
       <div id='text-content' className='page-container'>
-        <div className='text-section'>
+        <div className='section'>
           <h1>About Taniti</h1>
           <p className='emphasized-large'>
             Discover the wonder of Taniti, nestled at the heart of the Pacific. 

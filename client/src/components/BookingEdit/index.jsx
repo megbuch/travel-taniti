@@ -66,7 +66,7 @@ export default function BookingEdit(props) {
   }
 
   const goToDashboard = () => {
-    navigate('/traveler-dashboard')
+    navigate('/travel-dashboard')
     closeModal()
   }
 
@@ -76,7 +76,7 @@ export default function BookingEdit(props) {
       <div className='col details'>
         <h1>{`${booking ? 'Edit': 'Create'} Booking`}</h1>
         <p>{`Your ${getServiceTypeString().toLowerCase()} has been booked!`}</p>
-        {window.location.pathname !== '/traveler-dashboard' && <Button text='Go to Dashboard' onClick={goToDashboard} />}
+        {window.location.pathname !== '/travel-dashboard' && <Button text='Go to Dashboard' onClick={goToDashboard} />}
       </div>
     )
   }

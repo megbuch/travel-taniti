@@ -13,7 +13,7 @@ import {
   ActivityEdit,
   BookingDetails
 } from '../../components'
-import { useModal } from '../../hooks'
+import { useModal, useSession } from '../../hooks'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import InfoIcon from '@mui/icons-material/Info';
 import './styles.scss'
@@ -28,6 +28,7 @@ const Tab = {
 
 export default function AdminDashboard() {
   const { openModal } = useModal()
+  const { me } = useSession()
   const [currentTab, setCurrentTab] = useState(Tab.USERS)
   const [items, setItems] = useState([])
   const [bookingsFilter, setBookingsFilter] = useState('all')
@@ -35,7 +36,9 @@ export default function AdminDashboard() {
 
   useEffect(() => { search() }, [currentTab, bookingsFilter])
 
-  const fetchData = async (query) => {
+  const search = async () => {
+    const searchTerm = searchRef.current.value.trim()
+    const query = searchTerm ? { name: searchTerm } : null
     try {
       switch (currentTab) {
         case Tab.USERS:
@@ -90,75 +93,49 @@ export default function AdminDashboard() {
     }
   }
 
+  const clearFilter = () => {
+    searchRef.current.value = ''
+    setBookingsFilter('all')
+    search()
+  }
+
   const onView = item => {
-    const handleSave = updatedItem => onSave(updatedItem)
-    const handleDelete = () => onDelete(item)
+
     switch (currentTab) {
       case Tab.USERS: openModal(<UserDetails user={item} />); break
-      case Tab.ACCOMMODATIONS: openModal(<AccommodationDetails accommodation={item} onSave={handleSave} onDelete={handleDelete} onRefresh={()=>onRefreshAccommodation(item)} />); break
-      case Tab.RESTAURANTS: openModal(<RestaurantDetails restaurant={item} onSave={handleSave} onDelete={handleDelete} />); break
-      case Tab.ACTIVITIES: openModal(<ActivityDetails activity={item} onSave={handleSave} onDelete={handleDelete} />); break
-      case Tab.BOOKINGS: openModal(<BookingDetails booking={item} onDelete={handleDelete} />); break
+      case Tab.ACCOMMODATIONS: openModal(<AccommodationDetails accommodation={item} onSave={search} onDelete={search} onRefresh={()=>onRefreshAccommodation(item)} />); break
+      case Tab.RESTAURANTS: openModal(<RestaurantDetails restaurant={item} onSave={search} onDelete={search} />); break
+      case Tab.ACTIVITIES: openModal(<ActivityDetails activity={item} onSave={search} onDelete={search} />); break
+      case Tab.BOOKINGS: openModal(<BookingDetails booking={item} onDelete={search} />); break
     }
   }
 
   const onCreate = () => {
     switch (currentTab) {
-      case Tab.ACCOMMODATIONS: openModal(<AccommodationEdit onSave={onSave} />); break
-      case Tab.RESTAURANTS: openModal(<RestaurantEdit onSave={onSave} />); break
-      case Tab.ACTIVITIES: openModal(<ActivityEdit onSave={onSave} />); break
+      case Tab.ACCOMMODATIONS: openModal(<AccommodationEdit onSave={search} />); break
+      case Tab.RESTAURANTS: openModal(<RestaurantEdit onSave={search} />); break
+      case Tab.ACTIVITIES: openModal(<ActivityEdit onSave={search} />); break
     }
-  }
-
-  const onDelete = item => {
-    setItems(prev => prev.filter(i => i.id !== item.id))
-  }
-
-  const onSave = item => {
-    setItems(prev => {
-      const existingIndex = prev.findIndex(i => i.id === item.id)
-      if (existingIndex >= 0) { 
-        return prev.map(i => i.id === item.id ? item : i)
-      } 
-      return [...prev, item]
-    })
   }
 
   const onRefreshAccommodation = async (accommodation) => {
     try {
       const response = await getAccommodation(accommodation.id)
-      const refreshedAccommodation = response?.accommodation
-      if (refreshedAccommodation) {
-        setItems(prev => {
-          const existingIndex = prev.findIndex(i => i.id === accommodation.id)
-          if (existingIndex >= 0) { 
-            return prev.map(i => i.id === accommodation.id ? refreshedAccommodation : i)
-          }
-          return prev
-        })
-        onView(refreshedAccommodation)
-      }
+      onView(response?.accommodation)
+      search()
     } catch (error) {
       console.log('Could not refresh accommodation:', error)
     }
-  }
-
-  const search = () => {
-    const searchTerm = searchRef.current.value.trim()
-    fetchData({ name: searchTerm })
-  }
-
-  const clearFilter = () => {
-    searchRef.current.value = ''
-    setBookingsFilter('all')
-    fetchData()
   }
 
   return (
     <div className='admin-dashboard-page col'>
       <Navigation />
       <div className='page-container'>
-        <h1>Admin Dashboard</h1>
+        <div className='section'>
+          <h1>Admin Dashboard</h1>
+          <p className='emphasized-small'>{`Welcome, ${me?.firstName} ${me?.lastName}.`}</p>
+        </div>
         <div className='row'>
           <Button inverted={currentTab != Tab.USERS} text='Users' onClick={()=>setCurrentTab(Tab.USERS)}/>
           <Button inverted={currentTab != Tab.ACCOMMODATIONS} text='Accommodations' onClick={()=>setCurrentTab(Tab.ACCOMMODATIONS)}/>
@@ -200,6 +177,12 @@ const ItemCell = ({ item, onView }) => {
   const subtitle = item.location || item.email || `${item?.startDate} ${item?.startTime}` || ''
   const user = item?.userDetails ? `${item.userDetails.firstName} ${item.userDetails.lastName}` : ''
   
+  const getStatus = () => {
+    if (item.status === 'pendingCancellation') return 'Pending Cancellation'
+    if (item.status === 'completed') return 'Completed'
+    return 'Confirmed'
+  }
+
   return (
     <div className='item-cell row'>
       <div>
@@ -208,7 +191,7 @@ const ItemCell = ({ item, onView }) => {
         {user && <p className='subtitle'>{user}</p>}
       </div>
       <div className='row'>
-        {item?.status && <p className='subtitle'>{item.status}</p>}
+        {item?.status && <p className='status'>{getStatus()}</p>}
         <Button backgroundless small icon={<InfoIcon onClick={onView} />} />
       </div>
     </div>

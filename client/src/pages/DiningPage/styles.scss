@@ -1,20 +1,14 @@
 .dining-page {
-  align-items: center;
-  justify-content: center;
-  margin: auto;
+  .restaurants-container {
+    columns: 3;
+    column-gap: var(--pad-lg);
 
-  .page-container {
-    .restaurants-container {
-      columns: 3;
-      column-gap: var(--pad-lg);
-
-      @media only screen and (max-width: 800px) {
-        columns: 1;
-      }
-      
-      @media only screen and (min-width: 800px) and (max-width: 1200px) {
-        columns: 2;
-      }
+    @media only screen and (max-width: 800px) {
+      columns: 1;
+    }
+    
+    @media only screen and (min-width: 800px) and (max-width: 1200px) {
+      columns: 2;
     }
   }
 }

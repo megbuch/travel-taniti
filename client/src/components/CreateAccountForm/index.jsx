@@ -30,7 +30,7 @@ export default function CreateAccountForm() {
       }
       const response = await createUser(userData)
       signIn(response.accessToken, response.user)
-      navigate('/traveler-dashboard')
+      navigate('/travel-dashboard')
       closeModal()
       toast.success('Your account has been created.')
     } catch (error) {

@@ -28,7 +28,7 @@ export default function ImageSearch(props) {
     }
     setSelectedImage(imageObject)
     if (onSelect) onSelect(imageObject)
-  }, [selectedImageURL, onSelect])
+  }, [selectedImageURL])
 
   const selectImage = image => {
     searchInputRef.current.value = ''

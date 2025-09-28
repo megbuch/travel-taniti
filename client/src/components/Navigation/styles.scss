@@ -1,21 +1,100 @@
-.navigation {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: var(--pad-sm) var(--pad);
-  width: 100%;
-  
-  ul {
-    display: flex;
-    flex-direction: row;
-    gap: var(--pad-xl);
+.navigation-comp {
+  position: relative;
 
-    .link {
-      margin-top: 2px;
+  .menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 var(--pad);
+    height: var(--navigation-height);
+    
+    .mobile-nav-toggle {
+      display: none;
+      margin-left: auto;
+
+      @media (max-width: 900px) {
+        display: block;
+      }
+    }
+
+    .desktop-nav-links {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: var(--pad-xl);
+  
+      .link {
+        margin-top: 2px;
+      }
+
+      @media (max-width: 900px) {
+        display: none;
+      }
+    }
+
+    .desktop-user-menu {
+      display: flex;
+      align-items: center;
+      gap: var(--pad-sm);
+
+      @media (max-width: 900px) {
+        display: none;
+      }
+    }
+    
+    p {
+      color: var(--color-primary);
     }
   }
-  
-  p {
-    color: var(--color-primary);
+
+  .expanded-menu {
+    position: absolute;
+    top: calc(var(--navigation-height) + var(--pad-sm));
+    right: var(--pad-lg);
+    background: var(--color-background);
+    box-shadow: var(--box-shadow);
+    border-radius: var(--corner-radius);
+    z-index: 3000;
+    padding: var(--pad-sm);
+
+    li {
+      margin-bottom: var(--pad-xs);
+      
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    @media (max-width: 900px) {
+      display: none;
+    }
+  }
+
+  .mobile-nav-overlay {
+    position: fixed;
+    top: var(--navigation-height);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--color-background);
+    padding: var(--pad);
+    z-index: 3000;
+
+    @media (min-width: 900px) {
+      display: none;
+    }
+
+    .mobile-nav-items {
+      gap: var(--pad);
+
+      li {
+        padding-bottom: var(--pad-sm);
+
+        &.mobile-user-section {
+          padding-top: var(--pad);
+          border-top: 2px solid var(--color-neutral-dark);
+        }
+      }
+    }
   }
 }

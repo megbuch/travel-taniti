@@ -72,16 +72,13 @@ export default function AccommodationDetails({ accommodation, onSave, onDelete, 
           <h1>{accommodation.name}</h1>
           <p>{accommodation.rating ? renderStars(accommodation.rating) : 'Not enough ratings'}</p>
         </div>
-
         {me?.role === 'admin' && 
           <div className='actions row'>
             <Button short small text='Edit' onClick={()=>openModal(<AccommodationEdit accommodation={accommodation} onSave={onSave} onDelete={onDelete} onRefresh={onRefresh} />)} />
             <Button short small text='Delete' onClick={handleDelete} />
           </div>
         }
-
         <p>{accommodation.description}</p>
-
         {accommodation.checkInTime && 
           <div className='section'>
             <p className='subtitle'>Check In</p>
@@ -94,7 +91,6 @@ export default function AccommodationDetails({ accommodation, onSave, onDelete, 
             <p>{accommodation.checkOutTime}</p>
           </div>
         }
-
         {accommodation.amenities?.length > 0 && 
           <div className='section'>
             <p className='subtitle'>Amenities</p>
@@ -126,35 +122,30 @@ export default function AccommodationDetails({ accommodation, onSave, onDelete, 
             <p>{accommodation.contactPhone}</p>
           </div>
         }
-
-        {me?.role !== 'admin' && 
-          <>  
-            <div className='divider'></div>
-            <h3>Check Availability</h3>
-            <div className='row'>
-              <input type='date' value={startDate} onChange={e=>setStartDate(e.target.value)} />
-              <input type='date' value={endDate} onChange={e=>setEndDate(e.target.value)} />
-            </div>
-            {availableRooms?.length > 0 ? 
-              <ul className='availability-list col'>
-                {availableRooms.map(room => (
-                  <li className='availability-list-item row'>
-                    <div>
-                      <p>{room.roomType.name}</p>
-                      <p className='subtitle'>{`$${room.roomType.pricePerNight} per night`}</p>
-                      <p className='subtitle'>{`Sleeps ${room.roomType.maxGuests}`}</p>
-                      <p className='subtitle'>{`${room.available} Available`}</p>
-                    </div>
-                    {me && <Button small short text='Book now' onClick={()=>createBooking(room)} />}
-                  </li>
-                ))}
-              </ul>
-              :
-              <p className='subtitle'>No available rooms for this date range.</p>
-            }
-            {!me && <Button small short text='Sign in to book' onClick={()=>openModal(<SignInForm redirectAfterLogin={false} />)} />}
-          </>
+        <div className='divider'></div>
+        <h3>Check Availability</h3>
+        <div className='row'>
+          <input type='date' value={startDate} onChange={e=>setStartDate(e.target.value)} />
+          <input type='date' value={endDate} onChange={e=>setEndDate(e.target.value)} />
+        </div>
+        {availableRooms?.length > 0 ? 
+          <ul className='availability-list col'>
+            {availableRooms.map(room => (
+              <li className='availability-list-item row'>
+                <div>
+                  <p>{room.roomType.name}</p>
+                  <p className='subtitle'>{`$${room.roomType.pricePerNight} per night`}</p>
+                  <p className='subtitle'>{`Sleeps ${room.roomType.maxGuests}`}</p>
+                  <p className='subtitle'>{`${room.available} Available`}</p>
+                </div>
+                {me && <Button small short text='Book now' onClick={()=>createBooking(room)} />}
+              </li>
+            ))}
+          </ul>
+          :
+          <p className='subtitle'>No available rooms for this date range.</p>
         }
+        {!me && <Button small short text='Sign in to book' onClick={()=>openModal(<SignInForm redirectAfterLogin={false} />)} />}
       </div>
       {me?.role == 'admin' && <p className='subtitle'>{`Created ${new Date(accommodation.createdAt).toLocaleDateString()}`}</p>}
     </div>

@@ -11,7 +11,6 @@ export default function Report({ title, startDate, endDate, data }) {
     <div className='report-comp details'>
       <h1>{title}</h1>
       {startDate && endDate && <p>{`${startDate} - ${endDate}`}</p>}
-
       <table>
         <thead>
           <tr>
@@ -30,14 +29,13 @@ export default function Report({ title, startDate, endDate, data }) {
           ))}
         </tbody>
       </table>
-      
       <>
         <div>
           <p className='subtitle'>Total Records: {data.length}</p>
           <p className='subtitle'>Report Generated: {new Date().toLocaleString()}</p>
         </div>
         <div className='hide-from-print'>
-          <Button text='Print Report' onClick={print} />
+          <Button text='Print' onClick={print} />
         </div>
       </>
     </div>

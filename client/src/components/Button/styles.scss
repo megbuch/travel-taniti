@@ -9,7 +9,7 @@
   font-weight: 600;
   letter-spacing: 1px;
   max-width: 300px;
-  height: var(--navigation-height);
+  height: calc(var(--navigation-height) - var(--pad-sm));
   display: flex;
   align-items: center;
   justify-content: center;

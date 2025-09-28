@@ -20,15 +20,15 @@ export default function TransportationPage() {
   return (
     <div className='transportation-page col'>
       <Navigation />
-      <Banner bannerData={bannerData} header={'Transportation'} />
+      <Banner header='Transportation' description='Bus at Leilani Royal Resort' image={busImage} />
       <div className='page-container'>
-        <div className='text-section'>
+        <div className='section'>
           <h1>Transportation</h1>
           <p className='emphasized-large'>Taniti provides many options for transportation to, from, and within the island.</p>
         </div>
         <div className='col two-column-container'>
           <div className='col'>
-            <div className='text-section'>
+            <div className='section'>
               <h2>Getting Here</h2>
               <h3>🛬 Air</h3>
               <p>Fly to Taniti Regional Airport (TAN), which is currently served by regional carriers including Island Air Connection, SkyLink Pacific, and Taniti Air. Our airport currently handles smaller aircraft, but will be expanding to accommodate larger jets in the coming years.</p>
@@ -37,7 +37,7 @@ export default function TransportationPage() {
             </div>
             <img className='map' src={mapImage} />
           </div>
-          <div className='text-section'>
+          <div className='section'>
             <h2>Getting Around</h2>
             <h3>📱 Rideshare</h3>
             <p>IslandRide accepts major credit cards and operates through a familiar mobile-app-based system.</p>

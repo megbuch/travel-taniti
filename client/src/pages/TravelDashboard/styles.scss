@@ -1,15 +1,23 @@
-.admin-dashboard-page {
+.travel-dashboard-page {
   .page-container {
     align-items: flex-start;
     gap: var(--pad-lg);
-
+    
     .content {
       gap: var(--pad-lg);
   
-      .items-list {
+      .filter {
+        gap: var(--pad-lg);
+
+        select {
+          flex: 1;
+        }
+      }
+      
+      .bookings-list { 
         gap: var(--pad-xs);
   
-        .item-cell {
+        .booking-cell {
           justify-content: space-between;
           padding: var(--pad-xs) var(--pad-sm);
           background-color: var(--color-neutral);
