@@ -31,7 +31,7 @@ export default function TravelDashboard() {
   useEffect(() => { fetchBookings() }, [])
   const fetchBookings = async () => {
     const response = await getBookings()
-    const sortedBookings = response?.bookings?.sort((a, b) => {
+    const sortedBookings = response?.bookings?.filter(booking => booking.userID == me?.id).sort((a, b) => {
       return new Date(a.startDate) - new Date(b.startDate)
     })
     setBookings(sortedBookings || [])
