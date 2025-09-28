@@ -5,6 +5,7 @@ const Accommodation = require('../models/accommodation')
 const RoomType = require('../models/roomType')
 const Restaurant = require('../models/restaurant')
 const Activity = require('../models/activity')
+const Booking = require('../models/booking')
 
 const users = [
   {
@@ -534,6 +535,7 @@ const seedDatabase = async () => {
   try {
     console.log('Seeding database..')
     console.log('Clearing existing data...')
+    await Booking.destroy({ where: {} })
     await RoomType.destroy({ where: {} })
     await User.destroy({ where: { role: 'traveler' } })
     await Accommodation.destroy({ where: {} })
