@@ -15,17 +15,14 @@ app.use('/api/activities', require('./routes/activities'))
 app.use('/api/bookings', require('./routes/bookings'))
 app.use('/api/unsplash', require('./routes/unsplash'))
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../client/build')))
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'))
-  })
-}
+app.use(express.static(path.join(__dirname, '../client/build')))
+app.use((req, res) => {
+  res.sendFile(path.join(__dirname, '../client/build', 'index.html'))
+})
 
 const port = process.env.PORT || 3001
 app.listen(port, () => {
   console.log(`Server running on port ${port}`)
 })
-
 
 initializeDatabase()
