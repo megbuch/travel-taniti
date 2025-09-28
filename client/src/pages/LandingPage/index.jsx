@@ -57,8 +57,8 @@ export default function LandingPage() {
       <Navigation />
       <Carousel 
         carouselData={carouselData} 
-        header={'Explore Taniti'} 
-        buttonText={'Learn More'} 
+        header='Travel Taniti' 
+        buttonText='Learn More'
         onClick={scroll}
       />
       <div id='text-content' className='page-container'>

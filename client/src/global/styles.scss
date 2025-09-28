@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap');
 
 :root {
-  --color-primary: rgb(189, 42, 23);
+  --color-primary: #bd2a17;
   --color-primary-dark: rgb(156, 33, 17);
   --color-on-primary: white;
   --color-secondary: rgb(90, 95, 77);
@@ -10,7 +10,7 @@
   --color-neutral:  rgb(250, 239, 225);
   --color-neutral-dark:  rgb(241, 229, 214);
   --color-transparent-red: rgba(189, 42, 23, 0.25);
-  --color-transparent-dark: rgba(0, 0, 0, 0.4);
+  --color-transparent-dark: rgba(0, 0, 0, 0.247);
   --color-shadow: rgba(0, 0, 0, 0.24);
   
   --box-shadow: 0px 1px 20px var(--color-shadow);
