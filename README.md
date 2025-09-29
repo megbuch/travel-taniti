@@ -113,9 +113,84 @@ Creating restaurants...
 Creating activities... - 6 users created - 5 accommodations created - 18 room types created - 6 restaurants created - 8 activities created 
 ```
 
-## Using the Application
-### As a User
-In Progress.
+## Using the Application as a User
+### Browsing Accommodations, Restaurants, and Activities
+An account is not required to view services and service availability. Users can visit the lodging, dining, and activities pages to view up-to-date service listings created by administrators. To view a service in more detail, click one of the service cards to expand it into a modal.
 
-### As an Admin
-In Progress.
+### Viewing Service Availability
+Availability information will be provided at the bottom of a service's details modal. Select a date or date range to view availability for that day. Although availability can be viewed by anyone, users must create an account or log in to actually make a reservation.
+
+### Sign In or Create an Account
+To get started, either sign in or create an account by accessing either of the buttons in the navigation bar.
+
+### Booking a Service
+Each service will have different availability. Check availability by selecting a date or date range. Activities and restaurants will list available time slots, while accommodations will list available room types. Select `book now` on a desired option to continue with the booking.
+
+Fill out the number of guests. For accommodations, the total cost displayed is the number of nights times the nightly rate of the selected room type. For activities, the total cost is the number of guests times the activity price per guest.
+Click `book now` to save the booking.
+
+### Managing Your Bookings
+#### Viewing Your Bookings
+Access your Travel Dashboard by logging in, then expanding the navigation menu and clicking `travel dashboard`. Once there, view your list of current bookings in chronological order. Expand a booking’s details by clicking the ‘info’ icon to the right of the booking list item.
+ 
+#### Filtering Your Bookings
+Filter your bookings by status (i.e. `Confirmed`, `Pending Cancellation`, etc. ) using the dropdown menu.
+ 
+#### Cancelling Your Bookings
+Bookings cannot be immediately cancelled by users. Cancellations must be requested by users, and granted by administrators. When viewing a booking’s details, you can request cancellation for it at the bottom of the modal. 
+ 
+#### Generating Your Itinerary
+Click the `generate itinerary` button to generate an itinerary of your currently listed bookings. You can then print this itinerary for your convenience.
+
+## Using the Application as an Administrator
+Administrators can manage users, accommodations, room types, restaurants, activities, and bookings through the Admin Dashboard. To access the Admin Dashboard, you will need to sign in with an administrator level account. Once authenticated, the navigation menu drops down to reveal the Admin Dashboard menu item. 
+ 
+Administrator accounts cannot be created through the standard user registration process or through the application interface. They must be created through the database directly for security purposes. 
+
+### Managing Services
+Although accommodations, restaurants, and activities are slightly different in the way they are created and updated, management of each of them is generally very similar. These will be referred to as ‘services’ going forward, since the instructions are generally applicable to each of them.
+
+#### Viewing Services
+Select a service type tab (i.e. `accommodations`, `restaurants`, `activities`) to view current services of that type. Click the ‘information’ icon to the right of a list item to view the details of that service.
+ 
+#### Searching for Services
+Search for a service by name through the search bar.
+ 
+#### Creating a Service
+Create a new service by clicking the `+` icon beside the header of that service type. Fill out the form, and then click ‘submit’ at the end to save it. Once saved, the service will be available to view by other users.
+ 
+#### Updating a Service
+When viewing a particular service, edit it by clicking the `edit` button in the top right corner. Edit the details as desired, and then click ‘submit’ to update the service.
+ 
+#### Deleting a Service
+When viewing a particular service, delete it by clicking the `delete` button in the top right corner.
+ 
+### Managing Room Types (of Accommodations)
+#### Viewing Room Types
+When viewing an accommodation’s details, scroll down to see the current room types. Room types can be expanded to reveal additional information.
+   
+#### Creating a Room Type
+When viewing an accommodation’s details, create a new room type for it by  clicking the `+` icon beside the `Room Types` heading. Fill out the form, and then click `submit` to save it.
+ 
+#### Deleting a Room Type
+When viewing an accommodation’s details, delete a room type by expanding one of the room type options. This will reveal a `garbage` icon, which will delete the room type when clicked.
+ 
+### Managing Bookings
+#### Viewing Bookings
+Select the `bookings` tab to view a list of current bookings, including the date, status, and user of the booking. Booking details can be viewed by clicking the `information` icon to the right of the list item.
+ 
+#### Searching for Bookings
+Bookings can be searched by either the name of the user who booked it or by the name of the service that was booked.
+ 
+#### Filtering Bookings
+Bookings can be filtered by booking status (i.e. `Confirmed`, `Completed`, `Pending Cancellation`, etc.). This filter can be used in conjunction with the search query.
+ 
+#### Deleting Bookings
+When viewing a booking’s details, click `delete` at the bottom of the modal to delete it. Users cannot delete their own bookings. Once cancellation has been requested for a booking, its status will change to `pending cancellation`, and an administrator must be the one to delete it.
+
+### Managing Users
+#### Viewing Users
+Select the `users` tab to view a list of current users who have signed up on the platform. Inspect a user’s details by clicking the `information` icon to the right of the user’s list item.
+ 
+#### Searching for Users
+Like with the other tabs, search for users by first name, last name, or both via the search bar.
